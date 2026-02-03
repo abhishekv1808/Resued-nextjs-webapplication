@@ -1,0 +1,129 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --font-heading: "Outfit", sans-serif;
+  --font-sans: "Plus Jakarta Sans", sans-serif;
+  --color-admin-bg: #0b0c15;
+  --color-admin-card: #15161e;
+  --color-admin-text: #9ca3af;
+  --color-accent-purple: #a51c30;
+}
+
+@layer base {
+  :root {
+    --background: #ffffff;
+    --foreground: #171717;
+    /* Admin Theme */
+    --admin-bg: #f3f4f6;
+    --admin-card: #ffffff;
+    --admin-text-main: #111827;
+    --admin-text-muted: #6b7280;
+    --admin-border: #e5e7eb;
+    --admin-hover: #f9fafb;
+    --font-heading: "Outfit", sans-serif;
+    /* Fallback/Explicit */
+    --font-sans: "Plus Jakarta Sans", sans-serif;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--admin-bg);
+    color: var(--admin-text-main);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .font-heading {
+    font-family: var(--font-heading);
+  }
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-marquee {
+    animation: marquee 30s linear infinite;
+  }
+
+  .animate-marquee:hover {
+    animation-play-state: paused;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+@layer utilities {
+  @keyframes fade-in-up {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.8s ease-out forwards;
+  }
+
+  .delay-100 {
+    animation-delay: 0.1s;
+  }
+
+  .delay-200 {
+    animation-delay: 0.2s;
+  }
+
+  .delay-300 {
+    animation-delay: 0.3s;
+  }
+
+  .delay-400 {
+    animation-delay: 0.4s;
+  }
+
+  @keyframes slide-up {
+    0% {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-slide-up {
+    animation: slide-up 1s ease-out forwards;
+  }
+
+  /* Hide shopping icons in Why Choose Us section */
+  #why-choose-us [class*="ri-shopping-"],
+  #why-choose-us button:has([class*="ri-shopping-"]) {
+    display: none !important;
+  }
+}
