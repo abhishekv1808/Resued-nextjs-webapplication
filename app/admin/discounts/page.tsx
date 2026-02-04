@@ -43,8 +43,19 @@ export default function AdminDiscounts() {
             if (data.success) {
                 setDiscounts(data.discounts);
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error("Failed to fetch discounts", error);
+            
+            // Handle 401 Unauthorized - redirect to login
+            if (error.response?.status === 401) {
+                alert("Your session has expired. Please log in again.");
+                window.location.href = "/admin/login";
+                return;
+            }
+            
+            // Handle other errors
+            const errorMessage = error.response?.data?.message || "Failed to load discounts";
+            console.error(errorMessage);
         } finally {
             setLoading(false);
         }
@@ -96,6 +107,13 @@ export default function AdminDiscounts() {
             setModalOpen(false);
             fetchDiscounts();
         } catch (error: any) {
+            // Handle 401 Unauthorized
+            if (error.response?.status === 401) {
+                alert("Your session has expired. Please log in again.");
+                window.location.href = "/admin/login";
+                return;
+            }
+            
             alert(error.response?.data?.message || "Operation failed");
             setLoading(false);
         }
@@ -106,8 +124,17 @@ export default function AdminDiscounts() {
         try {
             await axios.delete(`/api/admin/discounts/${id}`);
             fetchDiscounts();
-        } catch (error) {
+        } catch (error: any) {
             console.error("Failed to delete", error);
+            
+            // Handle 401 Unauthorized
+            if (error.response?.status === 401) {
+                alert("Your session has expired. Please log in again.");
+                window.location.href = "/admin/login";
+                return;
+            }
+            
+            alert(error.response?.data?.message || "Failed to delete discount");
         }
     };
 

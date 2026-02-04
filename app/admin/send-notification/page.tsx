@@ -11,7 +11,8 @@ export default function SendNotificationPage() {
     const [bannerPreview, setBannerPreview] = useState<string | null>(null);
     const [iconPreview, setIconPreview] = useState<string | null>(null);
 
-    // Refs for file inputs
+    // Refs for file inputs and form
+    const formRef = useRef<HTMLFormElement>(null);
     const bannerInputRef = useRef<HTMLInputElement>(null);
     const iconInputRef = useRef<HTMLInputElement>(null);
 
@@ -78,8 +79,10 @@ export default function SendNotificationPage() {
 
             if (response.ok) {
                 setSuccessMessage(data.message || 'Notification sent successfully!');
-                // Reset form
-                e.currentTarget.reset();
+                // Reset form using formRef
+                if (formRef.current) {
+                    formRef.current.reset();
+                }
                 setBannerPreview(null);
                 setIconPreview(null);
 
@@ -118,7 +121,7 @@ export default function SendNotificationPage() {
                     <h2 className="text-3xl font-bold text-[var(--admin-text-main)] font-heading">Send Push Notification</h2>
                 </div>
 
-                <form onSubmit={handleSubmit} className="p-6">
+                <form ref={formRef} onSubmit={handleSubmit} className="p-6">
 
                     {errorMessage && (
                         <div className="mb-6 bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm flex items-center gap-2" role="alert">
