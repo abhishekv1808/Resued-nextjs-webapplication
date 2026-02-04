@@ -21,13 +21,8 @@ export default async function ProfilePage() {
 
     if (!user) {
         // Handle edge case where session exists but user is deleted
-        return (
-            <>
-                <Header />
-                <main className="container mx-auto px-4 py-8">User not found.</main>
-                <Footer />
-            </>
-        );
+        // We cannot modify cookies in Server Component, so redirect to an API route to do it
+        redirect('/api/auth/clear-session');
     }
 
     const userData = {

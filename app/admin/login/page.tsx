@@ -50,39 +50,7 @@ export default function AdminLogin() {
 
     return (
         <div className="bg-[var(--admin-bg)] min-h-screen flex items-center justify-center overflow-hidden font-sans text-[var(--admin-text-main)] selection:bg-red-500 selection:text-white transition-colors duration-300 relative">
-            <style jsx global>{`
-                @keyframes float {
-                    0%, 100% { transform: translateY(0); }
-                    50% { transform: translateY(-10px); }
-                }
-                @keyframes float-delayed {
-                    0%, 100% { transform: translateY(0); }
-                    50% { transform: translateY(-10px); }
-                }
-                .animate-float {
-                    animation: float 6s ease-in-out infinite;
-                }
-                .animate-float-delayed {
-                    animation: float-delayed 5s ease-in-out infinite;
-                    animation-delay: 1s;
-                }
-                @keyframes scaleUp {
-                    0% { transform: scale(0.9); opacity: 0; }
-                    100% { transform: scale(1); opacity: 1; }
-                }
-                .animate-scale-up {
-                    animation: scaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-                }
-                @keyframes checkmark {
-                    0% { stroke-dashoffset: 50; }
-                    100% { stroke-dashoffset: 0; }
-                }
-                .animate-checkmark path {
-                    stroke-dasharray: 50;
-                    stroke-dashoffset: 50;
-                    animation: checkmark 0.5s 0.2s ease-in-out forwards;
-                }
-            `}</style>
+
 
             {/* Welcome Modal Overlay */}
             {showWelcome && (

@@ -135,8 +135,8 @@ export default function ContactPage() {
                                     {/* Brand */}
                                     <div>
                                         <label htmlFor="brand" className="block text-sm font-medium text-gray-700 mb-1">Preferred Brand</label>
-                                        <select id="brand" name="brand" className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-100 focus:border-[#a51c30] outline-none transition-all bg-white">
-                                            <option value="" disabled selected>Select Brand</option>
+                                        <select id="brand" name="brand" className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-100 focus:border-[#a51c30] outline-none transition-all bg-white" defaultValue="">
+                                            <option value="" disabled>Select Brand</option>
                                             <option value="Apple">Apple</option>
                                             <option value="Dell">Dell</option>
                                             <option value="HP">HP</option>
@@ -148,8 +148,8 @@ export default function ContactPage() {
                                     {/* Other select fields similarly implemented */}
                                     <div>
                                         <label htmlFor="processor" className="block text-sm font-medium text-gray-700 mb-1">Processor</label>
-                                        <select id="processor" name="processor" className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-100 focus:border-[#a51c30] outline-none transition-all bg-white">
-                                            <option value="" disabled selected>Select Processor</option>
+                                        <select id="processor" name="processor" className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-100 focus:border-[#a51c30] outline-none transition-all bg-white" defaultValue="">
+                                            <option value="" disabled>Select Processor</option>
                                             <option value="i3">Core i3</option>
                                             <option value="i5">Core i5</option>
                                             <option value="i7">Core i7</option>

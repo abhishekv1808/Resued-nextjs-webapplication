@@ -21,7 +21,15 @@ const isValidAuthUrl = (urlString: string) => {
     }
 };
 
+import { rateLimit } from '@/lib/rate-limit';
+
 export async function POST(req: NextRequest) {
+    if (!await rateLimit(req, 10, 60)) {
+        return NextResponse.json(
+            { message: 'Too many login attempts. Please try again later.' },
+            { status: 429 }
+        );
+    }
     try {
         const { user_json_url } = await req.json();
 

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
+import StockAlertModal from "./StockAlertModal";
 
 interface ProductDetailsClientProps {
     product: any; // Type accurately if possible
@@ -13,6 +14,7 @@ export default function ProductDetailsClient({ product }: ProductDetailsClientPr
     const [activeImage, setActiveImage] = useState(product.image);
     const [descriptionExpanded, setDescriptionExpanded] = useState(false);
     const [addingToCart, setAddingToCart] = useState(false);
+    const [stockAlertOpen, setStockAlertOpen] = useState(false);
     const { user } = useAuth();
     const router = useRouter();
 
@@ -192,11 +194,14 @@ export default function ProductDetailsClient({ product }: ProductDetailsClientPr
                             </>
                         ) : (
                             <>
-                                <button disabled className="flex-1 border-2 border-gray-200 text-gray-400 font-bold py-3 rounded-lg cursor-not-allowed flex items-center justify-center gap-2">
-                                    <i className="ri-shopping-cart-2-line"></i> Out of Stock
+                                <button
+                                    onClick={() => setStockAlertOpen(true)}
+                                    className="flex-1 border-2 border-blue-500 text-blue-600 font-bold py-3 rounded-lg hover:bg-blue-50 transition-colors flex items-center justify-center gap-2"
+                                >
+                                    <i className="ri-notification-3-line"></i> Notify When Available
                                 </button>
                                 <button disabled className="flex-1 bg-gray-200 text-gray-400 font-bold py-3 rounded-lg cursor-not-allowed">
-                                    Buy Now
+                                    Out of Stock
                                 </button>
                             </>
                         )}
@@ -243,6 +248,14 @@ export default function ProductDetailsClient({ product }: ProductDetailsClientPr
 
                 </div>
             </div>
+
+            {/* Stock Alert Modal */}
+            <StockAlertModal
+                isOpen={stockAlertOpen}
+                onClose={() => setStockAlertOpen(false)}
+                productId={product._id}
+                productName={product.name}
+            />
         </div>
     );
 }

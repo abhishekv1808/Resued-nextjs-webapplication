@@ -20,7 +20,15 @@ function isValidAuthUrl(urlString: string | undefined): boolean {
     }
 }
 
+import { rateLimit } from '@/lib/rate-limit';
+
 export async function POST(req: NextRequest) {
+    if (!await rateLimit(req, 5, 60)) {
+        return NextResponse.json(
+            { message: 'Too many signup attempts. Please try again later.' },
+            { status: 429 }
+        );
+    }
     try {
         const { name, location, user_json_url } = await req.json();
 

@@ -74,8 +74,8 @@ export default function AddLaptop() {
                                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                             <i className="ri-store-2-line text-gray-400"></i>
                                         </div>
-                                        <select name="brand" className="w-full pl-10 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors appearance-none" required>
-                                            <option value="" disabled selected>Select Brand</option>
+                                        <select name="brand" className="w-full pl-10 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors appearance-none" required defaultValue="">
+                                            <option value="" disabled>Select Brand</option>
                                             <option value="Apple">Apple</option>
                                             <option value="Dell">Dell</option>
                                             <option value="HP">HP</option>
@@ -183,8 +183,8 @@ export default function AddLaptop() {
                                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                             <i className="ri-hard-drive-2-line text-gray-400"></i>
                                         </div>
-                                        <select name="storage" className="w-full pl-10 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors appearance-none" required>
-                                            <option value="" disabled selected>Select Storage</option>
+                                        <select name="storage" className="w-full pl-10 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors appearance-none" required defaultValue="">
+                                            <option value="" disabled>Select Storage</option>
                                             <option value="256GB SSD">256GB SSD</option>
                                             <option value="512GB SSD">512GB SSD</option>
                                             <option value="1TB SSD">1TB SSD</option>

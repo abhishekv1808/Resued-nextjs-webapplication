@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Script from "next/script";
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -51,29 +51,24 @@ export default function LoginPage() {
         };
     }, [login, router]);
 
+    useEffect(() => {
+        // Manually load the script to ensure it runs every time the component mounts
+        const script = document.createElement("script");
+        script.src = "https://www.phone.email/sign_in_button_v1.js";
+        script.async = true;
+        document.body.appendChild(script);
+
+        return () => {
+            document.body.removeChild(script);
+        };
+    }, []);
+
     return (
         <>
             <Loader />
             <Header />
             <main className="min-h-[80vh] flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-                <style jsx global>{`
-                    @keyframes scaleUp {
-                        0% { transform: scale(0.9); opacity: 0; }
-                        100% { transform: scale(1); opacity: 1; }
-                    }
-                    .animate-scale-up {
-                        animation: scaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-                    }
-                    @keyframes checkmark {
-                        0% { stroke-dashoffset: 50; }
-                        100% { stroke-dashoffset: 0; }
-                    }
-                    .animate-checkmark path {
-                        stroke-dasharray: 50;
-                        stroke-dashoffset: 50;
-                        animation: checkmark 0.5s 0.2s ease-in-out forwards;
-                    }
-                `}</style>
+
 
                 {/* Welcome Modal Overlay */}
                 {showWelcome && (
@@ -147,11 +142,7 @@ export default function LoginPage() {
                                 ></div>
                             </div>
 
-                            {/* Phone.email Script */}
-                            <Script
-                                src="https://www.phone.email/sign_in_button_v1.js"
-                                strategy="lazyOnload"
-                            />
+                            {/* Phone.email Script - Handled by useEffect */}
 
                             <div className="relative">
                                 <div className="absolute inset-0 flex items-center">

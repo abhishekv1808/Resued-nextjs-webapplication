@@ -8,6 +8,8 @@ import { useCart } from "@/context/CartContext";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import Toast from "./Toast";
+import StockAlertModal from "./StockAlertModal";
+import { useCompare } from "@/context/CompareContext";
 
 interface ProductCardProps {
     product: {
@@ -33,6 +35,8 @@ export default function ProductCard({ product, isBestSeller = false }: ProductCa
     // In a real app, we'd check if it's already in wishlist/cart from props or context
     const [inWishlist, setInWishlist] = useState(false);
     const [showToast, setShowToast] = useState(false);
+    const [stockAlertOpen, setStockAlertOpen] = useState(false);
+    const { addToCompare, removeFromCompare, isInCompare } = useCompare();
 
     const handleAddToCart = async (e: React.MouseEvent) => {
         e.preventDefault();
@@ -161,6 +165,26 @@ export default function ProductCard({ product, isBestSeller = false }: ProductCa
                 <i className={`${inWishlist ? 'ri-heart-fill text-red-500' : 'ri-heart-line text-gray-400 group-hover/wishlist:text-red-500'} text-lg transition-colors`}></i>
             </button>
 
+            {/* Compare Checkbox */}
+            <div className="absolute top-2 left-2 z-30">
+                <label className="flex items-center gap-1 bg-white/90 hover:bg-white px-2 py-1 rounded-full shadow-sm cursor-pointer group/compare">
+                    <input
+                        type="checkbox"
+                        checked={isInCompare(product._id)}
+                        onChange={(e) => {
+                            e.stopPropagation();
+                            if (e.target.checked) {
+                                addToCompare(product);
+                            } else {
+                                removeFromCompare(product._id);
+                            }
+                        }}
+                        className="w-3 h-3 accent-red-600"
+                    />
+                    <span className="text-[10px] font-medium text-gray-600 group-hover/compare:text-gray-900">Compare</span>
+                </label>
+            </div>
+
             <Link href={`/product/${product.slug}`} className="block">
                 <div className="flex justify-between items-start mb-4">
                     <div className="bg-black text-white text-[10px] font-bold px-2 py-1.5 rounded-full flex items-center gap-1">
@@ -218,8 +242,16 @@ export default function ProductCard({ product, isBestSeller = false }: ProductCa
                     </button>
                 )
             ) : (
-                <button className="absolute bottom-4 right-4 bg-gray-200 text-gray-400 w-8 h-8 rounded-full flex items-center justify-center cursor-not-allowed z-20" disabled>
-                    <i className="ri-prohibited-line"></i>
+                <button
+                    onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setStockAlertOpen(true);
+                    }}
+                    className="absolute bottom-4 right-4 bg-blue-500 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors z-20"
+                    title="Notify When Back in Stock"
+                >
+                    <i className="ri-notification-3-line"></i>
                 </button>
             )}
 
@@ -228,6 +260,14 @@ export default function ProductCard({ product, isBestSeller = false }: ProductCa
                 message="Product added to cart!"
                 isVisible={showToast}
                 onClose={() => setShowToast(false)}
+            />
+
+            {/* Stock Alert Modal */}
+            <StockAlertModal
+                isOpen={stockAlertOpen}
+                onClose={() => setStockAlertOpen(false)}
+                productId={product._id}
+                productName={product.name}
             />
         </div>
     );

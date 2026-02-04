@@ -5,7 +5,16 @@ import dbConnect from '@/lib/db';
 import Admin from '@/models/Admin';
 import bcrypt from 'bcryptjs';
 
+import { rateLimit } from '@/lib/rate-limit';
+
 export async function POST(req: NextRequest) {
+    if (!await rateLimit(req, 5, 60)) {
+        return NextResponse.json(
+            { message: 'Too many login attempts. Please try again later.' },
+            { status: 429 }
+        );
+    }
+
     try {
         const { email, password } = await req.json();
 

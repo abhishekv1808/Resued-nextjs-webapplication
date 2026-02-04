@@ -6,8 +6,57 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
+import type { Metadata } from 'next';
+
 interface PageProps {
     params: Promise<{ id: string }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+    const { id } = await params;
+    await dbConnect();
+
+    // We need to handle potential invalid ID formats if not using mongoose.Types.ObjectId.isValid
+    // But assuming strict params or try/catch
+    try {
+        const blog = await Blog.findById(id).select('title content image').lean() as any;
+        if (!blog) return { title: 'Blog Not Found' };
+
+        // Strip HTML from content for description
+        const plainText = blog.content ? blog.content.replace(/<[^>]+>/g, '') : '';
+        const description = plainText.substring(0, 160);
+        const url = `https://simtechcomputers.in/blogs/${id}`;
+
+        return {
+            title: blog.title,
+            description: description,
+            alternates: {
+                canonical: url,
+            },
+            openGraph: {
+                title: blog.title,
+                description: description,
+                url: url,
+                type: 'article',
+                publishedTime: blog.date?.toISOString(),
+                authors: [blog.author || 'Simtech Computers'],
+                images: [
+                    {
+                        url: blog.image || '/images/og-image.jpg',
+                        alt: blog.title,
+                    }
+                ]
+            },
+            twitter: {
+                card: "summary_large_image",
+                title: blog.title,
+                description: description,
+                images: [blog.image || '/images/og-image.jpg'],
+            }
+        };
+    } catch (error) {
+        return { title: 'Blog Post' };
+    }
 }
 
 export default async function BlogPostPage({ params }: PageProps) {

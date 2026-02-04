@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import dbConnect from "@/lib/db";
 import Product from "@/models/Product";
 import DailyStats from "@/models/DailyStats";
@@ -40,20 +41,51 @@ async function getProduct(slug: string) {
     };
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
     const { slug } = await params;
     await dbConnect();
-    const product = await Product.findOne({ slug }).select('name description image').lean();
-    if (!product) return {};
+    const product = await Product.findOne({ slug }).select('name description image brand category').lean();
+
+    if (!product) {
+        return {
+            title: "Product Not Found",
+        };
+    }
+
+    const title = product.name;
+    const description = product.description?.substring(0, 160) || `Buy ${product.name} at Simtech Computers. Best price for ${product.brand} ${product.category}.`;
+    const url = `https://simtechcomputers.in/product/${slug}`;
+
+    const image = product.image || '/images/og-image.jpg';
 
     return {
-        title: `${product.name} | Simtech Computers`,
-        description: product.description?.substring(0, 160),
+        title: title, // Root template will add suffix
+        description: description,
+        keywords: [product.name, product.brand, product.category, "refurbished laptop", "simtech computers"],
+        alternates: {
+            canonical: url,
+        },
         openGraph: {
-            title: product.name,
-            description: product.description?.substring(0, 160),
-            images: [product.image],
-        }
+            title: title,
+            description: description,
+            url: url,
+            siteName: "Simtech Computers",
+            images: [
+                {
+                    url: image,
+                    width: 800,
+                    height: 600,
+                    alt: product.name,
+                },
+            ],
+            type: "website",
+        },
+        twitter: {
+            card: "summary_large_image",
+            title: title,
+            description: description,
+            images: [image],
+        },
     };
 }
 
@@ -67,8 +99,32 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
     const { product, relatedProducts } = data;
 
+    const jsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'Product',
+        name: product.name,
+        image: product.image,
+        description: product.description,
+        brand: {
+            '@type': 'Brand',
+            name: product.brand
+        },
+        offers: {
+            '@type': 'Offer',
+            url: `https://simtechcomputers.in/product/${product.slug}`,
+            priceCurrency: 'INR',
+            price: product.price,
+            availability: product.inStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+            itemCondition: 'https://schema.org/RefurbishedCondition',
+        }
+    };
+
     return (
         <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
             <Loader />
             <Header />
             <main className="flex-grow py-8 bg-gray-50 min-h-screen">
