@@ -83,6 +83,11 @@ export default function RootLayout({
                     rel="stylesheet"
                 />
                 <link rel="icon" href="/images/favicon/favicon.ico" sizes="any" />
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: `window.publicVapidKey = "${process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || ''}";`,
+                    }}
+                />
             </head>
             <body
                 className={`${plusJakartaSans.variable} ${outfit.variable} antialiased`}

@@ -7,26 +7,26 @@ export async function submitContact(prevState: any, formData: FormData) {
     try {
         await dbConnect();
 
-        const name = formData.get('name');
-        const phone = formData.get('phone');
-        const email = formData.get('email');
-        const brand = formData.get('brand');
-        const processor = formData.get('processor');
-        const ram = formData.get('ram'); // Assuming these might exist in the form
-        const storage = formData.get('storage'); // Assuming these might exist in the form
-        const purpose = formData.get('purpose'); // Assuming these might exist in the form
-        const message = formData.get('message');
+        const name = formData.get('name') as string;
+        const phone = formData.get('phone') as string;
+        const email = formData.get('email') as string;
+        const brand = formData.get('brand') as string | null;
+        const processor = formData.get('processor') as string | null;
+        const ram = formData.get('ram') as string | null; // Assuming these might exist in the form
+        const storage = formData.get('storage') as string | null; // Assuming these might exist in the form
+        const purpose = formData.get('purpose') as string | null; // Assuming these might exist in the form
+        const message = formData.get('message') as string;
 
         // Create new enquiry
         await Enquiry.create({
             name,
             phone,
             email,
-            brand,
-            processor,
-            ram,
-            storage,
-            purpose,
+            brand: brand || undefined,
+            processor: processor || undefined,
+            ram: ram || undefined,
+            storage: storage || undefined,
+            purpose: purpose || undefined,
             message,
             date: new Date()
         });
