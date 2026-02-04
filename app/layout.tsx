@@ -5,7 +5,6 @@ import { AuthProvider } from "@/hooks/useAuth";
 import { CartProvider } from "@/context/CartContext";
 import WhatsAppWidget from "@/components/WhatsAppWidget";
 import { CompareProvider } from "@/context/CompareContext";
-import CompareFloatBar from "@/components/CompareFloatBar";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
     subsets: ["latin"],
@@ -92,7 +91,6 @@ export default function RootLayout({
                         <CompareProvider>
                             {children}
                             <WhatsAppWidget />
-                            <CompareFloatBar />
                         </CompareProvider>
                     </CartProvider>
                 </AuthProvider>

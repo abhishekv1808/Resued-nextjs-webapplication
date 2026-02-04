@@ -330,7 +330,6 @@ export default function Header() {
                         )}
                     </div>
 
-                    {/* Links */}
                     <div className="flex-1 overflow-y-auto py-2">
                         <ul className="flex flex-col text-gray-700 font-medium text-base">
                             {[
@@ -339,6 +338,7 @@ export default function Header() {
                                 { href: "/laptops", icon: "ri-macbook-line text-indigo-500", label: "Laptops" },
                                 { href: "/monitors", icon: "ri-tv-2-line text-purple-500", label: "Monitors" },
                                 { href: "/accessories", icon: "ri-headphone-line text-teal-500", label: "Accessories" },
+                                { href: "/compare", icon: "ri-scales-3-line text-blue-500", label: "Compare" },
                                 { href: "/about-us", icon: "ri-information-line text-orange-500", label: "About Us" },
                                 { href: "/contact-us", icon: "ri-contacts-line text-pink-500", label: "Contact Us" },
                             ].map(item => (
@@ -362,6 +362,7 @@ export default function Header() {
                                 { href: "/laptops", icon: "ri-macbook-line text-indigo-500", label: "Laptops" },
                                 { href: "/monitors", icon: "ri-tv-2-line text-purple-500", label: "Monitors" },
                                 { href: "/accessories", icon: "ri-headphone-line text-teal-500", label: "Accessories" },
+                                { href: "/compare", icon: "ri-scales-3-line text-blue-500", label: "Compare" },
                                 { href: "/about-us", icon: "ri-information-line text-orange-500", label: "About" },
                                 { href: "/contact-us", icon: "ri-contacts-line text-pink-500", label: "Contact Us" },
                                 { href: "/blogs", icon: "ri-article-line text-yellow-500", label: "Blog" },
