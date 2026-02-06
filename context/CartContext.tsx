@@ -114,7 +114,9 @@ export function useCart() {
     const context = useContext(CartContext);
     if (context === undefined) {
         // Return a dummy context to prevent crashes in pages that might not be wrapped (e.g. some admin routes or edge cases)
-        console.warn("useCart must be used within a CartProvider. Returning dummy context.");
+        if (process.env.NODE_ENV === 'development') {
+            console.error("useCart must be used within a CartProvider. Returning dummy context.");
+        }
         return {
             cart: [],
             loading: false,

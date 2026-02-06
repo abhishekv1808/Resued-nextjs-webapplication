@@ -31,9 +31,8 @@ export default function ProductCard({ product, isBestSeller = false }: ProductCa
     const { user } = useAuth();
     const { addToCart, removeFromCart, cart, loading: cartLoading } = useCart();
     const [addingLocal, setAddingLocal] = useState(false);
-    // In a real app, we'd check if it's already in wishlist/cart from props or context
     const [inWishlist, setInWishlist] = useState(false);
-    const [showToast, setShowToast] = useState(false);
+    const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
     const [stockAlertOpen, setStockAlertOpen] = useState(false);
 
     const handleAddToCart = async (e: React.MouseEvent) => {
@@ -41,15 +40,14 @@ export default function ProductCard({ product, isBestSeller = false }: ProductCa
         e.stopPropagation(); // specific prevention
 
         if (!user) {
-            // Trigger login modal via global event or context
-            alert("Please login to add to cart");
+            setToast({ message: 'Please login to add items to cart', type: 'error' });
             return;
         }
 
         try {
             setAddingLocal(true);
             await addToCart(product._id);
-            setShowToast(true);
+            setToast({ message: 'Product added to cart!', type: 'success' });
         } catch (err) {
             console.error(err);
         } finally {
@@ -76,7 +74,7 @@ export default function ProductCard({ product, isBestSeller = false }: ProductCa
     const toggleWishlist = async (e: React.MouseEvent) => {
         e.preventDefault();
         if (!user) {
-            alert("Please login to use wishlist");
+            setToast({ message: 'Please login to use wishlist', type: 'error' });
             return;
         }
         // Optimistic update
@@ -234,11 +232,14 @@ export default function ProductCard({ product, isBestSeller = false }: ProductCa
             )}
 
             {/* Toast Notification */}
-            <Toast
-                message="Product added to cart!"
-                isVisible={showToast}
-                onClose={() => setShowToast(false)}
-            />
+            {toast && (
+                <Toast
+                    message={toast.message}
+                    type={toast.type}
+                    isVisible={!!toast}
+                    onClose={() => setToast(null)}
+                />
+            )}
 
             {/* Stock Alert Modal */}
             <StockAlertModal

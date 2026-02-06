@@ -45,8 +45,14 @@ async function getHomeData() {
         Blog.find({}).sort({ date: -1 }).limit(4).lean()
     ]);
 
-    // Convert _id to string for serialization
-    const serialize = (data: any[]) => data.map(item => ({ ...item, _id: item._id.toString(), date: item.date ? item.date.toISOString() : null }));
+    // Convert _id and all Date fields to strings for serialization
+    const serialize = (data: any[]) => data.map(item => ({
+        ...item,
+        _id: item._id.toString(),
+        date: item.date ? item.date.toISOString() : null,
+        createdAt: item.createdAt ? item.createdAt.toISOString() : null,
+        updatedAt: item.updatedAt ? item.updatedAt.toISOString() : null
+    }));
 
     return {
         appleLaptops: serialize(appleLaptops),

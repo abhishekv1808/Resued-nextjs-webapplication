@@ -97,7 +97,7 @@ export default function CartPage() {
 
     const removeItem = async (productId: string) => {
         try {
-            await axios.delete("/api/cart", { data: { productId } });
+            await axios.delete(`/api/cart?productId=${productId}`);
             fetchCart();
             router.refresh();
         } catch (error) {

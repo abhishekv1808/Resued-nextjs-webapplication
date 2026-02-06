@@ -10,6 +10,7 @@ import Script from "next/script";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Loader from "@/components/Loader";
+import CelebrationModal from "@/components/CelebrationModal";
 
 export default function CheckoutPage() {
     const { user, loading: authLoading } = useAuth();
@@ -18,6 +19,8 @@ export default function CheckoutPage() {
     const [discount, setDiscount] = useState({ code: "", amount: 0, message: "", isApplied: false });
     const [discountInput, setDiscountInput] = useState("");
     const [loading, setLoading] = useState(true);
+    const [showCelebration, setShowCelebration] = useState(false);
+    const [celebrationData, setCelebrationData] = useState({ discountAmount: 0, originalTotal: 0, code: "" });
     const router = useRouter();
 
     // specific form state for the new detailed layout
@@ -178,6 +181,13 @@ export default function CheckoutPage() {
             });
 
             if (data.success) {
+                // Store celebration data before updating state
+                setCelebrationData({
+                    discountAmount: data.discountAmount,
+                    originalTotal: totals.total,
+                    code: discountInput
+                });
+
                 setDiscount({
                     code: discountInput,
                     amount: data.discountAmount,
@@ -187,6 +197,9 @@ export default function CheckoutPage() {
                 // Update visible total locally
                 setTotals(prev => ({ ...prev, total: prev.total - data.discountAmount }));
                 setDiscountInput(""); // Clear input
+
+                // Show celebration modal
+                setShowCelebration(true);
             }
         } catch (error: any) {
             setDiscount({
@@ -437,10 +450,19 @@ export default function CheckoutPage() {
                                 <span className="font-medium text-gray-900">₹{totals.tax.toLocaleString("en-IN")}</span>
                             </div>
                             {discount.isApplied && (
-                                <div className="flex justify-between text-sm text-green-600 font-medium">
-                                    <span>Discount</span>
-                                    <span>-₹{discount.amount.toLocaleString("en-IN")}</span>
-                                </div>
+                                <>
+                                    <div className="flex justify-between text-sm text-green-600 font-medium">
+                                        <span>Discount</span>
+                                        <span>-₹{discount.amount.toLocaleString("en-IN")}</span>
+                                    </div>
+                                    {/* Congratulations Message */}
+                                    <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-lg p-3 mt-2">
+                                        <p className="text-xs text-green-700 font-semibold flex items-center gap-2">
+                                            <i className="ri-gift-fill text-lg animate-pulse"></i>
+                                            Congrats! You saved ₹{discount.amount.toLocaleString("en-IN")} on your order of ₹{(totals.total + discount.amount).toLocaleString("en-IN")}
+                                        </p>
+                                    </div>
+                                </>
                             )}
                             <div className="flex justify-between items-center text-lg font-bold text-gray-900 pt-4 border-t border-gray-200">
                                 <span>Total</span>
@@ -466,6 +488,15 @@ export default function CheckoutPage() {
                 </div>
             </main>
             <Footer />
+
+            {/* Celebration Modal */}
+            <CelebrationModal
+                isOpen={showCelebration}
+                onClose={() => setShowCelebration(false)}
+                discountAmount={celebrationData.discountAmount}
+                originalTotal={celebrationData.originalTotal}
+                discountCode={celebrationData.code}
+            />
         </>
     );
 }

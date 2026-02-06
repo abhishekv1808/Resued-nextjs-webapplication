@@ -1,10 +1,28 @@
 import mongoose from 'mongoose';
+import dns from 'dns';
+
+// Configure DNS to use Google's public DNS servers to fix Windows DNS SRV resolution issues
+// This helps resolve MongoDB Atlas SRV records which often fail on Windows with default DNS
+dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1']);
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
 if (!MONGODB_URI) {
     throw new Error(
         'Please define the MONGODB_URI environment variable inside .env.local'
+    );
+}
+
+// Validate MongoDB URI format
+if (MONGODB_URI.includes(';')) {
+    throw new Error(
+        'Invalid MONGODB_URI: Connection string contains semicolon. Remove any trailing semicolons from .env.local'
+    );
+}
+
+if (!MONGODB_URI.startsWith('mongodb://') && !MONGODB_URI.startsWith('mongodb+srv://')) {
+    throw new Error(
+        'Invalid MONGODB_URI: Must start with mongodb:// or mongodb+srv://'
     );
 }
 
@@ -36,16 +54,25 @@ async function dbConnect() {
     if (!cached.promise) {
         const opts = {
             bufferCommands: false,
+            family: 4, // Force IPv4 DNS resolution
+            serverSelectionTimeoutMS: 30000, // Increase timeout to 30 seconds for slow DNS
+            socketTimeoutMS: 45000,
+            connectTimeoutMS: 30000,
         };
 
         cached.promise = mongoose.connect(MONGODB_URI!, opts).then((mongoose) => {
+            console.log('MongoDB connected successfully');
             return mongoose;
+        }).catch((error) => {
+            console.error('MongoDB connection error:', error);
+            throw error;
         });
     }
     try {
         cached.conn = await cached.promise;
     } catch (e) {
         cached.promise = null;
+        console.error('Failed to establish MongoDB connection:', e);
         throw e;
     }
 

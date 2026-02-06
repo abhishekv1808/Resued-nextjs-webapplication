@@ -4,7 +4,9 @@ import { useState } from "react";
 import Image from "next/image";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
+import { useCart } from "@/context/CartContext";
 import StockAlertModal from "./StockAlertModal";
+import Toast from "./Toast";
 
 interface ProductDetailsClientProps {
     product: any; // Type accurately if possible
@@ -13,9 +15,10 @@ interface ProductDetailsClientProps {
 export default function ProductDetailsClient({ product }: ProductDetailsClientProps) {
     const [activeImage, setActiveImage] = useState(product.image);
     const [descriptionExpanded, setDescriptionExpanded] = useState(false);
-    const [addingToCart, setAddingToCart] = useState(false);
     const [stockAlertOpen, setStockAlertOpen] = useState(false);
+    const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
     const { user } = useAuth();
+    const { addToCart, loading: cartLoading } = useCart();
     const router = useRouter();
 
     const handleImageChange = (src: string) => {
@@ -34,29 +37,26 @@ export default function ProductDetailsClient({ product }: ProductDetailsClientPr
         } else {
             try {
                 await navigator.clipboard.writeText(url);
-                alert('Link copied to clipboard!');
+                setToast({ message: 'Link copied to clipboard!', type: 'success' });
             } catch (err) {
-                alert('Failed to copy link.');
+                setToast({ message: 'Failed to copy link', type: 'error' });
             }
         }
     };
 
     const handleAddToCart = async () => {
         if (!user) {
-            // Trigger Login Modal
-            alert("Please login to add to cart"); // Replace with global modal context trigger
+            setToast({ message: 'Please login to add items to cart', type: 'error' });
             return;
         }
-        setAddingToCart(true);
+
         try {
-            // await axios.post('/api/cart', { productId: product._id });
-            await new Promise(r => setTimeout(r, 500));
-            router.refresh(); // Update cart count
-            alert("Added to cart");
+            await addToCart(product._id);
+            // Cart count will automatically update via CartContext
+            setToast({ message: 'Product added to cart!', type: 'success' });
         } catch (err) {
-            console.error(err);
-        } finally {
-            setAddingToCart(false);
+            console.error("Failed to add to cart:", err);
+            setToast({ message: 'Failed to add to cart', type: 'error' });
         }
     };
 
@@ -183,10 +183,10 @@ export default function ProductDetailsClient({ product }: ProductDetailsClientPr
                             <>
                                 <button
                                     onClick={handleAddToCart}
-                                    disabled={addingToCart}
-                                    className="flex-1 border-2 border-black text-black font-bold py-3 rounded-lg hover:bg-gray-50 transition-colors flex items-center justify-center gap-2"
+                                    disabled={cartLoading}
+                                    className="flex-1 border-2 border-black text-black font-bold py-3 rounded-lg hover:bg-gray-50 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
-                                    {addingToCart ? <i className="ri-loader-4-line animate-spin"></i> : <i className="ri-shopping-cart-2-line"></i>} Add to Cart
+                                    {cartLoading ? <i className="ri-loader-4-line animate-spin"></i> : <i className="ri-shopping-cart-2-line"></i>} Add to Cart
                                 </button>
                                 <button className="flex-1 bg-black text-white font-bold py-3 rounded-lg hover:bg-gray-800 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all">
                                     Buy Now
@@ -256,6 +256,16 @@ export default function ProductDetailsClient({ product }: ProductDetailsClientPr
                 productId={product._id}
                 productName={product.name}
             />
+
+            {/* Toast Notification */}
+            {toast && (
+                <Toast
+                    message={toast.message}
+                    type={toast.type}
+                    isVisible={!!toast}
+                    onClose={() => setToast(null)}
+                />
+            )}
         </div>
     );
 }

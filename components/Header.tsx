@@ -206,7 +206,9 @@ export default function Header() {
                                     <i className="ri-heart-line text-2xl group-hover:text-pink-300 transition-colors"></i>
                                 </Link>
 
-                                {user ? (
+                                {loading ? (
+                                    <div className="w-10 h-10 rounded-full bg-gray-100 animate-pulse"></div>
+                                ) : user ? (
                                     <Link
                                         href="/cart"
                                         className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-all cursor-pointer group relative"
@@ -229,7 +231,12 @@ export default function Header() {
                                     </button>
                                 )}
 
-                                {user ? (
+                                {loading ? (
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-10 h-10 rounded-full bg-gray-100 animate-pulse"></div>
+                                        <div className="w-10 h-10 rounded-full bg-gray-100 animate-pulse"></div>
+                                    </div>
+                                ) : user ? (
                                     <>
                                         <Link
                                             href="/profile"
