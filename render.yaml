@@ -3,7 +3,7 @@ services:
     name: simtech-next
     env: node
     buildCommand: npm install && npm run build
-    startCommand: npm run start
+    startCommand: npm run start -- -p $PORT
     envVars:
       - key: NODE_VERSION
         value: 20.11.0
