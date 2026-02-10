@@ -14,14 +14,26 @@ export default function Footer() {
         if (!email) return;
 
         try {
-            // Mock API call or implement real one
-            // For now, simulating success
-            setStatus("success");
+            const res = await fetch('/api/subscribe', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+            });
+            const data = await res.json();
+            
+            if (res.ok) {
+                setStatus("success");
+                setEmail("");
+            } else if (res.status === 409) {
+                setStatus("already");
+            } else {
+                setStatus("error");
+            }
             setTimeout(() => setStatus("idle"), 3000);
-            setEmail("");
         } catch (error) {
             console.error(error);
             setStatus("error");
+            setTimeout(() => setStatus("idle"), 3000);
         }
     };
 
@@ -79,6 +91,18 @@ export default function Footer() {
                                     <p className="text-green-400 text-sm mt-2 flex items-center gap-1 animate-fade-in">
                                         <i className="ri-checkbox-circle-fill"></i>
                                         Subscribed successfully!
+                                    </p>
+                                )}
+                                {status === "already" && (
+                                    <p className="text-yellow-400 text-sm mt-2 flex items-center gap-1 animate-fade-in">
+                                        <i className="ri-information-line"></i>
+                                        You&apos;re already subscribed!
+                                    </p>
+                                )}
+                                {status === "error" && (
+                                    <p className="text-red-400 text-sm mt-2 flex items-center gap-1 animate-fade-in">
+                                        <i className="ri-error-warning-line"></i>
+                                        Something went wrong. Please try again.
                                     </p>
                                 )}
                             </form>

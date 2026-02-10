@@ -65,9 +65,10 @@ export const metadata: Metadata = {
         shortcut: '/images/favicon/favicon.ico',
         apple: '/images/favicon/apple-touch-icon.png',
     },
-    verification: {
-        google: "google-site-verification-code", // Placeholder
-    }
+    // Add your Google Search Console verification code here
+    // verification: {
+    //     google: "your-actual-verification-code",
+    // }
 };
 
 export default function RootLayout({
