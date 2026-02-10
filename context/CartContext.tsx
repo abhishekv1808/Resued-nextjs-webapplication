@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode, useRef } from "react";
 import axios from "axios";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -32,20 +32,29 @@ export function CartProvider({ children }: { children: ReactNode }) {
     const { user } = useAuth();
     const [cart, setCart] = useState<CartItem[]>([]);
     const [loading, setLoading] = useState(false);
+    const isMounted = useRef(true);
 
     // Fetch cart when user logs in
     useEffect(() => {
+        isMounted.current = true;
+
         if (user) {
             fetchCart();
         } else {
             setCart([]);
         }
+
+        return () => {
+            isMounted.current = false;
+        };
     }, [user]);
 
     const fetchCart = async () => {
         try {
             const res = await axios.get('/api/cart');
-            setCart(res.data.cart || []);
+            if (isMounted.current) {
+                setCart(res.data.cart || []);
+            }
         } catch (error) {
             console.error("Failed to fetch cart", error);
         }

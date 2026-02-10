@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, createContext, useContext, ReactNode } from "react";
+import { useState, useEffect, createContext, useContext, ReactNode, useRef } from "react";
 import axios from "axios";
 
 interface User {
@@ -29,11 +29,16 @@ const AuthContext = createContext<AuthContextType>({
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
+    const isMounted = useRef(true);
 
     useEffect(() => {
+        isMounted.current = true;
+
         async function loadUser() {
             try {
                 const { data } = await axios.get("/api/auth/user");
+                if (!isMounted.current) return; // Prevent state update if unmounted
+
                 if (data.isLoggedIn) {
                     setUser(data.user);
                 } else {
@@ -41,13 +46,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 }
             } catch (error) {
                 console.error("Failed to load user", error);
+                if (!isMounted.current) return;
                 setUser(null);
             } finally {
-                setLoading(false);
+                if (isMounted.current) {
+                    setLoading(false);
+                }
             }
         }
 
         loadUser();
+
+        return () => {
+            isMounted.current = false;
+        };
     }, []);
 
     const login = (newUser: User) => {

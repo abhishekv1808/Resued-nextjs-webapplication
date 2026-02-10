@@ -58,6 +58,11 @@ async function dbConnect() {
             serverSelectionTimeoutMS: 30000, // Increase timeout to 30 seconds for slow DNS
             socketTimeoutMS: 45000,
             connectTimeoutMS: 30000,
+            maxPoolSize: 10, // Limit pool size to prevent resource exhaustion
+            minPoolSize: 2, // Keep minimum connections alive
+            retryWrites: true, // Auto-retry write operations
+            retryReads: true, // Auto-retry read operations
+            heartbeatFrequencyMS: 10000, // Check connection health every 10 seconds
         };
 
         cached.promise = mongoose.connect(MONGODB_URI!, opts).then((mongoose) => {
