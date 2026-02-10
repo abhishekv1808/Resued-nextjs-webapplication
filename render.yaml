@@ -1,7 +1,7 @@
 services:
   - type: web
     name: simtech-next
-    runtime: node
+    env: node
     buildCommand: npm install && npm run build
     startCommand: npm run start
     envVars:
