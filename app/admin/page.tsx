@@ -82,6 +82,12 @@ export default function AdminDashboard() {
                     >
                         <i className="ri-computer-line"></i> Add Desktop
                     </Link>
+                    <Link
+                        href="/admin/add-accessories"
+                        className="bg-[#a51c30] hover:bg-[#8e1829] text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 shadow-lg shadow-red-900/50 transition-all"
+                    >
+                        <i className="ri-mouse-line"></i> Add Accessories
+                    </Link>
                 </div>
             </div>
 

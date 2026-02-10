@@ -1,10 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Toast from '@/components/Toast';
 
 export default function AdminEnquiries() {
     const [enquiries, setEnquiries] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
     useEffect(() => {
         fetchEnquiries();
@@ -35,12 +37,14 @@ export default function AdminEnquiries() {
             });
 
             if (response.ok) {
+                setToast({ message: 'Enquiry marked as resolved', type: 'success' });
                 fetchEnquiries(); // Refresh list
             } else {
-                alert('Failed to resolve enquiry');
+                setToast({ message: 'Failed to resolve enquiry', type: 'error' });
             }
         } catch (error) {
             console.error('Error resolving enquiry:', error);
+            setToast({ message: 'An error occurred while resolving the enquiry', type: 'error' });
         }
     };
 
@@ -211,6 +215,15 @@ export default function AdminEnquiries() {
                     </table>
                 </div>
             </div>
+
+            {toast && (
+                <Toast
+                    message={toast.message}
+                    type={toast.type}
+                    isVisible={!!toast}
+                    onClose={() => setToast(null)}
+                />
+            )}
         </div>
     );
 }

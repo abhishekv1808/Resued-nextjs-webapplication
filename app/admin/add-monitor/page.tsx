@@ -1,11 +1,16 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Toast from '@/components/Toast';
 
 export default function AddMonitor() {
+    const router = useRouter();
     const [images, setImages] = useState<File[]>([]);
     const [previews, setPreviews] = useState<string[]>([]);
+    const [submitting, setSubmitting] = useState(false);
+    const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -17,7 +22,7 @@ export default function AddMonitor() {
     const handleFiles = (files: File[]) => {
         const validFiles = files.filter(file => file.type.startsWith('image/'));
         if (images.length + validFiles.length > 10) {
-            alert('You can only upload a maximum of 10 images.');
+            setToast({ message: 'You can only upload a maximum of 10 images.', type: 'error' });
             return;
         }
 
@@ -50,6 +55,52 @@ export default function AddMonitor() {
         e.stopPropagation();
     };
 
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setSubmitting(true);
+
+        try {
+            const form = e.currentTarget;
+            const formData = new FormData();
+
+            formData.append('name', (form.elements.namedItem('name') as HTMLInputElement).value);
+            formData.append('brand', (form.elements.namedItem('brand') as HTMLSelectElement).value);
+            formData.append('description', (form.elements.namedItem('description') as HTMLTextAreaElement).value);
+            formData.append('category', 'monitor');
+
+            formData.append('price', (form.elements.namedItem('price') as HTMLInputElement).value);
+            formData.append('mrp', (form.elements.namedItem('mrp') as HTMLInputElement).value);
+            formData.append('quantity', (form.elements.namedItem('quantity') as HTMLInputElement).value);
+
+            formData.append('screenSize', (form.elements.namedItem('screenSize') as HTMLSelectElement).value);
+            formData.append('panelType', (form.elements.namedItem('panelType') as HTMLSelectElement).value);
+            formData.append('refreshRate', (form.elements.namedItem('refreshRate') as HTMLSelectElement).value);
+            formData.append('display', (form.elements.namedItem('display') as HTMLSelectElement).value);
+
+            images.forEach(image => {
+                formData.append('images', image);
+            });
+
+            const response = await fetch('/api/admin/products', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (response.ok) {
+                setToast({ message: 'Monitor added successfully!', type: 'success' });
+                setTimeout(() => router.push('/admin/products'), 1500);
+            } else {
+                const data = await response.json();
+                setToast({ message: data.error || 'Failed to save monitor', type: 'error' });
+            }
+        } catch (error) {
+            console.error('Error saving monitor:', error);
+            setToast({ message: 'An error occurred while saving the monitor', type: 'error' });
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
     return (
         <div className="max-w-[1600px] mx-auto">
             <div className="bg-[var(--admin-card)] rounded-xl border border-[var(--admin-border)] shadow-sm">
@@ -60,7 +111,7 @@ export default function AddMonitor() {
                     </Link>
                 </div>
 
-                <form className="p-6">
+                <form onSubmit={handleSubmit} className="p-6">
                     <div className="space-y-8">
                         {/* Section 1: Basic Details */}
                         <div className="bg-[var(--admin-card)] rounded-xl border border-[var(--admin-border)] p-6 shadow-sm">
@@ -82,6 +133,7 @@ export default function AddMonitor() {
                                             <option value="BenQ">BenQ</option>
                                             <option value="Acer">Acer</option>
                                             <option value="HP">HP</option>
+                                            <option value="ASUS">ASUS</option>
                                         </select>
                                         <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                                             <i className="ri-arrow-down-s-line text-gray-400"></i>
@@ -273,12 +325,21 @@ export default function AddMonitor() {
 
                     <div className="pt-6 mt-6 border-t border-[var(--admin-border)] flex justify-end gap-3">
                         <Link href="/admin/products" className="px-5 py-2 rounded-lg border border-[var(--admin-border)] text-[var(--admin-text-muted)] hover:text-[var(--admin-text-main)] hover:bg-[var(--admin-hover)] text-sm font-bold transition-all">Cancel</Link>
-                        <button type="button" className="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white text-sm font-bold shadow-lg shadow-red-900/20 transition-all">
-                            Save Monitor
+                        <button type="submit" disabled={submitting} className="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white text-sm font-bold shadow-lg shadow-red-900/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                            {submitting ? 'Saving...' : 'Save Monitor'}
                         </button>
                     </div>
                 </form>
             </div>
+
+            {toast && (
+                <Toast
+                    message={toast.message}
+                    type={toast.type}
+                    isVisible={!!toast}
+                    onClose={() => setToast(null)}
+                />
+            )}
         </div>
     );
 }

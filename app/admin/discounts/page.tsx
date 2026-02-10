@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Loader from "@/components/Loader";
+import Toast from "@/components/Toast";
 
 interface DiscountCode {
     _id: string;
@@ -21,6 +22,7 @@ export default function AdminDiscounts() {
     const [loading, setLoading] = useState(true);
     const [modalOpen, setModalOpen] = useState(false);
     const [editingDiscount, setEditingDiscount] = useState<DiscountCode | null>(null);
+    const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
     // Form State
     const [formData, setFormData] = useState({
@@ -45,17 +47,17 @@ export default function AdminDiscounts() {
             }
         } catch (error: any) {
             console.error("Failed to fetch discounts", error);
-            
+
             // Handle 401 Unauthorized - redirect to login
             if (error.response?.status === 401) {
-                alert("Your session has expired. Please log in again.");
-                window.location.href = "/admin/login";
+                setToast({ message: "Your session has expired. Please log in again.", type: 'error' });
+                setTimeout(() => window.location.href = "/admin/login", 2000);
                 return;
             }
-            
+
             // Handle other errors
             const errorMessage = error.response?.data?.message || "Failed to load discounts";
-            console.error(errorMessage);
+            setToast({ message: errorMessage, type: 'error' });
         } finally {
             setLoading(false);
         }
@@ -109,12 +111,12 @@ export default function AdminDiscounts() {
         } catch (error: any) {
             // Handle 401 Unauthorized
             if (error.response?.status === 401) {
-                alert("Your session has expired. Please log in again.");
-                window.location.href = "/admin/login";
+                setToast({ message: "Your session has expired. Please log in again.", type: 'error' });
+                setTimeout(() => window.location.href = "/admin/login", 2000);
                 return;
             }
-            
-            alert(error.response?.data?.message || "Operation failed");
+
+            setToast({ message: error.response?.data?.message || "Operation failed", type: 'error' });
             setLoading(false);
         }
     };
@@ -124,17 +126,18 @@ export default function AdminDiscounts() {
         try {
             await axios.delete(`/api/admin/discounts/${id}`);
             fetchDiscounts();
+            setToast({ message: "Discount deleted successfully", type: 'success' });
         } catch (error: any) {
             console.error("Failed to delete", error);
-            
+
             // Handle 401 Unauthorized
             if (error.response?.status === 401) {
-                alert("Your session has expired. Please log in again.");
-                window.location.href = "/admin/login";
+                setToast({ message: "Your session has expired. Please log in again.", type: 'error' });
+                setTimeout(() => window.location.href = "/admin/login", 2000);
                 return;
             }
-            
-            alert(error.response?.data?.message || "Failed to delete discount");
+
+            setToast({ message: error.response?.data?.message || "Failed to delete discount", type: 'error' });
         }
     };
 
@@ -309,6 +312,15 @@ export default function AdminDiscounts() {
                         </form>
                     </div>
                 </div>
+            )}
+
+            {toast && (
+                <Toast
+                    message={toast.message}
+                    type={toast.type}
+                    isVisible={!!toast}
+                    onClose={() => setToast(null)}
+                />
             )}
         </div>
     );

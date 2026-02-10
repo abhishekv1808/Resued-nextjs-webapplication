@@ -1,13 +1,7 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Product from '@/models/Product';
-import { v2 as cloudinary } from 'cloudinary';
-
-cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
-});
+import { deleteFromCloudinaryByUrl } from '@/lib/cloudinary';
 
 export async function POST(request: Request) {
     try {
@@ -29,8 +23,13 @@ export async function POST(request: Request) {
 
         await product.save();
 
-        // Optional: Delete from Cloudinary if possible (need public_id)
-        // Usually we store public_id or extract it from URL
+        // Delete from Cloudinary
+        try {
+            await deleteFromCloudinaryByUrl(imageUrl);
+        } catch (cloudinaryError) {
+            console.error('Failed to delete image from Cloudinary:', cloudinaryError);
+            // We already removed it from DB, so we continue
+        }
 
         return NextResponse.json({ success: true, product });
 

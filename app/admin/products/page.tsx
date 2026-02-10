@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
+import Toast from '@/components/Toast';
 
 export default function AdminProducts() {
     const searchParams = useSearchParams();
@@ -13,6 +14,7 @@ export default function AdminProducts() {
     const [selectedProduct, setSelectedProduct] = useState<any>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [stockInputs, setStockInputs] = useState<{ [key: string]: number }>({});
+    const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
     // Fetch Products on Load or when query changes
     useEffect(() => {
@@ -61,13 +63,14 @@ export default function AdminProducts() {
             });
 
             if (response.ok) {
-                alert('Stock updated successfully');
+                setToast({ message: 'Stock updated successfully', type: 'success' });
                 fetchProducts(); // Refresh data
             } else {
-                alert('Failed to update stock');
+                setToast({ message: 'Failed to update stock', type: 'error' });
             }
         } catch (error) {
             console.error('Error updating stock', error);
+            setToast({ message: 'An error occurred while updating stock', type: 'error' });
         }
     };
 
@@ -80,20 +83,36 @@ export default function AdminProducts() {
             });
 
             if (response.ok) {
+                setToast({ message: 'Status updated successfully', type: 'success' });
                 fetchProducts(); // Refresh data
             } else {
-                alert('Failed to toggle status');
+                setToast({ message: 'Failed to toggle status', type: 'error' });
             }
         } catch (error) {
             console.error('Error toggling status', error);
+            setToast({ message: 'An error occurred while toggling status', type: 'error' });
         }
     };
 
     const deleteProduct = async (id: string) => {
         if (!confirm('Are you sure you want to delete this product?')) return;
 
-        // TODO: Implement delete API
-        alert('Delete functionality to be implemented');
+        try {
+            const response = await fetch(`/api/admin/products/${id}`, {
+                method: 'DELETE',
+            });
+
+            if (response.ok) {
+                setToast({ message: 'Product deleted successfully', type: 'success' });
+                fetchProducts();
+            } else {
+                const data = await response.json();
+                setToast({ message: data.error || 'Failed to delete product', type: 'error' });
+            }
+        } catch (error) {
+            console.error('Error deleting product:', error);
+            setToast({ message: 'An error occurred while deleting the product', type: 'error' });
+        }
     };
 
     const openProductModal = (product: any) => {
@@ -336,6 +355,15 @@ export default function AdminProducts() {
                         </div>
                     </div>
                 </div>
+            )}
+
+            {toast && (
+                <Toast
+                    message={toast.message}
+                    type={toast.type}
+                    isVisible={!!toast}
+                    onClose={() => setToast(null)}
+                />
             )}
         </div>
     );

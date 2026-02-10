@@ -1,14 +1,7 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Product from '@/models/Product';
-import { v2 as cloudinary } from 'cloudinary';
-
-// Configure Cloudinary
-cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
-});
+import cloudinary, { deleteFromCloudinaryByUrl } from '@/lib/cloudinary';
 
 export async function GET(
     request: Request,
@@ -118,8 +111,12 @@ export async function PUT(
                     // Upload to Cloudinary
                     const result = await new Promise<any>((resolve, reject) => {
                         const uploadStream = cloudinary.uploader.upload_stream(
-                            { folder: 'simtech-products' },
-                            (error, result) => {
+                            {
+                                folder: 'simtech-products',
+                                quality: "auto",
+                                fetch_format: "auto"
+                            },
+                            (error: any, result: any) => {
                                 if (error) reject(error);
                                 else resolve(result);
                             }
@@ -173,6 +170,47 @@ export async function PUT(
 
     } catch (error) {
         console.error('Error updating product:', error);
+        return NextResponse.json(
+            { error: 'Internal Server Error' },
+            { status: 500 }
+        );
+    }
+}
+
+export async function DELETE(
+    request: Request,
+    context: { params: Promise<{ id: string }> }
+) {
+    try {
+        await dbConnect();
+        const { id } = await context.params;
+
+        const product = await Product.findById(id);
+
+        if (!product) {
+            return NextResponse.json(
+                { error: 'Product not found' },
+                { status: 404 }
+            );
+        }
+
+        // Delete images from Cloudinary
+        if (product.images && product.images.length > 0) {
+            for (const imageUrl of product.images) {
+                try {
+                    await deleteFromCloudinaryByUrl(imageUrl);
+                } catch (cloudinaryError) {
+                    console.error(`Failed to delete image ${imageUrl} from Cloudinary:`, cloudinaryError);
+                    // Continue deleting other images if one fails
+                }
+            }
+        }
+
+        await Product.findByIdAndDelete(id);
+
+        return NextResponse.json({ success: true, message: 'Product deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting product:', error);
         return NextResponse.json(
             { error: 'Internal Server Error' },
             { status: 500 }

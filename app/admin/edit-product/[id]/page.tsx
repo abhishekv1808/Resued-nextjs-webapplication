@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Toast from '@/components/Toast';
 
 export default function EditProduct() {
     const router = useRouter();
@@ -15,6 +16,7 @@ export default function EditProduct() {
     const [images, setImages] = useState<File[]>([]);
     const [previews, setPreviews] = useState<string[]>([]);
     const [specifications, setSpecifications] = useState<any>({});
+    const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
     useEffect(() => {
         fetchProduct();
@@ -28,7 +30,7 @@ export default function EditProduct() {
                 setProduct(data.product);
                 setSpecifications(data.product.specifications || {});
             } else {
-                alert('Failed to load product');
+                setToast({ message: 'Failed to load product', type: 'error' });
             }
         } catch (error) {
             console.error('Error fetching product:', error);
@@ -81,8 +83,9 @@ export default function EditProduct() {
             if (response.ok) {
                 // Refresh product to reflect changes
                 fetchProduct();
+                setToast({ message: 'Image deleted successfully', type: 'success' });
             } else {
-                alert('Failed to delete image');
+                setToast({ message: 'Failed to delete image', type: 'error' });
             }
         } catch (error) {
             console.error('Error deleting image:', error);
@@ -119,15 +122,15 @@ export default function EditProduct() {
             });
 
             if (response.ok) {
-                alert('Product updated successfully!');
-                router.push('/admin/products');
+                setToast({ message: 'Product updated successfully!', type: 'success' });
+                setTimeout(() => router.push('/admin/products'), 1500);
             } else {
                 const data = await response.json();
-                alert(data.error || 'Failed to update product');
+                setToast({ message: data.error || 'Failed to update product', type: 'error' });
             }
         } catch (error) {
             console.error('Error updating product:', error);
-            alert('An error occurred while updating the product');
+            setToast({ message: 'An error occurred while updating the product', type: 'error' });
         } finally {
             setSubmitting(false);
         }
@@ -387,6 +390,15 @@ export default function EditProduct() {
                 </div>
 
             </form>
+
+            {toast && (
+                <Toast
+                    message={toast.message}
+                    type={toast.type}
+                    isVisible={!!toast}
+                    onClose={() => setToast(null)}
+                />
+            )}
         </div>
     );
 }
