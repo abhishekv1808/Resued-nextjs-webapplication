@@ -75,7 +75,7 @@ export default function AddMonitor() {
             formData.append('screenSize', (form.elements.namedItem('screenSize') as HTMLSelectElement).value);
             formData.append('panelType', (form.elements.namedItem('panelType') as HTMLSelectElement).value);
             formData.append('refreshRate', (form.elements.namedItem('refreshRate') as HTMLSelectElement).value);
-            formData.append('display', (form.elements.namedItem('display') as HTMLSelectElement).value);
+            formData.append('resolution', (form.elements.namedItem('resolution') as HTMLSelectElement).value);
 
             images.forEach(image => {
                 formData.append('images', image);
@@ -258,7 +258,7 @@ export default function AddMonitor() {
                                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                             <i className="ri-hd-line text-gray-400"></i>
                                         </div>
-                                        <select name="display" className="w-full pl-10 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors appearance-none">
+                                        <select name="resolution" className="w-full pl-10 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors appearance-none">
                                             <option value="Full HD (1920x1080)">Full HD (1920x1080)</option>
                                             <option value="2K QHD (2560x1440)">2K QHD (2560x1440)</option>
                                             <option value="4K UHD (3840x2160)">4K UHD (3840x2160)</option>

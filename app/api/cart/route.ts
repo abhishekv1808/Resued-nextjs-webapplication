@@ -17,44 +17,57 @@ async function getUserFromSession(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
     try {
-        console.log("Cart GET: Starting...");
         await dbConnect();
-        console.log("Cart GET: Database connected");
-        console.log("Cart GET: Product Model:", Product.modelName);
 
         const userId = await getUserFromSession(req);
-        console.log("Cart GET: User ID from session:", userId);
-
         if (!userId) {
-            // Return empty cart for unauthenticated users instead of 401
             return NextResponse.json({ cart: [] });
         }
 
-        console.log("Cart GET: Fetching user...");
-        const user = await User.findById(userId).populate('cart.product').lean();
-        console.log("Cart GET: User fetched:", user ? "Found" : "Not Found");
-
-        if (!user) {
+        // Fetch user only
+        const user = await User.findById(userId).lean();
+        if (!user || !user.cart || user.cart.length === 0) {
             return NextResponse.json({ cart: [] });
         }
 
-        // Filter out null products (in case product was deleted) and ensure product structure
+        // Manual populate: Fetch all products in the cart in one go
+        const productIds = user.cart
+            .filter((item: any) => item.product)
+            .map((item: any) => item.product);
+
+        if (productIds.length === 0) {
+            return NextResponse.json({ cart: [] });
+        }
+
+        // Fetch product details
+        const products = await Product.find({
+            _id: { $in: productIds }
+        }).lean();
+
+        // Create a map for quick lookup
+        const productMap = new Map();
+        products.forEach((p: any) => {
+            productMap.set(p._id.toString(), p);
+        });
+
+        // Reconstruct cart with populated products
         const cart = user.cart
-            .filter((item: any) => {
-                if (item.product === null) console.log("Cart GET: Found null product in cart item");
-                return item.product !== null;
+            .map((item: any) => {
+                const productId = item.product?.toString();
+                return {
+                    product: productId ? productMap.get(productId) : null,
+                    quantity: item.quantity
+                };
             })
-            .map((item: any) => ({
-                product: item.product,
-                quantity: item.quantity
-            }));
+            .filter((item: any) => item.product !== null);
 
-        console.log("Cart GET: Cart processed, returning response");
         return NextResponse.json({ cart });
     } catch (error: any) {
-        console.error("Cart GET Error details:", error);
-        console.error("Cart GET Error stack:", error?.stack);
-        return NextResponse.json({ error: error?.message || 'Server error', details: error?.toString() }, { status: 500 });
+        console.error("Cart GET Error:", error);
+        return NextResponse.json({
+            error: error?.message || 'Server error',
+            details: error?.toString()
+        }, { status: 500 });
     }
 }
 

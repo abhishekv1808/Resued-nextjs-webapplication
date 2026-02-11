@@ -84,13 +84,15 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
     }
 
     // Add other filters similarly (processor, ram, storage, formFactor, screenSize, etc.)
-    ['processor', 'ram', 'storage', 'formFactor', 'screenSize', 'resolution'].forEach(field => {
+    ['processor', 'ram', 'storage', 'formFactor', 'screenSize', 'resolution', 'refreshRate'].forEach(field => {
         if (resolvedSearchParams[field]) {
             const values = Array.isArray(resolvedSearchParams[field])
                 ? resolvedSearchParams[field]
                 : [resolvedSearchParams[field]];
-            // Simple regex match for robust text searching (case insensitive) if exact match fails
-            query[field] = { $in: values };
+
+            // Map common display fields to their nested specification counterparts
+            const schemaField = `specifications.${field}`;
+            query[schemaField] = { $in: values };
         }
     });
 

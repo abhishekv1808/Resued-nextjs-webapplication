@@ -77,7 +77,7 @@ export default function HeroCarousel() {
                         <div className="absolute inset-0 opacity-10 mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url('https://grainy-gradients.vercel.app/noise.svg')" }}></div>
 
                         <div className="flex flex-col md:flex-row h-full items-center relative z-20">
-                            <div className="pl-4 pr-0 py-2 md:p-8 md:pl-12 flex flex-col justify-center items-start text-left h-full w-full md:w-[58%]">
+                            <div className="pl-4 pr-0 py-2 md:py-8 md:px-16 md:pl-24 flex flex-col justify-center items-start text-left h-full w-full md:w-[58%]">
                                 <span className="inline-block px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-white text-gray-900 text-[8px] md:text-xs font-bold tracking-widest uppercase mb-1.5 md:mb-3 shadow-lg animate-fade-in-up">
                                     {slide.badge}
                                 </span>

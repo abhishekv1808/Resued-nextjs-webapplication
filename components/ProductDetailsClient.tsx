@@ -242,6 +242,26 @@ export default function ProductDetailsClient({ product }: ProductDetailsClientPr
                                     </div>
                                 </>
                             )}
+                            {product.category === 'monitor' && (
+                                <>
+                                    <div className="bg-gray-50 p-4 rounded-lg">
+                                        <span className="text-xs text-gray-500 uppercase tracking-wide block mb-1">Screen Size</span>
+                                        <span className="font-bold text-gray-900 text-sm">{product.specifications?.screenSize || 'N/A'}</span>
+                                    </div>
+                                    <div className="bg-gray-50 p-4 rounded-lg">
+                                        <span className="text-xs text-gray-500 uppercase tracking-wide block mb-1">Resolution</span>
+                                        <span className="font-bold text-gray-900 text-sm">{product.specifications?.resolution || 'N/A'}</span>
+                                    </div>
+                                    <div className="bg-gray-50 p-4 rounded-lg">
+                                        <span className="text-xs text-gray-500 uppercase tracking-wide block mb-1">Refresh Rate</span>
+                                        <span className="font-bold text-gray-900 text-sm">{product.specifications?.refreshRate || 'N/A'}</span>
+                                    </div>
+                                    <div className="bg-gray-50 p-4 rounded-lg">
+                                        <span className="text-xs text-gray-500 uppercase tracking-wide block mb-1">Panel Type</span>
+                                        <span className="font-bold text-gray-900 text-sm">{product.specifications?.panelType || 'N/A'}</span>
+                                    </div>
+                                </>
+                            )}
                             {/* Add other categories logic if needed, simplify for now */}
                         </div>
                     </div>

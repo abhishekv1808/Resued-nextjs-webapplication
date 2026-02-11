@@ -24,6 +24,8 @@ export interface IProduct extends Document {
         screenSize?: string;
         refreshRate?: string;
         panelType?: string;
+        resolution?: string;
+        formFactor?: string;
     };
     createdAt: Date;
     updatedAt: Date;
@@ -94,6 +96,8 @@ const productSchema: Schema = new Schema(
             screenSize: String,
             refreshRate: String,
             panelType: String,
+            resolution: String,
+            formFactor: String,
         },
     },
     { timestamps: true }

@@ -172,6 +172,7 @@ export default function EditProduct() {
                                 <option value="MSI">MSI</option>
                                 <option value="LG">LG</option>
                                 <option value="BenQ">BenQ</option>
+                                <option value="ASUS">ASUS</option>
                             </select>
                         </div>
                         <div className="md:col-span-2">
@@ -259,6 +260,17 @@ export default function EditProduct() {
                                             <option value="DOS">DOS</option>
                                         </select>
                                     </div>
+                                    {product.category === 'desktop' && (
+                                        <div>
+                                            <label className="block text-xs font-bold text-[var(--admin-text-muted)] uppercase tracking-wider mb-2">Form Factor</label>
+                                            <select name="formFactor" value={specifications.formFactor || ''} onChange={handleSpecChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 transition-colors">
+                                                <option value="">Select Form Factor</option>
+                                                <option value="All-in-One (AIO)">All-in-One (AIO)</option>
+                                                <option value="Tower Desktop">Tower Desktop</option>
+                                                <option value="Mini PC">Mini PC</option>
+                                            </select>
+                                        </div>
+                                    )}
                                 </>
                             )}
 
@@ -306,7 +318,7 @@ export default function EditProduct() {
                                     </div>
                                     <div>
                                         <label className="block text-xs font-bold text-[var(--admin-text-muted)] uppercase tracking-wider mb-2">Resolution</label>
-                                        <select name="display" value={specifications.display || ''} onChange={handleSpecChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 transition-colors">
+                                        <select name="resolution" value={specifications.resolution || ''} onChange={handleSpecChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 transition-colors">
                                             <option value="">Select Resolution</option>
                                             <option value="HD (1366x768)">HD (1366x768)</option>
                                             <option value="Full HD (1920x1080)">Full HD (1920x1080)</option>

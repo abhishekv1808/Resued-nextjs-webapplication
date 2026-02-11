@@ -20,7 +20,7 @@ export default function Footer() {
                 body: JSON.stringify({ email })
             });
             const data = await res.json();
-            
+
             if (res.ok) {
                 setStatus("success");
                 setEmail("");
@@ -77,6 +77,8 @@ export default function Footer() {
                                         onChange={(e) => setEmail(e.target.value)}
                                         placeholder="Enter your email address"
                                         required
+                                        id="newsletterEmail"
+                                        name="email"
                                         className="flex-1 px-5 py-3 text-sm md:text-base bg-transparent outline-none text-white placeholder-gray-400"
                                     />
                                     <button

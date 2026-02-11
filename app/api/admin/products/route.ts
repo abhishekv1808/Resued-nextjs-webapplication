@@ -72,6 +72,10 @@ export async function POST(request: Request) {
         if (panelType) specifications.panelType = panelType;
         const refreshRate = formData.get('refreshRate');
         if (refreshRate) specifications.refreshRate = refreshRate;
+        const resolution = formData.get('resolution');
+        if (resolution) specifications.resolution = resolution;
+        const formFactor = formData.get('formFactor');
+        if (formFactor) specifications.formFactor = formFactor;
 
         // Handle image uploads
         const files = formData.getAll('images') as File[];

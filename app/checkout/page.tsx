@@ -358,6 +358,8 @@ export default function CheckoutPage() {
                                         type="checkbox"
                                         checked={agreedToTerms}
                                         onChange={(e) => setAgreedToTerms(e.target.checked)}
+                                        id="terms"
+                                        name="terms"
                                         className="w-5 h-5 rounded border-gray-300 text-[#a51c30] focus:ring-[#a51c30] transition-colors"
                                     />
                                     <span className="text-sm text-gray-500 group-hover:text-gray-700 transition-colors">
@@ -407,6 +409,8 @@ export default function CheckoutPage() {
                                                 placeholder="Discount code"
                                                 value={discountInput}
                                                 onChange={(e) => setDiscountInput(e.target.value)}
+                                                id="discountCode"
+                                                name="discountCode"
                                                 className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 focus:border-[#a51c30] focus:ring-1 focus:ring-[#a51c30] outline-none text-sm transition-colors uppercase"
                                             />
                                         </div>

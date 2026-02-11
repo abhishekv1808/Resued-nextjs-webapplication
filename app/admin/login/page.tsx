@@ -132,6 +132,7 @@ export default function AdminLogin() {
                             width={120}
                             height={40}
                             className="h-16 w-auto object-contain"
+                            style={{ height: 'auto' }}
                             priority
                         />
                     </div>

@@ -112,11 +112,21 @@ export default function ContactPage() {
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
                                         <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
-                                        <input type="text" id="name" name="name" required className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-100 focus:border-[#a51c30] outline-none transition-all placeholder-gray-400" placeholder="John Doe" />
+                                        <input type="text" id="name" name="name" required autoComplete="name" className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-100 focus:border-[#a51c30] outline-none transition-all placeholder-gray-400" placeholder="John Doe" />
                                     </div>
                                     <div>
                                         <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">Phone Number *</label>
-                                        <input type="tel" id="phone" name="phone" required className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-100 focus:border-[#a51c30] outline-none transition-all placeholder-gray-400" placeholder="+91 9876543210" />
+                                        <input
+                                            type="tel"
+                                            id="phone"
+                                            name="phone"
+                                            required
+                                            autoComplete="tel"
+                                            pattern="[0-9]{10,15}"
+                                            title="Please enter a valid phone number (at least 10 digits)"
+                                            className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-100 focus:border-[#a51c30] outline-none transition-all placeholder-gray-400"
+                                            placeholder="9876543210"
+                                        />
                                     </div>
                                 </div>
 
@@ -145,7 +155,7 @@ export default function ContactPage() {
                                         </select>
                                     </div>
 
-                                    {/* Other select fields similarly implemented */}
+                                    {/* Processor */}
                                     <div>
                                         <label htmlFor="processor" className="block text-sm font-medium text-gray-700 mb-1">Processor</label>
                                         <select id="processor" name="processor" className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-100 focus:border-[#a51c30] outline-none transition-all bg-white" defaultValue="">
@@ -160,7 +170,51 @@ export default function ContactPage() {
                                             <option value="Ryzen 7">Ryzen 7</option>
                                         </select>
                                     </div>
-                                    {/* Simplified for brevity, assume similar structure */}
+
+                                    {/* RAM */}
+                                    <div>
+                                        <label htmlFor="ram" className="block text-sm font-medium text-gray-700 mb-1">RAM</label>
+                                        <select id="ram" name="ram" className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-100 focus:border-[#a51c30] outline-none transition-all bg-white" defaultValue="">
+                                            <option value="" disabled>Select RAM</option>
+                                            <option value="8GB">8GB</option>
+                                            <option value="16GB">16GB</option>
+                                            <option value="32GB">32GB</option>
+                                            <option value="64GB">64GB</option>
+                                            <option value="128GB">128GB</option>
+                                        </select>
+                                    </div>
+
+                                    {/* Storage */}
+                                    <div>
+                                        <label htmlFor="storage" className="block text-sm font-medium text-gray-700 mb-1">Storage</label>
+                                        <select id="storage" name="storage" className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-100 focus:border-[#a51c30] outline-none transition-all bg-white" defaultValue="">
+                                            <option value="" disabled>Select Storage</option>
+                                            <option value="256GB SSD">256GB SSD</option>
+                                            <option value="512GB SSD">512GB SSD</option>
+                                            <option value="1TB SSD">1TB SSD</option>
+                                            <option value="2TB SSD">2TB SSD</option>
+                                            <option value="4TB SSD">4TB SSD</option>
+                                        </select>
+                                    </div>
+
+                                    {/* Model No */}
+                                    <div>
+                                        <label htmlFor="model" className="block text-sm font-medium text-gray-700 mb-1">Model No (Optional)</label>
+                                        <input type="text" id="model" name="model" className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-100 focus:border-[#a51c30] outline-none transition-all placeholder-gray-400" placeholder="e.g. XPS 13, MacBook Air M2" />
+                                    </div>
+
+                                    {/* Purpose */}
+                                    <div>
+                                        <label htmlFor="purpose" className="block text-sm font-medium text-gray-700 mb-1">Purpose</label>
+                                        <select id="purpose" name="purpose" className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-100 focus:border-[#a51c30] outline-none transition-all bg-white" defaultValue="">
+                                            <option value="" disabled>Select Purpose</option>
+                                            <option value="Business">Business</option>
+                                            <option value="Gaming">Gaming</option>
+                                            <option value="Designing">Designing</option>
+                                            <option value="Coding">Coding</option>
+                                            <option value="Students">Students</option>
+                                        </select>
+                                    </div>
                                 </div>
 
                                 {/* Message */}

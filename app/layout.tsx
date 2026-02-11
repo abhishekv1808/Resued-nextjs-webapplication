@@ -77,7 +77,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
+        <html lang="en" suppressHydrationWarning>
             <head>
                 <link
                     href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css"
@@ -92,6 +92,7 @@ export default function RootLayout({
             </head>
             <body
                 className={`${plusJakartaSans.variable} ${outfit.variable} antialiased`}
+                suppressHydrationWarning
             >
                 <AuthProvider>
                     <CartProvider>

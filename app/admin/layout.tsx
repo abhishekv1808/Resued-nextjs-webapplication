@@ -125,6 +125,7 @@ export default function AdminLayout({
                             width={150}
                             height={40}
                             className="h-12 w-auto object-contain"
+                            style={{ height: 'auto' }}
                             priority
                         />
                     </div>

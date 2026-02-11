@@ -165,7 +165,7 @@ export default function CartPage() {
                                                         <span className="md:hidden text-gray-500 text-sm">Quantity:</span>
                                                         <div className="flex items-center border border-gray-200 rounded-lg bg-white">
                                                             <button onClick={() => updateQuantity(item.product_id, 'decrease')} className="w-8 h-8 flex items-center justify-center text-gray-500 hover:bg-gray-50 hover:text-black transition-colors rounded-l-lg">-</button>
-                                                            <input type="text" value={item.quantity} className="w-10 text-center text-sm font-semibold border-x border-gray-200 focus:outline-none py-1" readOnly />
+                                                            <input type="text" id="quantity" name="quantity" value={item.quantity} className="w-10 text-center text-sm font-semibold border-x border-gray-200 focus:outline-none py-1" readOnly />
                                                             <button onClick={() => updateQuantity(item.product_id, 'increase')} className="w-8 h-8 flex items-center justify-center text-gray-500 hover:bg-gray-50 hover:text-black transition-colors rounded-r-lg">+</button>
                                                         </div>
                                                     </div>

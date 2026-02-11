@@ -65,6 +65,9 @@ export async function PUT(
             const os = formData.get('os');
             if (os) specifications.os = os;
 
+            const formFactor = formData.get('formFactor');
+            if (formFactor) specifications.formFactor = formFactor;
+
             if (category === 'laptop') {
                 const display = formData.get('display');
                 if (display) specifications.display = display;
@@ -79,8 +82,8 @@ export async function PUT(
             const refreshRate = formData.get('refreshRate');
             if (refreshRate) specifications.refreshRate = refreshRate;
 
-            const display = formData.get('display'); // Resolution
-            if (display) specifications.display = display;
+            const resolution = formData.get('resolution');
+            if (resolution) specifications.resolution = resolution;
         }
 
         // Handle Images
@@ -148,18 +151,12 @@ export async function PUT(
         product.discount = discount;
         product.quantity = quantity;
         product.description = description;
-        product.specifications = { ...product.specifications, ...specifications }; // Merge or replace? Replace is safer for edits.
 
-        // Actually, we should selectively update specs. if category changed (unlikely), specs change.
-        // Let's overwrite specs with what we received.
-        // If we received partial specs, we might want to be careful. 
-        // But the form sends all fields for the category.
+        // Update specifications - merge with existing to avoid wiping out fields not in the current form
+        product.specifications = { ...product.specifications, ...specifications };
 
-        // Ensure we don't wipe out other specs if we switch categories? No, category shouldn't change usually.
-        // But if it does, specs should change.
-        if (Object.keys(specifications).length > 0) {
-            product.specifications = specifications;
-        }
+        // Explicitly mark specifications as modified for Mongoose
+        product.markModified('specifications');
 
         product.images = updatedImages;
         product.image = updatedMainImage;

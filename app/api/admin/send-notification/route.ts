@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import webpush from 'web-push';
 import connectDB from '@/lib/db';
 import Subscription from '@/models/Subscription';
+import cloudinary from '@/lib/cloudinary';
 
 // Configure VAPID details
 const vapidPublicKey = process.env.VAPID_PUBLIC_KEY!;
@@ -35,20 +36,92 @@ export async function POST(req: Request) {
         const iconFile = formData.get('icon') as File | null;
 
         // For now, we'll use direct URLs if files are uploaded
-        // In a production environment, you'd upload these to Cloudinary or similar
         let imagePath = null;
-        let iconPath = '/images/logo.png'; // Default icon
+        let iconPath = `${process.env.NEXT_PUBLIC_BASE_URL || ''}/images/logo.png`; // Default icon with absolute URL
 
-        // Note: Since we're dealing with FormData files, we'd need to handle uploading
-        // For simplicity, we'll use default paths. You can extend this to upload to Cloudinary
+        const isCloudinaryConfigured = process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET;
+        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+
+        // Handle Image Upload
         if (imageFile && imageFile.size > 0) {
-            // In production: upload to Cloudinary and get URL
-            // For now: we'll skip the banner image if not already hosted
-            console.log('Image file received:', imageFile.name);
+            if (isCloudinaryConfigured) {
+                const arrayBuffer = await imageFile.arrayBuffer();
+                const buffer = Buffer.from(arrayBuffer);
+
+                const result = await new Promise<any>((resolve, reject) => {
+                    const uploadStream = cloudinary.uploader.upload_stream(
+                        {
+                            folder: 'simtech-notifications',
+                            quality: "auto",
+                            fetch_format: "auto"
+                        },
+                        (error: any, result: any) => {
+                            if (error) reject(error);
+                            else resolve(result);
+                        }
+                    );
+                    uploadStream.end(buffer);
+                });
+                imagePath = result.secure_url;
+            } else {
+                // Fallback: Save locally
+                const { writeFile, mkdir } = await import('fs/promises');
+                const path = await import('path');
+
+                const uploadsDir = path.join(process.cwd(), 'public', 'uploads', 'notifications');
+                await mkdir(uploadsDir, { recursive: true });
+
+                const ext = imageFile.name.split('.').pop() || 'jpg';
+                const fileName = `banner-${Date.now()}.${ext}`;
+                const filePath = path.join(uploadsDir, fileName);
+
+                const arrayBuffer = await imageFile.arrayBuffer();
+                const buffer = Buffer.from(arrayBuffer);
+                await writeFile(filePath, buffer);
+
+                imagePath = `${baseUrl}/uploads/notifications/${fileName}`;
+            }
         }
 
+        // Handle Icon Upload
         if (iconFile && iconFile.size > 0) {
-            console.log('Icon file received:', iconFile.name);
+            if (isCloudinaryConfigured) {
+                const arrayBuffer = await iconFile.arrayBuffer();
+                const buffer = Buffer.from(arrayBuffer);
+
+                const result = await new Promise<any>((resolve, reject) => {
+                    const uploadStream = cloudinary.uploader.upload_stream(
+                        {
+                            folder: 'simtech-notifications',
+                            quality: "auto",
+                            fetch_format: "auto"
+                        },
+                        (error: any, result: any) => {
+                            if (error) reject(error);
+                            else resolve(result);
+                        }
+                    );
+                    uploadStream.end(buffer);
+                });
+                iconPath = result.secure_url;
+            } else {
+                // Fallback: Save locally
+                const { writeFile, mkdir } = await import('fs/promises');
+                const path = await import('path');
+
+                const uploadsDir = path.join(process.cwd(), 'public', 'uploads', 'notifications');
+                await mkdir(uploadsDir, { recursive: true });
+
+                const ext = iconFile.name.split('.').pop() || 'png';
+                const fileName = `icon-${Date.now()}.${ext}`;
+                const filePath = path.join(uploadsDir, fileName);
+
+                const arrayBuffer = await iconFile.arrayBuffer();
+                const buffer = Buffer.from(arrayBuffer);
+                await writeFile(filePath, buffer);
+
+                iconPath = `${baseUrl}/uploads/notifications/${fileName}`;
+            }
         }
 
         // Fetch all subscriptions

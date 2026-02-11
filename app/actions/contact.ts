@@ -9,12 +9,20 @@ export async function submitContact(prevState: any, formData: FormData) {
 
         const name = formData.get('name') as string;
         const phone = formData.get('phone') as string;
+
+        // Server-side validation
+        const phoneRegex = /^[0-9]{10,15}$/;
+        if (!phoneRegex.test(phone.replace(/\s/g, ''))) {
+            return { success: false, message: 'Please enter a valid 10-15 digit mobile number (numbers only).' };
+        }
+
         const email = formData.get('email') as string;
         const brand = formData.get('brand') as string | null;
         const processor = formData.get('processor') as string | null;
-        const ram = formData.get('ram') as string | null; // Assuming these might exist in the form
-        const storage = formData.get('storage') as string | null; // Assuming these might exist in the form
-        const purpose = formData.get('purpose') as string | null; // Assuming these might exist in the form
+        const ram = formData.get('ram') as string | null;
+        const storage = formData.get('storage') as string | null;
+        const model = formData.get('model') as string | null;
+        const purpose = formData.get('purpose') as string | null;
         const message = formData.get('message') as string;
 
         // Create new enquiry
@@ -26,6 +34,7 @@ export async function submitContact(prevState: any, formData: FormData) {
             processor: processor || undefined,
             ram: ram || undefined,
             storage: storage || undefined,
+            model: model || undefined,
             purpose: purpose || undefined,
             message,
             date: new Date()
