@@ -34,6 +34,24 @@ export function CartProvider({ children }: { children: ReactNode }) {
     const [loading, setLoading] = useState(false);
     const isMounted = useRef(true);
 
+    const fetchCart = async () => {
+        try {
+            const res = await axios.get('/api/cart');
+            if (isMounted.current) {
+                setCart(res.data.cart || []);
+            }
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                console.error("Failed to fetch cart:", error.response.status, error.response.data);
+            } else {
+                console.error("Failed to fetch cart", error);
+            }
+            if (isMounted.current) {
+                setCart([]);
+            }
+        }
+    };
+
     // Fetch cart when user logs in
     useEffect(() => {
         isMounted.current = true;
@@ -47,18 +65,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
         return () => {
             isMounted.current = false;
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user]);
-
-    const fetchCart = async () => {
-        try {
-            const res = await axios.get('/api/cart');
-            if (isMounted.current) {
-                setCart(res.data.cart || []);
-            }
-        } catch (error) {
-            console.error("Failed to fetch cart", error);
-        }
-    };
 
     const addToCart = async (productId: string) => {
         if (!user) {

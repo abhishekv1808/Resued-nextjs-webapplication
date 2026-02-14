@@ -49,17 +49,14 @@ export default function AdminLogin() {
     };
 
     return (
-        <div className="bg-[var(--admin-bg)] min-h-screen flex items-center justify-center overflow-hidden font-sans text-[var(--admin-text-main)] selection:bg-red-500 selection:text-white transition-colors duration-300 relative">
-
-
+        <div className="bg-[#f0f2f5] min-h-screen flex items-center justify-center font-sans selection:bg-[#29abe2] selection:text-white p-4">
             {/* Welcome Modal Overlay */}
             {showWelcome && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm transition-all duration-300">
-                    <div className="bg-white rounded-3xl p-8 max-w-sm w-full mx-4 shadow-2xl text-center animate-scale-up relative overflow-hidden">
-                        {/* Confetti / Decoration Background */}
+                    <div className="bg-white rounded-[40px] p-8 max-w-sm w-full mx-4 shadow-2xl text-center animate-scale-up relative overflow-hidden">
                         <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-10">
-                            <div className="absolute top-[-20%] left-[-20%] w-[50%] h-[50%] bg-red-500 rounded-full blur-3xl"></div>
-                            <div className="absolute bottom-[-20%] right-[-20%] w-[50%] h-[50%] bg-green-500 rounded-full blur-3xl"></div>
+                            <div className="absolute top-[-20%] left-[-20%] w-[50%] h-[50%] bg-[#0a2e5e] rounded-full blur-3xl"></div>
+                            <div className="absolute bottom-[-20%] right-[-20%] w-[50%] h-[50%] bg-[#29abe2] rounded-full blur-3xl"></div>
                         </div>
 
                         <div className="relative z-10 flex flex-col items-center">
@@ -73,7 +70,7 @@ export default function AdminLogin() {
                             <p className="text-gray-500 mb-6 font-medium">Welcome back, Admin 👋</p>
 
                             <div className="flex items-center gap-2 text-sm text-gray-400">
-                                <span className="w-2 h-2 bg-red-600 rounded-full animate-pulse"></span>
+                                <span className="w-2 h-2 bg-[#0a2e5e] rounded-full animate-pulse"></span>
                                 Redirecting to dashboard...
                             </div>
                         </div>
@@ -81,78 +78,88 @@ export default function AdminLogin() {
                 </div>
             )}
 
-            <div className={`bg-[var(--admin-card)] w-full max-w-6xl h-[85vh] rounded-3xl shadow-2xl overflow-hidden flex border border-[var(--admin-border)] relative mx-4 lg:mx-0 transition-all duration-500 ${showWelcome ? 'scale-95 blur-sm' : ''}`}>
+            <div className={`bg-white w-full max-w-[1100px] min-h-[720px] rounded-[50px] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.1)] overflow-hidden flex flex-col lg:flex-row transition-all duration-500 ${showWelcome ? 'scale-95 blur-sm' : ''}`}>
 
-                {/* Left Side: Illustration */}
-                <div className="hidden lg:flex w-1/2 bg-red-50/50 dark:bg-red-900/10 relative items-center justify-center p-12">
-                    {/* Decorative Circles */}
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-red-200/20 dark:bg-red-500/10 rounded-full blur-3xl"></div>
+                {/* Left Side: Decorative Column - Exact Literal Replication */}
+                <div className="hidden lg:flex w-[48%] bg-[#f8f2f2] relative items-end justify-center overflow-hidden">
+                    {/* Decorative Shape at Bottom (Rebranded to Cyan) */}
+                    <div className="absolute bottom-[-10%] left-0 w-full h-[250px] bg-[#29abe2] rounded-[50%] translate-y-24 scale-x-110"></div>
 
-                    <div className="relative z-10 w-full max-w-xl">
-                        <img
-                            src="/images/simtech-computers-admin-image.png"
-                            alt="Admin Login Illustration"
-                            className="w-full h-auto drop-shadow-2xl animate-float"
-                        />
-
-                        {/* Floating Stats Card 1 */}
-                        <div className="absolute -top-4 -left-4 bg-[var(--admin-card)] p-4 rounded-2xl shadow-lg border border-[var(--admin-border)] animate-float-delayed">
-                            <div className="flex items-center gap-3 mb-2">
-                                <div className="w-8 h-8 rounded-lg bg-green-100 text-green-600 flex items-center justify-center">
-                                    <i className="ri-bar-chart-fill"></i>
-                                </div>
-                                <span className="text-xs font-bold text-[var(--admin-text-muted)]">Profit</span>
-                            </div>
-                            <div className="text-xl font-bold text-[var(--admin-text-main)]">₹ 8.4L</div>
-                            <div className="text-xs text-green-500 font-medium">+12% this month</div>
+                    <div className="relative z-10 w-full h-full flex flex-col items-center justify-end pb-0">
+                        {/* Main Image: Exact match from screenshot */}
+                        <div className="relative z-10 translate-y-4">
+                            <Image
+                                src="/images/Indian-women-with-apple-laptop.png"
+                                alt="Admin Panel"
+                                width={600}
+                                height={600}
+                                className="w-full h-auto object-contain drop-shadow-2xl"
+                                priority
+                            />
                         </div>
 
-                        {/* Floating Stats Card 2 */}
-                        <div className="absolute bottom-8 -right-4 bg-[var(--admin-card)] p-4 rounded-2xl shadow-lg border border-[var(--admin-border)] animate-float">
-                            <div className="flex items-center gap-3 mb-2">
-                                <div className="w-8 h-8 rounded-lg bg-red-100 text-red-600 flex items-center justify-center">
-                                    <i className="ri-shopping-bag-3-fill"></i>
+                        {/* Floating Stats Card 1: Profit (Top Left) */}
+                        <div className="absolute top-[22%] left-10 bg-white p-5 rounded-[24px] shadow-[0_15px_45px_rgba(0,0,0,0.1)] z-20 animate-float-delayed min-w-[140px]">
+                            <div className="flex items-center gap-3 mb-3">
+                                <div className="w-8 h-8 rounded-lg bg-green-50 text-green-600 flex items-center justify-center">
+                                    <i className="ri-bar-chart-fill text-xl"></i>
                                 </div>
-                                <span className="text-xs font-bold text-[var(--admin-text-muted)]">Orders</span>
+                                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Profit</span>
                             </div>
-                            <div className="text-xl font-bold text-[var(--admin-text-main)]">1,240</div>
-                            <div className="text-xs text-red-500 font-medium">+5% new orders</div>
+                            <div className="text-2xl font-black text-gray-900">₹ 8.4L</div>
+                            <div className="text-[10px] text-green-500 font-bold mt-1">+12% this month</div>
+                        </div>
+
+                        {/* Floating Stats Card 2: Orders (Bottom Right) */}
+                        <div className="absolute bottom-[28%] right-10 bg-white p-5 rounded-[24px] shadow-[0_15px_45px_rgba(0,0,0,0.1)] z-20 animate-float min-w-[140px]">
+                            <div className="flex items-center gap-3 mb-3">
+                                <div className="w-8 h-8 rounded-lg bg-[#e6f4fa] text-[#29abe2] flex items-center justify-center">
+                                    <i className="ri-shopping-bag-3-fill text-xl"></i>
+                                </div>
+                                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Orders</span>
+                            </div>
+                            <div className="text-2xl font-black text-gray-900">1,240</div>
+                            <div className="text-[10px] text-[#29abe2] font-bold mt-1">+5% new orders</div>
                         </div>
                     </div>
                 </div>
 
-                {/* Right Side: Form */}
-                <div className="w-full lg:w-1/2 p-8 md:p-16 flex flex-col justify-center relative bg-[var(--admin-card)]">
-
-                    {/* Logo */}
-                    <div className="flex items-center gap-2 mb-8">
+                {/* Right Side: Form Column */}
+                <div className="flex-1 p-10 lg:p-16 flex flex-col justify-center bg-white relative">
+                    {/* Reused Logo */}
+                    <div className="flex items-start mb-4">
                         <Image
-                            src="/images/simtech-computers-logo.svg"
-                            alt="Simtech"
-                            width={120}
+                            src="/images/Reused-logo.svg"
+                            alt="Reused"
+                            width={160}
                             height={40}
-                            className="h-16 w-auto object-contain"
-                            style={{ height: 'auto' }}
+                            className="h-28 w-auto object-contain"
                             priority
                         />
                     </div>
 
-                    {/* Header */}
-                    <div className="mb-8">
-                        <h2 className="text-2xl font-bold text-[var(--admin-text-main)] mb-2">
-                            Simtech admin panel! 👋
+                    {/* Header Text */}
+                    <div className="mb-10">
+                        <h2 className="text-3xl font-semibold text-gray-900 mb-2 tracking-tight">
+                            Reused admin panel! 👋
                         </h2>
-                        <p className="text-[var(--admin-text-muted)] text-sm">
+                        <p className="text-gray-400 text-sm font-medium">
                             Please sign-in to your account and start the operations
                         </p>
                     </div>
 
-                    {/* Form */}
-                    <form onSubmit={handleSubmit} className="space-y-5">
-                        <div>
+                    {/* Form Component */}
+                    {error && (
+                        <div className="text-[#0a2e5e] text-sm bg-blue-50/50 p-4 rounded-xl flex items-center gap-3 mb-8 border border-blue-100 animate-shake">
+                            <i className="ri-error-warning-fill text-xl"></i>
+                            <span className="font-bold">{error}</span>
+                        </div>
+                    )}
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        <div className="space-y-3">
                             <label
                                 htmlFor="email"
-                                className="block text-xs font-bold text-[var(--admin-text-muted)] uppercase tracking-wider mb-2"
+                                className="block text-[11px] font-black text-gray-400 uppercase tracking-[0.2em]"
                             >
                                 Email or Username
                             </label>
@@ -162,25 +169,25 @@ export default function AdminLogin() {
                                 name="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                placeholder="admin@simtech.com"
-                                className="w-full bg-[var(--admin-bg)] border border-[var(--admin-border)] text-[var(--admin-text-main)] text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all"
+                                placeholder="admin@reused.in"
+                                className="w-full bg-[#f3f6f9] border-none text-gray-900 text-sm rounded-xl px-5 py-5 focus:outline-none focus:bg-white focus:ring-4 focus:ring-[#29abe2]/10 transition-all font-bold placeholder:text-gray-300 placeholder:font-medium"
                                 required
                             />
                         </div>
 
-                        <div>
-                            <div className="flex justify-between items-center mb-2">
+                        <div className="space-y-3">
+                            <div className="flex justify-between items-center">
                                 <label
                                     htmlFor="password"
-                                    className="block text-xs font-bold text-[var(--admin-text-muted)] uppercase tracking-wider"
+                                    className="block text-[11px] font-black text-gray-400 uppercase tracking-[0.2em]"
                                 >
                                     Password
                                 </label>
-                                <a href="#" className="text-xs text-red-600 hover:text-red-700 font-bold">
+                                <a href="#" className="text-xs text-[#0a2e5e] hover:text-[#29abe2] font-black underline underline-offset-4 decoration-2">
                                     Forgot Password?
                                 </a>
                             </div>
-                            <div className="relative">
+                            <div className="relative group">
                                 <input
                                     type={showPassword ? "text" : "password"}
                                     id="password"
@@ -188,63 +195,46 @@ export default function AdminLogin() {
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     placeholder="••••••••"
-                                    className="w-full bg-[var(--admin-bg)] border border-[var(--admin-border)] text-[var(--admin-text-main)] text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all"
+                                    className="w-full bg-[#f3f6f9] border-none text-gray-900 text-sm rounded-xl px-5 py-5 focus:outline-none focus:bg-white focus:ring-4 focus:ring-[#29abe2]/10 transition-all font-bold placeholder:text-gray-300 placeholder:font-medium"
                                     required
                                 />
                                 <button
                                     type="button"
                                     onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-[var(--admin-text-muted)] hover:text-[var(--admin-text-main)] focus:outline-none"
+                                    className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-300 hover:text-gray-600 border-none bg-transparent"
                                 >
-                                    <i className={showPassword ? "ri-eye-line" : "ri-eye-off-line"}></i>
+                                    <i className={showPassword ? "ri-eye-line text-xl" : "ri-eye-off-line text-xl"}></i>
                                 </button>
                             </div>
                         </div>
 
-                        {error && (
-                            <div className="text-red-500 text-sm bg-red-50 p-3 rounded-lg flex items-center gap-2">
-                                <i className="ri-error-warning-fill"></i>
-                                {error}
-                            </div>
-                        )}
-
                         <div className="flex items-center">
-                            <input
-                                type="checkbox"
-                                id="remember"
-                                name="remember"
-                                className="w-4 h-4 text-red-600 bg-[var(--admin-bg)] border-[var(--admin-border)] rounded focus:ring-red-500"
-                            />
-                            <label htmlFor="remember" className="ml-2 text-sm text-[var(--admin-text-muted)]">
-                                Remember Me
+                            <label className="flex items-center gap-3 cursor-pointer group">
+                                <div className="relative">
+                                    <input
+                                        type="checkbox"
+                                        id="remember"
+                                        name="remember"
+                                        className="peer sr-only"
+                                    />
+                                    <div className="w-5 h-5 border-2 border-gray-200 rounded-md bg-white peer-checked:bg-[#0a2e5e] peer-checked:border-[#0a2e5e] transition-all"></div>
+                                    <i className="ri-check-line absolute inset-0 text-white text-lg flex items-center justify-center scale-0 peer-checked:scale-100 transition-transform"></i>
+                                </div>
+                                <span className="text-sm text-gray-400 font-bold group-hover:text-gray-600 transition-colors">
+                                    Remember Me
+                                </span>
                             </label>
                         </div>
 
                         <button
                             type="submit"
                             disabled={loading || showWelcome}
-                            className={`w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl shadow-lg shadow-red-900/30 transition-all transform hover:-translate-y-0.5 flex items-center justify-center ${loading || showWelcome ? 'opacity-70 cursor-not-allowed' : ''}`}
+                            className={`w-full bg-[#0a2e5e] hover:bg-[#29abe2] text-white font-black py-5 rounded-[18px] shadow-xl shadow-blue-900/30 transition-all transform hover:-translate-y-1 active:scale-95 flex items-center justify-center text-lg ${loading || showWelcome ? 'opacity-70 cursor-not-allowed' : ''}`}
                         >
                             {loading ? (
-                                <svg
-                                    className="animate-spin h-5 w-5 text-white"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <circle
-                                        className="opacity-25"
-                                        cx="12"
-                                        cy="12"
-                                        r="10"
-                                        stroke="currentColor"
-                                        strokeWidth="4"
-                                    ></circle>
-                                    <path
-                                        className="opacity-75"
-                                        fill="currentColor"
-                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                                    ></path>
+                                <svg className="animate-spin h-7 w-7 text-white" fill="none" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                 </svg>
                             ) : (
                                 'Sign in'

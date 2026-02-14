@@ -4,7 +4,7 @@ import Product from '@/models/Product';
 import Blog from '@/models/Blog';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const baseUrl = 'https://simtechcomputers.in';
+    const baseUrl = 'https://reused.in';
 
     // Connect to DB
     await dbConnect();

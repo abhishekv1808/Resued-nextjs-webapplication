@@ -6,10 +6,10 @@ export const categoryConfig: Record<string, any> = {
                 gradient: 'linear-gradient(135deg, #1E0B36 0%, #102B7B 45%, #04D0D9 100%)',
                 title: 'MacBook Pro & Air',
                 subtitle: 'Performance Refined.',
-                desc: 'Power through your workflow with M-series chips. Simtech Assured quality.',
+                desc: 'Power through your workflow with M-series chips. Reused Assured quality.',
                 image: '/images/Indian-women-with-apple-laptop.png',
                 badge: 'Premium Collection',
-                textGradient: 'from-red-400 to-purple-400'
+                textGradient: 'from-blue-400 to-cyan-400'
             },
             'Dell': {
                 gradient: 'linear-gradient(135deg, #021B35 0%, #004E8F 50%, #007DB8 100%)',
@@ -18,7 +18,7 @@ export const categoryConfig: Record<string, any> = {
                 desc: 'Enterprise-grade durability meets premium design. The perfect choice for professionals.',
                 image: '/images/Indian-women-with-Dell-laptop.png',
                 badge: 'Business Ready',
-                textGradient: 'from-cyan-300 to-red-200'
+                textGradient: 'from-cyan-300 to-blue-200'
             },
             'HP': {
                 gradient: 'linear-gradient(135deg, #002D3A 0%, #006D85 50%, #00A6C7 100%)',
@@ -30,13 +30,13 @@ export const categoryConfig: Record<string, any> = {
                 textGradient: 'from-teal-300 to-emerald-200'
             },
             'Lenovo': {
-                gradient: 'linear-gradient(135deg, #2D0F0F 0%, #881212 50%, #E22B2B 100%)',
+                gradient: 'linear-gradient(135deg, #0a2e5e 0%, #004E8F 50%, #29abe2 100%)',
                 title: 'Lenovo ThinkPad',
                 subtitle: 'Legendary Reliability.',
                 desc: 'Tested against 12 military-grade requirements. The ultimate tool for productivity.',
                 image: '/images/lenovo-hero-image.png',
                 badge: 'Pro Series',
-                textGradient: 'from-red-400 to-orange-300'
+                textGradient: 'from-blue-400 to-cyan-300'
             },
             'Default': {
                 gradient: 'linear-gradient(135deg, #0F2027 0%, #203A43 50%, #2C5364 100%)',
@@ -44,8 +44,8 @@ export const categoryConfig: Record<string, any> = {
                 subtitle: 'Performance on the Go.',
                 desc: 'Discover our wide range of certified refurbished laptops from top brands like Apple, Dell, HP, and Lenovo.',
                 image: '/images/girl-holding-laptop.png',
-                badge: 'Simtech Assured',
-                textGradient: 'from-red-300 to-cyan-300'
+                badge: 'Reused Assured',
+                textGradient: 'from-blue-300 to-cyan-300'
             }
         },
         filters: [
@@ -86,7 +86,7 @@ export const categoryConfig: Record<string, any> = {
                 desc: 'Transform your workspace with the ultimate all-in-one desktop experience.',
                 image: '/images/hero-desktops.png',
                 badge: 'Premium Desktop',
-                textGradient: 'from-red-400 to-purple-400'
+                textGradient: 'from-blue-400 to-cyan-400'
             },
             'Dell': {
                 gradient: 'linear-gradient(135deg, #021B35 0%, #004E8F 50%, #007DB8 100%)',
@@ -95,7 +95,7 @@ export const categoryConfig: Record<string, any> = {
                 desc: 'Reliable performance for home and office. Built to last.',
                 image: '/images/hero-desktops.png',
                 badge: 'Business Ready',
-                textGradient: 'from-cyan-300 to-red-200'
+                textGradient: 'from-cyan-300 to-blue-200'
             },
             'HP': {
                 gradient: 'linear-gradient(135deg, #002D3A 0%, #006D85 50%, #00A6C7 100%)',
@@ -107,13 +107,13 @@ export const categoryConfig: Record<string, any> = {
                 textGradient: 'from-teal-300 to-emerald-200'
             },
             'Lenovo': {
-                gradient: 'linear-gradient(135deg, #2D0F0F 0%, #881212 50%, #E22B2B 100%)',
+                gradient: 'linear-gradient(135deg, #0a2e5e 0%, #004E8F 50%, #29abe2 100%)',
                 title: 'Lenovo ThinkCentre',
                 subtitle: 'Tiny Footprint, Big Performance.',
                 desc: 'Compact and powerful desktops designed for modern workspaces.',
                 image: '/images/hero-desktops.png',
                 badge: 'Pro Series',
-                textGradient: 'from-red-400 to-orange-300'
+                textGradient: 'from-blue-400 to-cyan-300'
             },
             'Default': {
                 gradient: 'linear-gradient(135deg, #0F2027 0%, #203A43 50%, #2C5364 100%)',
@@ -121,8 +121,8 @@ export const categoryConfig: Record<string, any> = {
                 subtitle: 'Performance for Every Need.',
                 desc: 'Discover our wide range of certified refurbished desktops from top brands like Dell, HP, and Lenovo.',
                 image: '/images/girl-holding-desktops.png',
-                badge: 'Simtech Assured',
-                textGradient: 'from-red-300 to-cyan-300'
+                badge: 'Reused Assured',
+                textGradient: 'from-blue-300 to-cyan-300'
             }
         },
         filters: [
@@ -163,7 +163,7 @@ export const categoryConfig: Record<string, any> = {
                 desc: 'Experience vibrant colors and sharp details with Dell\'s premium monitors.',
                 image: '/images/hero-monitors.png',
                 badge: 'Professional Grade',
-                textGradient: 'from-cyan-300 to-red-200'
+                textGradient: 'from-cyan-300 to-blue-200'
             },
             'HP': {
                 gradient: 'linear-gradient(135deg, #002D3A 0%, #006D85 50%, #00A6C7 100%)',
@@ -175,13 +175,13 @@ export const categoryConfig: Record<string, any> = {
                 textGradient: 'from-teal-300 to-emerald-200'
             },
             'LG': {
-                gradient: 'linear-gradient(135deg, #2A0916 0%, #A50034 50%, #FF4E50 100%)',
+                gradient: 'linear-gradient(135deg, #0a2e5e 0%, #004E8F 50%, #29abe2 100%)',
                 title: 'LG UltraGear & UltraWide',
                 subtitle: 'Expand Your View.',
                 desc: 'Immersive ultrawide displays and high-refresh gaming monitors.',
                 image: '/images/hero-monitors.png',
                 badge: 'Innovation Leader',
-                textGradient: 'from-red-400 to-pink-300'
+                textGradient: 'from-blue-400 to-cyan-300'
             },
             'Samsung': {
                 gradient: 'linear-gradient(135deg, #030F2B 0%, #1428A0 50%, #2979FF 100%)',
@@ -190,7 +190,7 @@ export const categoryConfig: Record<string, any> = {
                 desc: 'Curved displays and smart features that redefine your visual experience.',
                 image: '/images/hero-monitors.png',
                 badge: 'Visual Masterpiece',
-                textGradient: 'from-red-400 to-indigo-300'
+                textGradient: 'from-blue-400 to-indigo-300'
             },
             'BenQ': {
                 gradient: 'linear-gradient(135deg, #1A0524 0%, #4A148C 50%, #7B1FA2 100%)',
@@ -216,8 +216,8 @@ export const categoryConfig: Record<string, any> = {
                 subtitle: 'Upgrade Your View.',
                 desc: 'Explore our wide selection of certified refurbished monitors from top brands.',
                 image: '/images/girl-holding-monitor.png',
-                badge: 'Simtech Assured',
-                textGradient: 'from-red-300 to-cyan-300'
+                badge: 'Reused Assured',
+                textGradient: 'from-blue-300 to-cyan-300'
             }
         },
         filters: [
@@ -257,7 +257,7 @@ export const categoryConfig: Record<string, any> = {
                 subtitle: 'Complete Your Setup.',
                 desc: 'Keyboards, Mice, Cables, and more to enhance your computing experience.',
                 image: '/images/hero-accessories.png', // Placeholder, verify existence
-                badge: 'Simtech Essentials',
+                badge: 'Reused Essentials',
                 textGradient: 'from-gray-300 to-gray-100'
             }
         },

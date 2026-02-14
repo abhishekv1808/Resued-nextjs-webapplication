@@ -1,27 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getIronSession } from 'iron-session';
-import { sessionOptions, SessionData } from '@/lib/session';
+import { setSessionOnResponse } from '@/lib/session';
 import dbConnect from '@/lib/db';
 import User from '@/models/User';
 import axios from 'axios';
-
-// Helper to validate the auth URL
-const isValidAuthUrl = (urlString: string) => {
-    try {
-        if (!urlString) return false;
-        const url = new URL(urlString);
-        return (
-            url.protocol === 'https:' &&
-            (url.hostname === 'phone.email' ||
-                url.hostname.endsWith('.phone.email') ||
-                url.hostname === 'www.phone.email')
-        );
-    } catch (e) {
-        return false;
-    }
-};
-
+import { loginSchema } from '@/lib/validations/auth';
 import { rateLimit } from '@/lib/rate-limit';
+
+export const dynamic = 'force-dynamic';
 
 export async function POST(req: NextRequest) {
     if (!await rateLimit(req, 10, 60)) {
@@ -31,14 +16,17 @@ export async function POST(req: NextRequest) {
         );
     }
     try {
-        const { user_json_url } = await req.json();
+        const body = await req.json();
+        const validation = loginSchema.safeParse(body);
 
-        if (!isValidAuthUrl(user_json_url)) {
+        if (!validation.success) {
             return NextResponse.json(
-                { message: 'Invalid authentication URL' },
+                { message: 'Invalid input', errors: validation.error.format() },
                 { status: 400 }
             );
         }
+
+        const { user_json_url } = validation.data;
 
         const response = await axios.get(user_json_url, { timeout: 10000 });
         const { user_phone_number } = response.data;
@@ -64,33 +52,20 @@ export async function POST(req: NextRequest) {
 
         if (!user) {
             return NextResponse.json(
-                { message: 'User not found. Please register first.' },
+                {
+                    message: 'User not found. Please register first.',
+                    code: 'USER_NOT_FOUND',
+                    phone: user_phone_number
+                },
                 { status: 404 }
             );
         }
 
-        const session = await getIronSession<SessionData>(
-            req,
-            new Response(),
-            sessionOptions
-        );
+        // Update lastLogin timestamp
+        user.lastLogin = new Date();
+        await user.save();
 
-        // We need to construct response with session
-        const res = NextResponse.json({
-            isLoggedIn: true,
-            user: {
-                _id: user._id.toString(),
-                name: user.name,
-                phone: user.phone,
-                location: user.location,
-                email: user.email,
-                address: user.address,
-            }
-        });
-
-        const ironSession = await getIronSession<SessionData>(req, res, sessionOptions);
-        ironSession.isLoggedIn = true;
-        ironSession.user = {
+        const userData = {
             _id: user._id.toString(),
             name: user.name,
             phone: user.phone,
@@ -98,14 +73,16 @@ export async function POST(req: NextRequest) {
             email: user.email,
             address: user.address,
         };
-        await ironSession.save();
 
+        // Create response FIRST, then set sealed cookie DIRECTLY on it
+        const res = NextResponse.json({ isLoggedIn: true, user: userData });
+        await setSessionOnResponse(res, { isLoggedIn: true, user: userData });
         return res;
 
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error('Login error:', error);
         return NextResponse.json(
-            { message: error.message || 'Internal Server Error' },
+            { message: 'Internal Server Error' },
             { status: 500 }
         );
     }

@@ -5,8 +5,6 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { createPortal } from 'react-dom';
 import Image from 'next/image';
-import { useAuth } from '@/hooks/useAuth';
-
 export default function AdminLayout({
     children,
 }: {
@@ -14,7 +12,6 @@ export default function AdminLayout({
 }) {
     const pathname = usePathname();
     const router = useRouter();
-    const { logout } = useAuth();
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
     const [mounted, setMounted] = useState(false);
@@ -29,9 +26,11 @@ export default function AdminLayout({
 
     // Initialize state and check auth
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setMounted(true);
         const savedState = localStorage.getItem('sidebarCollapsed');
         if (savedState === 'true') {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setIsSidebarOpen(false);
         }
 
@@ -73,7 +72,7 @@ export default function AdminLayout({
     };
 
     const handleLogout = async () => {
-        await logout();
+        await fetch('/api/admin/logout', { method: 'POST' });
         setIsLogoutModalOpen(false);
         router.push('/admin/login');
     };
@@ -90,7 +89,7 @@ export default function AdminLayout({
     if (checkingAuth) {
         return (
             <div className="flex items-center justify-center min-h-screen bg-[var(--admin-bg)]">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0a2e5e]"></div>
             </div>
         );
     }
@@ -105,90 +104,97 @@ export default function AdminLayout({
     ];
 
     const managementItems = [
+        { name: 'Orders', href: '/admin/orders', icon: 'ri-shopping-bag-3-line' },
         { name: 'Customer Enquiries', href: '/admin/enquiries', icon: 'ri-question-answer-line' },
         { name: 'Push Notifications', href: '/admin/send-notification', icon: 'ri-notification-3-line' },
+        { name: 'User Tags', href: '/admin/user-tags', icon: 'ri-price-tag-3-line' },
         { name: 'Discount Codes', href: '/admin/discounts', icon: 'ri-coupon-3-line' },
     ];
 
     return (
-        <div className="flex min-h-screen bg-[var(--admin-bg)] text-[var(--admin-text-main)] font-sans antialiased overflow-hidden selection:bg-red-500 selection:text-white transition-colors duration-300">
+        <div className="flex min-h-screen bg-[var(--admin-bg)] text-[var(--admin-text-main)] font-sans antialiased overflow-hidden selection:bg-[#29abe2] selection:text-white transition-colors duration-300">
             {/* Sidebar */}
             <nav
-                className={`bg-[var(--admin-card)] border-r border-[var(--admin-border)] min-h-screen text-[var(--admin-text-muted)] flex flex-col flex-shrink-0 relative z-30 transition-all duration-300 ease-in-out overflow-hidden ${isSidebarOpen ? 'w-64' : 'w-20'}`}
+                className={`bg-[var(--admin-card)] border-r border-[var(--admin-border)] h-screen text-[var(--admin-text-muted)] flex flex-col flex-shrink-0 relative z-30 transition-all duration-300 ease-in-out overflow-hidden ${isSidebarOpen ? 'w-60' : 'w-[68px]'}`}
             >
-                {/* Logo Area */}
-                <div className="h-24 flex items-center px-6 transition-all duration-300">
-                    <div className={`flex items-center gap-3 mx-auto transition-all duration-300 ${isSidebarOpen ? 'opacity-100 w-auto' : 'opacity-0 w-0 overflow-hidden'}`}>
+                {/* Logo Area — Compact */}
+                <div className="h-16 flex items-center px-4 border-b border-[var(--admin-border)] flex-shrink-0">
+                    <div className={`flex items-center transition-all duration-300 ${isSidebarOpen ? 'opacity-100 w-auto' : 'opacity-0 w-0 overflow-hidden'}`}>
                         <Image
-                            src="/images/simtech-computers-logo.svg"
-                            alt="Simtech Computers"
-                            width={150}
-                            height={40}
-                            className="h-12 w-auto object-contain"
-                            style={{ height: 'auto' }}
+                            src="/images/Reused-logo.svg"
+                            alt="Reused"
+                            width={140}
+                            height={44}
+                            className="h-10 w-auto object-contain"
+                            style={{ height: '40px', width: 'auto' }}
                             priority
                         />
                     </div>
                     <button
                         onClick={toggleSidebar}
-                        className={`text-[var(--admin-text-muted)] hover:text-[var(--admin-text-main)] transition-transform duration-300 ${!isSidebarOpen ? 'ml-auto mr-auto' : 'ml-auto'}`}
+                        className={`w-8 h-8 rounded-lg flex items-center justify-center text-[var(--admin-text-muted)] hover:text-[var(--admin-text-main)] hover:bg-[var(--admin-hover)] transition-all ${!isSidebarOpen ? 'mx-auto' : 'ml-auto'}`}
                     >
-                        <i className={`text-xl ${isSidebarOpen ? 'ri-menu-fold-line' : 'ri-menu-unfold-line'}`}></i>
+                        <i className={`text-lg ${isSidebarOpen ? 'ri-menu-fold-line' : 'ri-menu-unfold-line'}`}></i>
                     </button>
                 </div>
 
-                {/* Main Menu */}
-                <div className="flex-grow px-4 py-4 space-y-8 overflow-y-auto scrollbar-hide">
-                    {/* Section 1 */}
+                {/* Scrollable Nav Links */}
+                <div className="flex-grow px-3 py-3 space-y-4 overflow-y-auto scrollbar-hide">
+                    {/* Main Menu */}
                     <div>
-                        <p className={`px-4 text-[10px] font-bold text-[var(--admin-text-muted)] uppercase tracking-widest mb-4 whitespace-nowrap transition-all duration-300 overflow-hidden ${isSidebarOpen ? 'opacity-100' : 'opacity-0 w-0'}`}>
+                        <p className={`px-3 text-[10px] font-bold text-[var(--admin-text-muted)] uppercase tracking-widest mb-2 whitespace-nowrap transition-all duration-300 overflow-hidden ${isSidebarOpen ? 'opacity-60' : 'opacity-0 w-0'}`}>
                             Main Menu
                         </p>
-                        <div className="space-y-1">
+                        <div className="space-y-0.5">
                             {navItems.map((item) => {
                                 const isActive = pathname === item.href;
                                 return (
                                     <Link
                                         key={item.href}
                                         href={item.href}
-                                        className={`flex items-center px-4 py-3 rounded-xl transition-all group whitespace-nowrap ${isActive
-                                            ? 'bg-[var(--admin-hover)] text-[var(--admin-text-main)]'
+                                        className={`flex items-center px-3 py-2.5 rounded-lg transition-all group whitespace-nowrap ${isActive
+                                            ? 'bg-[#0a2e5e]/10 text-[var(--admin-text-main)]'
                                             : 'hover:bg-[var(--admin-hover)] hover:text-[var(--admin-text-main)]'
                                             }`}
                                         title={!isSidebarOpen ? item.name : ''}
                                     >
-                                        <i className={`${item.icon} mr-3 text-lg flex-shrink-0 ${isActive ? 'text-red-500' : 'text-[var(--admin-text-muted)] group-hover:text-red-400'}`}></i>
-                                        <span className={`font-medium text-sm transition-all duration-300 overflow-hidden ${isSidebarOpen ? 'opacity-100 w-auto' : 'opacity-0 w-0'}`}>
+                                        <i className={`${item.icon} text-[17px] flex-shrink-0 ${isSidebarOpen ? 'mr-3' : 'mx-auto'} ${isActive ? 'text-[#29abe2]' : 'text-[var(--admin-text-muted)] group-hover:text-[#29abe2]'}`}></i>
+                                        <span className={`font-medium text-[13px] transition-all duration-300 overflow-hidden ${isSidebarOpen ? 'opacity-100 w-auto' : 'opacity-0 w-0'}`}>
                                             {item.name}
                                         </span>
+                                        {isActive && <div className={`w-1.5 h-1.5 rounded-full bg-[#29abe2] flex-shrink-0 transition-all duration-300 ${isSidebarOpen ? 'ml-auto' : 'hidden'}`}></div>}
                                     </Link>
                                 );
                             })}
                         </div>
                     </div>
 
-                    {/* Section 2 */}
+                    {/* Divider */}
+                    <div className="h-px bg-[var(--admin-border)] mx-2"></div>
+
+                    {/* Management */}
                     <div>
-                        <p className={`px-4 text-[10px] font-bold text-[var(--admin-text-muted)] uppercase tracking-widest mb-4 whitespace-nowrap transition-all duration-300 overflow-hidden ${isSidebarOpen ? 'opacity-100' : 'opacity-0 w-0'}`}>
+                        <p className={`px-3 text-[10px] font-bold text-[var(--admin-text-muted)] uppercase tracking-widest mb-2 whitespace-nowrap transition-all duration-300 overflow-hidden ${isSidebarOpen ? 'opacity-60' : 'opacity-0 w-0'}`}>
                             Management
                         </p>
-                        <div className="space-y-1">
+                        <div className="space-y-0.5">
                             {managementItems.map((item) => {
                                 const isActive = pathname === item.href;
                                 return (
                                     <Link
                                         key={item.href}
                                         href={item.href}
-                                        className={`flex items-center px-4 py-3 rounded-xl transition-all group whitespace-nowrap ${isActive
-                                            ? 'bg-[var(--admin-hover)] text-[var(--admin-text-main)]'
+                                        className={`flex items-center px-3 py-2.5 rounded-lg transition-all group whitespace-nowrap ${isActive
+                                            ? 'bg-[#0a2e5e]/10 text-[var(--admin-text-main)]'
                                             : 'hover:bg-[var(--admin-hover)] hover:text-[var(--admin-text-main)]'
                                             }`}
                                         title={!isSidebarOpen ? item.name : ''}
                                     >
-                                        <i className={`${item.icon} mr-3 text-lg flex-shrink-0 ${isActive ? 'text-red-500' : 'text-[var(--admin-text-muted)] group-hover:text-red-400'}`}></i>
-                                        <span className={`font-medium text-sm transition-all duration-300 overflow-hidden ${isSidebarOpen ? 'opacity-100 w-auto' : 'opacity-0 w-0'}`}>
+                                        <i className={`${item.icon} text-[17px] flex-shrink-0 ${isSidebarOpen ? 'mr-3' : 'mx-auto'} ${isActive ? 'text-[#29abe2]' : 'text-[var(--admin-text-muted)] group-hover:text-[#29abe2]'}`}></i>
+                                        <span className={`font-medium text-[13px] transition-all duration-300 overflow-hidden ${isSidebarOpen ? 'opacity-100 w-auto' : 'opacity-0 w-0'}`}>
                                             {item.name}
                                         </span>
+                                        {isActive && <div className={`w-1.5 h-1.5 rounded-full bg-[#29abe2] flex-shrink-0 transition-all duration-300 ${isSidebarOpen ? 'ml-auto' : 'hidden'}`}></div>}
                                     </Link>
                                 );
                             })}
@@ -196,35 +202,44 @@ export default function AdminLayout({
                     </div>
                 </div>
 
-                {/* User Profile Bottom */}
-                <div className="p-6 border-t border-[var(--admin-border)] flex items-center justify-between gap-2">
+                {/* Admin Profile + Logout — Fixed Bottom */}
+                <div className="flex-shrink-0 border-t border-[var(--admin-border)] p-3">
+                    {/* View Store Link */}
                     <Link
                         href="/"
-                        className="flex items-center gap-3 hover:bg-[var(--admin-hover)] p-2 rounded-xl transition-colors whitespace-nowrap flex-grow overflow-hidden group"
+                        className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-[var(--admin-hover)] transition-colors group mb-2 ${!isSidebarOpen ? 'justify-center' : ''}`}
+                        title={!isSidebarOpen ? 'View Store' : ''}
                     >
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-red-500 to-cyan-500 p-[2px] flex-shrink-0">
-                            <div className="w-full h-full rounded-full bg-[var(--admin-bg)] border-2 border-transparent overflow-hidden">
-                                <img
-                                    src="https://ui-avatars.com/api/?name=Admin+User"
-                                    alt="Admin"
-                                    className="w-full h-full object-cover"
-                                />
+                        <i className="ri-external-link-line text-[17px] text-[var(--admin-text-muted)] group-hover:text-[#29abe2] flex-shrink-0"></i>
+                        <span className={`font-medium text-[13px] text-[var(--admin-text-muted)] group-hover:text-[var(--admin-text-main)] transition-all duration-300 overflow-hidden ${isSidebarOpen ? 'opacity-100 w-auto' : 'opacity-0 w-0'}`}>
+                            View Store
+                        </span>
+                    </Link>
+                    {/* Profile + Logout */}
+                    <div className={`flex items-center gap-2 ${!isSidebarOpen ? 'flex-col' : ''}`}>
+                        <div className={`flex items-center gap-2.5 flex-grow min-w-0 px-2 py-2 rounded-lg ${!isSidebarOpen ? 'justify-center px-0' : ''}`}>
+                            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#0a2e5e] to-[#29abe2] p-[1.5px] flex-shrink-0">
+                                <div className="w-full h-full rounded-full overflow-hidden">
+                                    <img
+                                        src="https://ui-avatars.com/api/?name=Admin+User&background=0a2e5e&color=fff&size=32"
+                                        alt="Admin"
+                                        className="w-full h-full object-cover"
+                                    />
+                                </div>
+                            </div>
+                            <div className={`flex-grow min-w-0 transition-all duration-300 overflow-hidden ${isSidebarOpen ? 'opacity-100 w-auto' : 'opacity-0 w-0'}`}>
+                                <h4 className="text-[var(--admin-text-main)] text-[13px] font-bold truncate leading-tight">Admin User</h4>
+                                <p className="text-[11px] text-[var(--admin-text-muted)] leading-tight">Administrator</p>
                             </div>
                         </div>
-                        <div className={`flex-grow transition-all duration-300 overflow-hidden ${isSidebarOpen ? 'opacity-100 w-auto' : 'opacity-0 w-0'}`}>
-                            <h4 className="text-[var(--admin-text-main)] text-sm font-bold group-hover:text-red-500 transition-colors">
-                                Admin User
-                            </h4>
-                            <p className="text-xs text-[var(--admin-text-muted)]">View Store</p>
-                        </div>
-                    </Link>
-                    <button
-                        onClick={() => setIsLogoutModalOpen(true)}
-                        className="p-2.5 bg-red-50 hover:bg-red-100 text-red-600 hover:text-red-700 rounded-xl transition-all shadow-sm flex-shrink-0 border border-transparent hover:border-red-200"
-                        title="Logout"
-                    >
-                        <i className="ri-logout-box-r-line text-xl"></i>
-                    </button>
+                        <button
+                            onClick={() => setIsLogoutModalOpen(true)}
+                            className={`flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-lg bg-red-50 hover:bg-red-100 text-red-500 hover:text-red-600 transition-all ${!isSidebarOpen ? '' : ''}`}
+                            title="Logout"
+                        >
+                            <i className="ri-logout-box-r-line text-[15px]"></i>
+                        </button>
+                    </div>
                 </div>
             </nav>
 
@@ -241,11 +256,11 @@ export default function AdminLayout({
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                            className="w-full bg-[var(--admin-card)] border border-[var(--admin-border)] text-sm text-[var(--admin-text-main)] rounded-xl pl-12 pr-20 py-3 focus:outline-none focus:border-red-500 transition-colors"
+                            className="w-full bg-[var(--admin-card)] border border-[var(--admin-border)] text-sm text-[var(--admin-text-main)] rounded-xl pl-12 pr-20 py-3 focus:outline-none focus:border-[#29abe2] transition-colors"
                         />
                         <button
                             onClick={handleSearch}
-                            className="absolute right-2 top-1/2 -translate-y-1/2 bg-[var(--admin-hover)] hover:bg-gray-200 text-[var(--admin-text-muted)] text-xs font-bold px-3 py-1.5 rounded-lg transition-colors"
+                            className="absolute right-2 top-1/2 -translate-y-1/2 bg-[var(--admin-hover)] hover:bg-[#29abe2] hover:text-white text-[var(--admin-text-muted)] text-xs font-bold px-3 py-1.5 rounded-lg transition-colors"
                         >
                             Search
                         </button>
@@ -290,8 +305,8 @@ export default function AdminLayout({
 
                             <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                                 <div className="sm:flex sm:items-start">
-                                    <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                                        <i className="ri-logout-circle-line text-red-600 text-xl"></i>
+                                    <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
+                                        <i className="ri-logout-circle-line text-[#0a2e5e] text-xl"></i>
                                     </div>
                                     <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                         <h3 className="text-lg leading-6 font-bold text-gray-900" id="modal-title">
@@ -309,7 +324,7 @@ export default function AdminLayout({
                             <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse gap-2 sm:gap-0">
                                 <button
                                     type="button"
-                                    className="w-full inline-flex justify-center rounded-lg border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-bold text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm transition-colors"
+                                    className="w-full inline-flex justify-center rounded-lg border border-transparent shadow-sm px-4 py-2 bg-[#0a2e5e] text-base font-bold text-white hover:bg-[#29abe2] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm transition-colors"
                                     onClick={handleLogout}
                                 >
                                     Sign Out

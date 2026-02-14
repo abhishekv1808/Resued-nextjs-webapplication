@@ -1,9 +1,12 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Product from '@/models/Product';
 import { deleteFromCloudinaryByUrl } from '@/lib/cloudinary';
+import { requireAdmin } from '@/lib/admin-auth';
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+    const authError = await requireAdmin();
+    if (authError) return authError;
     try {
         await dbConnect();
         const { productId, imageUrl } = await request.json();

@@ -123,7 +123,7 @@ export default function AdminProducts() {
     if (loading) {
         return (
             <div className="flex items-center justify-center h-screen">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0a2e5e]"></div>
             </div>
         );
     }
@@ -134,7 +134,7 @@ export default function AdminProducts() {
                 <h2 className="text-xl font-bold text-[var(--admin-text-main)]">Inventory Management</h2>
                 <Link
                     href="/admin/add-product"
-                    className="bg-[#a51c30] hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 transition-colors"
+                    className="bg-[#0a2e5e] hover:bg-[#29abe2] text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 transition-colors"
                 >
                     <i className="ri-add-line"></i> Add Product
                 </Link>
@@ -171,7 +171,7 @@ export default function AdminProducts() {
                                                     )}
                                                 </div>
                                                 <div className="max-w-[350px]">
-                                                    <div className="font-bold text-[var(--admin-text-main)] group-hover:text-red-600 transition-colors mb-1 line-clamp-2 leading-tight text-sm" title={product.name}>
+                                                    <div className="font-bold text-[var(--admin-text-main)] group-hover:text-[#29abe2] transition-colors mb-1 line-clamp-2 leading-tight text-sm" title={product.name}>
                                                         {product.name}
                                                     </div>
                                                     <div className="text-[var(--admin-text-muted)] text-[10px] mb-2 uppercase tracking-wider font-semibold">{product.brand}</div>
@@ -184,7 +184,7 @@ export default function AdminProducts() {
                                             </div>
                                         </td>
                                         <td className="p-5">
-                                            <span className="px-3 py-1 rounded-full text-xs font-medium bg-red-500/10 text-red-600 border border-red-500/20 capitalize">
+                                            <span className="px-3 py-1 rounded-full text-xs font-medium bg-blue-50 text-[#0a2e5e] border border-blue-100 capitalize">
                                                 {product.category}
                                             </span>
                                         </td>
@@ -199,12 +199,12 @@ export default function AdminProducts() {
                                                         type="number"
                                                         value={stockInputs[product._id] ?? product.quantity}
                                                         onChange={(e) => handleStockChange(product._id, e.target.value)}
-                                                        className="w-20 bg-[var(--admin-bg)] border border-[var(--admin-border)] text-[var(--admin-text-main)] text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:border-red-500 text-center font-bold"
+                                                        className="w-20 bg-[var(--admin-bg)] border border-[var(--admin-border)] text-[var(--admin-text-main)] text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:border-[#29abe2] text-center font-bold"
                                                     />
                                                 </div>
                                                 <button
                                                     onClick={() => updateStock(product)}
-                                                    className="w-8 h-8 rounded-lg bg-red-600 hover:bg-red-700 text-white flex items-center justify-center shadow-lg shadow-red-900/20 transition-all transform active:scale-95"
+                                                    className="w-8 h-8 rounded-lg bg-[#0a2e5e] hover:bg-[#29abe2] text-white flex items-center justify-center shadow-lg shadow-blue-900/20 transition-all transform active:scale-95"
                                                     title="Update Stock"
                                                 >
                                                     <i className="ri-refresh-line"></i>
@@ -232,13 +232,13 @@ export default function AdminProducts() {
                                         </td>
                                         <td className="p-5 text-right">
                                             <div className="flex items-center justify-end gap-2">
-                                                <button onClick={() => openProductModal(product)} className="w-9 h-9 rounded-lg bg-[var(--admin-bg)] border border-[var(--admin-border)] hover:border-red-500 hover:text-red-500 text-[var(--admin-text-muted)] flex items-center justify-center transition-all" title="View Details">
+                                                <button onClick={() => openProductModal(product)} className="w-9 h-9 rounded-lg bg-[var(--admin-bg)] border border-[var(--admin-border)] hover:border-[#29abe2] hover:text-[#29abe2] text-[var(--admin-text-muted)] flex items-center justify-center transition-all" title="View Details">
                                                     <i className="ri-eye-line"></i>
                                                 </button>
-                                                <Link href={`/admin/edit-product/${product._id}?edit=true`} className="w-9 h-9 rounded-lg bg-[var(--admin-bg)] border border-[var(--admin-border)] hover:border-red-500 hover:text-red-500 text-[var(--admin-text-muted)] flex items-center justify-center transition-all" title="Edit">
+                                                <Link href={`/admin/edit-product/${product._id}?edit=true`} className="w-9 h-9 rounded-lg bg-[var(--admin-bg)] border border-[var(--admin-border)] hover:border-[#29abe2] hover:text-[#29abe2] text-[var(--admin-text-muted)] flex items-center justify-center transition-all" title="Edit">
                                                     <i className="ri-pencil-line"></i>
                                                 </Link>
-                                                <button onClick={() => deleteProduct(product._id)} className="w-9 h-9 rounded-lg bg-[var(--admin-bg)] border border-[var(--admin-border)] hover:border-red-500 hover:text-red-500 text-[var(--admin-text-muted)] flex items-center justify-center transition-all" title="Delete">
+                                                <button onClick={() => deleteProduct(product._id)} className="w-9 h-9 rounded-lg bg-[var(--admin-bg)] border border-[var(--admin-border)] hover:border-[#29abe2] hover:text-[#29abe2] text-[var(--admin-text-muted)] flex items-center justify-center transition-all" title="Delete">
                                                     <i className="ri-delete-bin-line"></i>
                                                 </button>
                                             </div>
@@ -271,7 +271,7 @@ export default function AdminProducts() {
                             {/* Header */}
                             <div className="bg-[var(--admin-bg)]/50 px-6 py-4 border-b border-[var(--admin-border)] flex items-center justify-between">
                                 <h3 className="text-lg font-bold text-[var(--admin-text-main)] flex items-center gap-2">
-                                    <i className="ri-macbook-line text-red-500"></i> Product Details
+                                    <i className="ri-macbook-line text-[#0a2e5e]"></i> Product Details
                                 </h3>
                                 <button onClick={() => setIsModalOpen(false)} className="text-[var(--admin-text-muted)] hover:text-[var(--admin-text-main)] transition-colors">
                                     <i className="ri-close-line text-2xl"></i>
@@ -307,7 +307,7 @@ export default function AdminProducts() {
                                             <div className="flex items-center gap-2 text-sm">
                                                 <span className="text-[var(--admin-text-muted)] font-medium">{selectedProduct.brand}</span>
                                                 <span className="text-[var(--admin-border)]">•</span>
-                                                <span className="text-red-500 font-bold capitalize">{selectedProduct.category}</span>
+                                                <span className="text-[#0a2e5e] font-bold capitalize">{selectedProduct.category}</span>
                                             </div>
                                         </div>
 
@@ -350,7 +350,7 @@ export default function AdminProducts() {
                             {/* Footer */}
                             <div className="bg-[var(--admin-bg)]/50 px-6 py-4 border-t border-[var(--admin-border)] flex justify-end gap-3">
                                 <button onClick={() => setIsModalOpen(false)} className="px-4 py-2 rounded-lg text-sm font-bold text-[var(--admin-text-muted)] hover:bg-[var(--admin-hover)] transition-colors">Close</button>
-                                <Link href={`/admin/edit-product/${selectedProduct._id}?edit=true`} className="px-4 py-2 rounded-lg text-sm font-bold bg-[#a51c30] hover:bg-red-600 text-white transition-colors shadow-lg shadow-red-900/20">Edit Product</Link>
+                                <Link href={`/admin/edit-product/${selectedProduct._id}?edit=true`} className="px-4 py-2 rounded-lg text-sm font-bold bg-[#0a2e5e] hover:bg-[#29abe2] text-white transition-colors shadow-lg shadow-blue-900/20">Edit Product</Link>
                             </div>
                         </div>
                     </div>

@@ -55,18 +55,24 @@ export default function ComparisonSlider() {
     }, [isDragging, updateSlider]);
 
     return (
-        <section className="py-8 md:py-12 bg-gray-50">
+        <section className="py-16 md:py-24 bg-white relative overflow-hidden">
+            <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#0a2e5e 1px, transparent 1px)', backgroundSize: '24px 24px' }}></div>
             <div className="max-w-7xl mx-auto px-4">
-                <div className="text-center mb-6 md:mb-10">
-                    <h2 className="text-xl md:text-3xl font-bold text-gray-900 mb-2">Simtech Quality Difference</h2>
-                    <p className="text-gray-500 text-xs md:text-base">
-                        The Simtech Impact: <span className="text-[#a51c30] font-bold border-b-2 border-[#a51c30]">Premium Quality Meets Affordability</span>
+                <div className="text-center mb-12 md:mb-16">
+                    <div className="inline-block px-4 py-1.5 rounded-full bg-[#0a2e5e] text-white text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase mb-4 shadow-xl shadow-blue-900/10">
+                        Visual Discovery
+                    </div>
+                    <h2 className="text-3xl md:text-5xl font-black text-[#0a2e5e] mb-4">
+                        The <span className="text-[#29abe2]">Quality</span> Difference
+                    </h2>
+                    <p className="text-gray-500 max-w-2xl mx-auto text-sm md:text-lg font-medium leading-relaxed">
+                        Slide to reveal the impact of our meticulous <span className="text-[#0a2e5e] font-bold">Originality Audit</span>. We preserve the quality that others compromise.
                     </p>
                 </div>
 
                 <div
                     ref={containerRef}
-                    className="relative w-full mx-auto aspect-[16/9] rounded-3xl overflow-hidden shadow-2xl select-none group touch-none cursor-ew-resize"
+                    className="relative w-full mx-auto aspect-[16/9] rounded-[2.5rem] overflow-hidden shadow-[0_20px_60px_-15px_rgba(10,46,94,0.2)] select-none group touch-none cursor-ew-resize border-8 border-white"
                     onMouseDown={handleMouseDown}
                     onTouchStart={handleTouchStart}
                 >
@@ -88,7 +94,7 @@ export default function ComparisonSlider() {
                         <div className="relative h-full w-full" style={{ width: sliderPos > 0 ? `${100 * 100 / sliderPos}%` : '100vw' }}>
                             <Image
                                 src="/images/laptop-comparison-good.png"
-                                alt="Simtech"
+                                alt="Reused"
                                 fill
                                 className="object-cover"
                             />
@@ -113,10 +119,10 @@ export default function ComparisonSlider() {
                         Others (Market)
                     </div>
                     <div
-                        className="absolute top-2 left-2 md:top-4 md:left-4 bg-[#a51c30] backdrop-blur-md text-white px-3 py-1.5 md:px-6 md:py-2.5 rounded-full text-[10px] md:text-sm font-extrabold pointer-events-none border-2 border-white/30 shadow-[0_4px_15px_rgba(165,28,48,0.6)] uppercase tracking-wide transition-opacity duration-300"
+                        className="absolute top-2 left-2 md:top-4 md:left-4 bg-[#0a2e5e] backdrop-blur-md text-white px-3 py-1.5 md:px-6 md:py-2.5 rounded-full text-[10px] md:text-sm font-extrabold pointer-events-none border-2 border-white/30 shadow-[0_4px_15px_rgba(10,46,94,0.6)] uppercase tracking-wide transition-opacity duration-300"
                         style={{ opacity: sliderPos < 10 ? 0 : 1 }}
                     >
-                        Simtech Premium
+                        Reused Premium
                     </div>
                 </div>
             </div>

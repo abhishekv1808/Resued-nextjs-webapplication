@@ -2,23 +2,70 @@
 
 import { useState, useEffect } from 'react';
 
+function urlBase64ToUint8Array(base64String: string): Uint8Array<ArrayBuffer> {
+    const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
+    const base64 = (base64String + padding)
+        .replace(/-/g, '+')
+        .replace(/_/g, '/');
+    const rawData = window.atob(base64);
+    const outputArray = new Uint8Array(rawData.length) as Uint8Array<ArrayBuffer>;
+    for (let i = 0; i < rawData.length; ++i) {
+        outputArray[i] = rawData.charCodeAt(i);
+    }
+    return outputArray;
+}
+
+async function registerPushSubscription() {
+    try {
+        const vapidPublicKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
+        if (!vapidPublicKey) {
+            console.error('NEXT_PUBLIC_VAPID_PUBLIC_KEY is not set');
+            return;
+        }
+
+        // Register service worker
+        const registration = await navigator.serviceWorker.register('/sw.js', { scope: '/' });
+
+        // Wait for the service worker to be ready
+        await navigator.serviceWorker.ready;
+
+        // Subscribe to push
+        const subscription = await registration.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: urlBase64ToUint8Array(vapidPublicKey),
+        });
+
+        // Send subscription to our API
+        await fetch('/api/subscribe', {
+            method: 'POST',
+            body: JSON.stringify(subscription),
+            headers: { 'Content-Type': 'application/json' },
+        });
+
+        console.log('Push subscription registered successfully');
+    } catch (error) {
+        console.error('Failed to register push subscription:', error);
+    }
+}
+
 export default function NotificationBanner() {
     const [showBanner, setShowBanner] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
 
     useEffect(() => {
-        // Check if notification API is supported
-        if (!('Notification' in window)) {
+        // Check if notification API and service workers are supported
+        if (!('Notification' in window) || !('serviceWorker' in navigator)) {
             return;
         }
 
-        // Check if user has already made a choice
-        const notificationDismissed = localStorage.getItem('notificationPromptDismissed');
         const permission = Notification.permission;
+        const notificationDismissed = localStorage.getItem('notificationPromptDismissed');
 
-        // Show banner only if permission is default (not granted or denied) and user hasn't dismissed
-        if (permission === 'default' && !notificationDismissed) {
-            // Show after a short delay for better UX
+        if (permission === 'granted') {
+            // Already granted — make sure subscription is registered
+            registerPushSubscription();
+        } else if (permission === 'default' && !notificationDismissed) {
+            // Show banner after a short delay for better UX
             setTimeout(() => setShowBanner(true), 1000);
         }
     }, []);
@@ -26,13 +73,11 @@ export default function NotificationBanner() {
     const handleAllow = async () => {
         try {
             const permission = await Notification.requestPermission();
-            
+
             if (permission === 'granted') {
-                console.log('Notification permission granted');
-                // You can add FCM token registration here if implementing full push notifications
+                await registerPushSubscription();
             }
-            
-            // Hide banner after user interaction
+
             handleClose();
         } catch (error) {
             console.error('Error requesting notification permission:', error);
@@ -60,11 +105,10 @@ export default function NotificationBanner() {
 
     return (
         <div
-            className={`fixed top-0 left-0 right-0 z-[9999] transition-all duration-300 ${
-                isClosing ? 'opacity-0 -translate-y-4' : 'opacity-100 translate-y-0'
-            }`}
+            className={`fixed top-0 left-0 right-0 z-[9999] transition-all duration-300 ${isClosing ? 'opacity-0 -translate-y-4' : 'opacity-100 translate-y-0'
+                }`}
         >
-            <div className="w-full bg-gradient-to-r from-blue-600 to-blue-700 shadow-2xl">
+            <div className="w-full bg-gradient-to-r from-[#0a2e5e] to-[#29abe2] shadow-2xl">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
                     <div className="flex items-center justify-between gap-3 sm:gap-4">
                         {/* Icon */}
@@ -77,7 +121,7 @@ export default function NotificationBanner() {
                         {/* Content */}
                         <div className="flex-1 min-w-0">
                             <h3 className="text-white font-bold text-sm sm:text-base lg:text-lg mb-0.5">
-                                Get fresh refurbished tech deals from SimTech
+                                Get fresh corporate pull deals from Reused
                             </h3>
                             <p className="text-blue-100 text-xs sm:text-sm hidden sm:block">
                                 Allow us to stay updated with exclusive offers and new arrivals
@@ -90,11 +134,11 @@ export default function NotificationBanner() {
                                 onClick={handleDismiss}
                                 className="hidden sm:block px-3 lg:px-4 py-2 text-white text-xs sm:text-sm font-medium hover:bg-white/10 rounded-lg transition-all whitespace-nowrap"
                             >
-                                I'll do this later
+                                I&apos;ll do this later
                             </button>
                             <button
                                 onClick={handleAllow}
-                                className="px-3 sm:px-4 lg:px-6 py-2 bg-white text-blue-600 text-xs sm:text-sm font-bold rounded-lg hover:bg-blue-50 transition-all shadow-lg whitespace-nowrap"
+                                className="px-3 sm:px-4 lg:px-6 py-2 bg-white text-[#0a2e5e] text-xs sm:text-sm font-bold rounded-lg hover:bg-blue-50 transition-all shadow-lg whitespace-nowrap"
                             >
                                 Allow
                             </button>

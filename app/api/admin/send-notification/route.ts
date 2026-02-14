@@ -1,8 +1,11 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import webpush from 'web-push';
 import connectDB from '@/lib/db';
 import Subscription from '@/models/Subscription';
+import User from '@/models/User';
+import Order from '@/models/Order';
 import cloudinary from '@/lib/cloudinary';
+import { requireAdmin } from '@/lib/admin-auth';
 
 // Configure VAPID details
 const vapidPublicKey = process.env.VAPID_PUBLIC_KEY!;
@@ -16,7 +19,9 @@ if (vapidPublicKey && vapidPrivateKey) {
     );
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
+    const authError = await requireAdmin();
+    if (authError) return authError;
     try {
         await connectDB();
 
@@ -26,6 +31,11 @@ export async function POST(req: Request) {
         const title = formData.get('title') as string;
         const body = formData.get('body') as string;
         const url = formData.get('url') as string;
+        const audience = formData.get('audience') as string || 'all';
+        const targetTags = formData.get('tags') as string; // comma-separated
+        const targetLocation = formData.get('location') as string;
+        const targetUserId = formData.get('userId') as string;
+        const inactiveDays = formData.get('inactiveDays') as string;
         const action1_title = formData.get('action1_title') as string;
         const action1_url = formData.get('action1_url') as string;
         const action2_title = formData.get('action2_title') as string;
@@ -124,12 +134,96 @@ export async function POST(req: Request) {
             }
         }
 
-        // Fetch all subscriptions
-        const subscriptions = await Subscription.find();
+        // ===== AUDIENCE TARGETING =====
+        let subscriptions;
+        let audienceLabel = 'all subscribers';
+
+        switch (audience) {
+            case 'specific_user': {
+                // Send to a specific user by userId
+                if (!targetUserId) {
+                    return NextResponse.json({ error: 'User ID is required for specific user targeting.' }, { status: 400 });
+                }
+                subscriptions = await Subscription.find({ userId: targetUserId });
+                audienceLabel = 'specific user';
+                break;
+            }
+            case 'registered_users': {
+                // All subscriptions linked to a user account
+                subscriptions = await Subscription.find({ userId: { $ne: null } });
+                audienceLabel = 'registered users';
+                break;
+            }
+            case 'cart_abandonment': {
+                // Users who have items in cart
+                const usersWithCart = await User.find({ 'cart.0': { $exists: true } }).select('_id');
+                const userIds = usersWithCart.map(u => u._id);
+                subscriptions = await Subscription.find({ userId: { $in: userIds } });
+                audienceLabel = `users with cart items (${userIds.length} users)`;
+                break;
+            }
+            case 'by_tags': {
+                // Users matching specific tags
+                if (!targetTags) {
+                    return NextResponse.json({ error: 'Tags are required for tag-based targeting.' }, { status: 400 });
+                }
+                const tagsArray = targetTags.split(',').map(t => t.trim().toLowerCase()).filter(Boolean);
+                const taggedUsers = await User.find({ tags: { $in: tagsArray } }).select('_id');
+                const tagUserIds = taggedUsers.map(u => u._id);
+                subscriptions = await Subscription.find({ userId: { $in: tagUserIds } });
+                audienceLabel = `users tagged [${tagsArray.join(', ')}] (${tagUserIds.length} users)`;
+                break;
+            }
+            case 'by_location': {
+                // Users in a specific location/city
+                if (!targetLocation) {
+                    return NextResponse.json({ error: 'Location is required for location-based targeting.' }, { status: 400 });
+                }
+                const escapedLoc = targetLocation.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                const locationUsers = await User.find({ location: { $regex: escapedLoc, $options: 'i' } }).select('_id');
+                const locUserIds = locationUsers.map(u => u._id);
+                subscriptions = await Subscription.find({ userId: { $in: locUserIds } });
+                audienceLabel = `users in "${targetLocation}" (${locUserIds.length} users)`;
+                break;
+            }
+            case 'inactive_users': {
+                // Users who haven't logged in for X days
+                const days = parseInt(inactiveDays || '7', 10);
+                const cutoffDate = new Date();
+                cutoffDate.setDate(cutoffDate.getDate() - days);
+                const inactiveUsers = await User.find({
+                    $or: [
+                        { lastLogin: { $lt: cutoffDate } },
+                        { lastLogin: { $exists: false } },
+                    ]
+                }).select('_id');
+                const inactiveIds = inactiveUsers.map(u => u._id);
+                subscriptions = await Subscription.find({ userId: { $in: inactiveIds } });
+                audienceLabel = `inactive users (${days}+ days, ${inactiveIds.length} users)`;
+                break;
+            }
+            case 'purchase_history': {
+                // Users who have made at least one successful order
+                const buyerOrders = await Order.aggregate([
+                    { $match: { status: { $in: ['Paid', 'Confirmed', 'Processing', 'Shipped', 'Delivered'] } } },
+                    { $group: { _id: '$user' } },
+                ]);
+                const buyerIds = buyerOrders.map(o => o._id);
+                subscriptions = await Subscription.find({ userId: { $in: buyerIds } });
+                audienceLabel = `past buyers (${buyerIds.length} users)`;
+                break;
+            }
+            case 'all':
+            default: {
+                subscriptions = await Subscription.find();
+                audienceLabel = 'all subscribers';
+                break;
+            }
+        }
 
         if (!subscriptions || subscriptions.length === 0) {
             return NextResponse.json(
-                { error: 'No subscribers found.' },
+                { error: `No subscribers found for audience: ${audienceLabel}` },
                 { status: 400 }
             );
         }
@@ -167,11 +261,11 @@ export async function POST(req: Request) {
 
         await Promise.all(promises);
 
-        console.log(`Notifications sent to ${subscriptions.length} subscribers`);
+        console.log(`Notifications sent to ${subscriptions.length} subscribers (${audienceLabel})`);
 
         return NextResponse.json({
             success: true,
-            message: `Notification sent successfully to ${subscriptions.length} subscribers!`,
+            message: `Notification sent to ${subscriptions.length} ${audienceLabel}!`,
         });
     } catch (error) {
         console.error('Error sending notification:', error);

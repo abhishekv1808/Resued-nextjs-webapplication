@@ -1,8 +1,11 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Enquiry from '@/models/Enquiry';
+import { requireAdmin } from '@/lib/admin-auth';
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
+    const authError = await requireAdmin();
+    if (authError) return authError;
     try {
         await dbConnect();
         const { enquiryId } = await req.json();

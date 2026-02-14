@@ -9,10 +9,10 @@ export default function Loader() {
     const [progress, setProgress] = useState(15);
 
     useEffect(() => {
-        // Simulate loading
+        // Faster simulation for better UX
         const interval = setInterval(() => {
-            setProgress(prev => (prev < 90 ? prev + Math.random() * 5 : prev));
-        }, 150);
+            setProgress(prev => (prev < 95 ? prev + Math.random() * 10 : prev));
+        }, 80);
 
         const checkLoaded = () => {
             if (!authLoading) {
@@ -20,18 +20,17 @@ export default function Loader() {
                 setTimeout(() => {
                     setLoading(false);
                     clearInterval(interval);
-                }, 500);
+                }, 300); // Reduced delay
             }
         };
 
         checkLoaded();
-        // In real app, we might depend on more things
         const timeout = setTimeout(() => {
             if (authLoading) {
                 setProgress(100);
                 setLoading(false);
             }
-        }, 2000); // Fallback
+        }, 1200); // Faster fallback
 
         return () => {
             clearInterval(interval);
@@ -50,26 +49,26 @@ export default function Loader() {
             >
                 <div className="relative">
                     {/* Main Tech Spinner */}
-                    <div className="w-16 h-16 border-4 border-red-100 border-t-[#a51c30] rounded-full animate-spin"></div>
+                    <div className="w-16 h-16 border-4 border-blue-100 border-t-[#0a2e5e] rounded-full animate-spin"></div>
 
                     {/* Pulse Rings */}
-                    <div className="absolute inset-0 w-16 h-16 border-4 border-[#a51c30]/20 rounded-full animate-ping"></div>
+                    <div className="absolute inset-0 w-16 h-16 border-4 border-[#0a2e5e]/20 rounded-full animate-ping"></div>
 
                     {/* Center Icon */}
                     <div className="absolute inset-0 flex items-center justify-center">
-                        <i className="ri-computer-line text-[#a51c30] text-xl animate-pulse"></i>
+                        <i className="ri-computer-line text-[#0a2e5e] text-xl animate-pulse"></i>
                     </div>
                 </div>
 
                 {/* Techy Loading Text */}
                 <div className="absolute mt-28 flex flex-col items-center">
                     <span className="text-gray-900 font-bold text-xs tracking-[0.3em] uppercase">
-                        Simtech Loading
+                        Reused Loading
                     </span>
                     <div className="flex gap-1 mt-2">
-                        <div className="w-1 h-1 bg-[#a51c30] rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-                        <div className="w-1 h-1 bg-[#a51c30] rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-                        <div className="w-1 h-1 bg-[#a51c30] rounded-full animate-bounce"></div>
+                        <div className="w-1 /h-1 bg-[#0a2e5e] rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                        <div className="w-1 h-1 bg-[#0a2e5e] rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                        <div className="w-1 h-1 bg-[#0a2e5e] rounded-full animate-bounce"></div>
                     </div>
                 </div>
             </div>
@@ -82,9 +81,9 @@ export default function Loader() {
                     left: 0,
                     width: `${progress}%`,
                     height: '3px',
-                    background: 'linear-gradient(to right, #a51c30, #ff4d4d)',
+                    background: 'linear-gradient(to right, #0a2e5e, #29abe2)',
                     zIndex: 10000,
-                    boxShadow: '0 0 10px rgba(165, 28, 48, 0.4)',
+                    boxShadow: '0 0 10px rgba(10, 46, 94, 0.4)',
                     transition: 'width 0.4s cubic-bezier(0.1, 0.7, 0.1, 1)',
                     opacity: loading ? 1 : 0
                 }}

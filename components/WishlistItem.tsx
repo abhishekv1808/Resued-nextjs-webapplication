@@ -71,29 +71,20 @@ export default function WishlistItem({ product }: { product: Product }) {
                 <div className="mb-1">
                     <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">{product.brand}</span>
                 </div>
-                <Link href={`/product/${product.slug}`} className="group-hover:text-[#a51c30] transition-colors">
-                    <h3 className="font-bold text-gray-900 text-lg leading-tight mb-2 line-clamp-2">{product.name}</h3>
+                <Link href={`/product/${product.slug}`} className="text-sm font-bold text-gray-900 line-clamp-2 mb-2 group-hover:text-[#0a2e5e] transition-colors">
+                    {product.name}
                 </Link>
 
                 <div className="mt-auto pt-4 flex items-center justify-between border-t border-gray-50">
                     <div className="flex flex-col">
-                        <span className="font-bold text-xl text-[#a51c30]">₹{product.price.toLocaleString('en-IN')}</span>
+                        <span className="text-lg font-bold text-[#0a2e5e]">₹{product.price.toLocaleString('en-IN')}</span>
                         <span className="text-xs text-gray-400 line-through">₹{product.mrp.toLocaleString('en-IN')}</span>
                     </div>
 
                     {product.inStock ? (
-                        // Using simple form for Cart for now, or could use Client Component for Cart Action
-                        // For simplicity and to match existing patterns:
-                        <form action="/api/cart/add" method="POST">
-                            {/* NOTE: We might want a dedicated Server Action for Add to Cart later. 
-                               For now, let's assume Cart page handles generic add, or we use a button that calls an API.
-                               Actually, standard Next.js way: Server Action `addToCart(productId)`.
-                           */}
-                            <input type="hidden" name="productId" value={product._id} />
-                            <Link href={`/product/${product.slug}`} className="bg-[#a51c30] text-white px-4 py-2 rounded-full text-sm font-bold hover:bg-red-700 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center gap-2">
-                                <i className="ri-shopping-cart-line"></i> View
-                            </Link>
-                        </form>
+                        <Link href={`/product/${product.slug}`} className="bg-[#0a2e5e] text-white px-6 py-2 rounded-full text-sm font-bold hover:bg-[#29abe2] transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 flex items-center gap-2">
+                            <i className="ri-eye-line"></i> View
+                        </Link>
                     ) : (
                         <button disabled className="bg-gray-200 text-gray-400 px-4 py-2 rounded-full text-sm font-bold cursor-not-allowed">
                             Out of Stock

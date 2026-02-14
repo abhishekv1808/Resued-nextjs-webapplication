@@ -26,7 +26,7 @@ export default function SortDropdown() {
             <select
                 value={currentSort}
                 onChange={handleSortChange}
-                className="border border-gray-300 rounded-lg px-3 py-1.5 text-sm outline-none focus:border-[#a51c30] bg-white text-gray-900 cursor-pointer hover:border-gray-400 transition-colors"
+                className="border border-gray-300 rounded-lg px-3 py-1.5 text-sm outline-none focus:border-[#0a2e5e] bg-white text-gray-900 cursor-pointer hover:border-gray-400 transition-colors"
                 aria-label="Sort products"
             >
                 <option value="featured">Featured</option>

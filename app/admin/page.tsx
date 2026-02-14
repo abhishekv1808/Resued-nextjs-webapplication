@@ -45,7 +45,7 @@ export default function AdminDashboard() {
     if (loading) {
         return (
             <div className="flex items-center justify-center h-screen">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0a2e5e]"></div>
             </div>
         );
     }
@@ -59,32 +59,32 @@ export default function AdminDashboard() {
                         Dashboard
                     </h1>
                     <p className="text-[var(--admin-text-muted)] text-sm">
-                        Here is today's report and performances
+                        Here is today&apos;s report and performances
                     </p>
                 </div>
 
                 <div className="flex items-center gap-3">
                     <Link
                         href="/admin/add-laptop"
-                        className="bg-[#a51c30] hover:bg-[#8e1829] text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 shadow-lg shadow-red-900/50 transition-all"
+                        className="bg-[#0a2e5e] hover:bg-[#29abe2] text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 shadow-lg shadow-blue-900/40 transition-all"
                     >
                         <i className="ri-macbook-line"></i> Add Laptop
                     </Link>
                     <Link
                         href="/admin/add-monitor"
-                        className="bg-[#a51c30] hover:bg-[#8e1829] text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 shadow-lg shadow-red-900/50 transition-all"
+                        className="bg-[#0a2e5e] hover:bg-[#29abe2] text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 shadow-lg shadow-blue-900/40 transition-all"
                     >
                         <i className="ri-tv-line"></i> Add Monitor
                     </Link>
                     <Link
                         href="/admin/add-desktop"
-                        className="bg-[#a51c30] hover:bg-[#8e1829] text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 shadow-lg shadow-red-900/50 transition-all"
+                        className="bg-[#0a2e5e] hover:bg-[#29abe2] text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 shadow-lg shadow-blue-900/40 transition-all"
                     >
                         <i className="ri-computer-line"></i> Add Desktop
                     </Link>
                     <Link
                         href="/admin/add-accessories"
-                        className="bg-[#a51c30] hover:bg-[#8e1829] text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 shadow-lg shadow-red-900/50 transition-all"
+                        className="bg-[#0a2e5e] hover:bg-[#29abe2] text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 shadow-lg shadow-blue-900/40 transition-all"
                     >
                         <i className="ri-mouse-line"></i> Add Accessories
                     </Link>
@@ -111,7 +111,7 @@ export default function AdminDashboard() {
                         <i className="ri-arrow-right-up-line"></i>
                         <span>+12% from last month</span>
                     </div>
-                    <div className="absolute -right-6 -bottom-6 w-24 h-24 bg-red-500/10 rounded-full blur-xl group-hover:bg-red-500/20 transition-all"></div>
+                    <div className="absolute -right-6 -bottom-6 w-24 h-24 bg-blue-500/10 rounded-full blur-xl group-hover:bg-blue-500/20 transition-all"></div>
                 </div>
 
                 {/* Card 2: Out of Stock */}
@@ -152,7 +152,7 @@ export default function AdminDashboard() {
                         <i className="ri-message-3-line"></i>
                         <span>Needs Response</span>
                     </div>
-                    <div className="absolute -right-6 -bottom-6 w-24 h-24 bg-red-500/10 rounded-full blur-xl group-hover:bg-red-500/20 transition-all"></div>
+                    <div className="absolute -right-6 -bottom-6 w-24 h-24 bg-blue-500/10 rounded-full blur-xl group-hover:bg-blue-500/20 transition-all"></div>
                 </div>
 
                 {/* Card 4: Inventory Value */}
@@ -193,7 +193,7 @@ export default function AdminDashboard() {
                             <div key={idx} className="w-full flex flex-col justify-end items-center gap-2 group h-full">
                                 <div className="w-full flex items-end justify-center h-[85%] relative gap-1">
                                     <div style={{ height: `${val}%` }} className="w-3 md:w-6 bg-gray-200 rounded-t-md relative group-hover:bg-gray-300 transition-all"></div>
-                                    <div style={{ height: `${chartData.sales?.[idx] * 0.6}%` }} className="w-3 md:w-6 bg-[#a51c30] rounded-t-md relative group-hover:bg-red-800 transition-all"></div>
+                                    <div style={{ height: `${chartData.sales?.[idx] * 0.6}%` }} className="w-3 md:w-6 bg-[#0a2e5e] rounded-t-md relative group-hover:bg-blue-700 transition-all"></div>
                                 </div>
                                 <span className="text-xs text-[var(--admin-text-muted)]">{chartData.labels[idx]}</span>
                             </div>
@@ -215,7 +215,7 @@ export default function AdminDashboard() {
                         {/* Simple CSS Donut Chart Mockup using Conic Gradient */}
                         <div className="w-40 h-40 rounded-full" style={{
                             background: `conic-gradient(
-                                #a51c30 0% 37.5%, 
+                                #0a2e5e 0% 37.5%, 
                                 #3b82f6 37.5% 62.5%, 
                                 #10b981 62.5% 83%, 
                                 #f59e0b 83% 100%
@@ -297,7 +297,7 @@ export default function AdminDashboard() {
                                         </td>
                                         <td className="py-4 px-4 text-[var(--admin-text-main)] font-medium">{product.quantity}</td>
                                         <td className="py-4 pr-6 text-right text-[var(--admin-text-muted)] group-hover:text-[var(--admin-text-main)] cursor-pointer">
-                                            <Link href={`/admin/edit-product/${product._id}?edit=true`} className="inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-red-50 hover:text-red-600 transition-all" title="Edit Product">
+                                            <Link href={`/admin/edit-product/${product._id}?edit=true`} className="inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-blue-50 hover:text-[#0a2e5e] transition-all" title="Edit Product">
                                                 <i className="ri-pencil-line text-lg"></i>
                                             </Link>
                                         </td>

@@ -51,7 +51,7 @@ export default function AdminEnquiries() {
     if (loading) {
         return (
             <div className="flex items-center justify-center h-screen">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0a2e5e]"></div>
             </div>
         );
     }
@@ -84,7 +84,7 @@ export default function AdminEnquiries() {
                                         {/* Date & Customer */}
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="flex items-center">
-                                                <div className="h-10 w-10 rounded-full bg-gradient-to-br from-red-500 to-cyan-500 flex items-center justify-center text-white font-bold text-sm shadow-sm">
+                                                <div className="h-10 w-10 rounded-full bg-gradient-to-br from-[#0a2e5e] to-[#29abe2] flex items-center justify-center text-white font-bold text-sm shadow-sm">
                                                     {enquiry.name.charAt(0).toUpperCase()}
                                                 </div>
                                                 <div className="ml-4">
@@ -103,14 +103,14 @@ export default function AdminEnquiries() {
                                         {/* Contact Info */}
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="flex flex-col gap-1">
-                                                <a href={`tel:${enquiry.phone}`} className="text-sm text-[var(--admin-text-main)] hover:text-red-600 flex items-center gap-2 transition-colors">
-                                                    <div className="w-6 h-6 rounded-full bg-red-50 text-red-600 flex items-center justify-center text-xs">
+                                                <a href={`tel:${enquiry.phone}`} className="text-sm text-[var(--admin-text-main)] hover:text-[#29abe2] flex items-center gap-2 transition-colors">
+                                                    <div className="w-6 h-6 rounded-full bg-blue-50 text-[#0a2e5e] flex items-center justify-center text-xs">
                                                         <i className="ri-phone-fill"></i>
                                                     </div>
                                                     {enquiry.phone}
                                                 </a>
                                                 {enquiry.email && (
-                                                    <a href={`mailto:${enquiry.email}`} className="text-sm text-[var(--admin-text-muted)] hover:text-red-600 flex items-center gap-2 transition-colors">
+                                                    <a href={`mailto:${enquiry.email}`} className="text-sm text-[var(--admin-text-muted)] hover:text-[#29abe2] flex items-center gap-2 transition-colors">
                                                         <div className="w-6 h-6 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center text-xs">
                                                             <i className="ri-mail-line"></i>
                                                         </div>
@@ -127,7 +127,7 @@ export default function AdminEnquiries() {
                                                 {(enquiry.brand || enquiry.model) && (
                                                     <div className="flex items-center gap-2 flex-wrap">
                                                         {enquiry.brand && (
-                                                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-red-100 text-red-800 border border-red-200">
+                                                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-blue-50 text-[#0a2e5e] border border-blue-100">
                                                                 {enquiry.brand}
                                                             </span>
                                                         )}
@@ -161,7 +161,7 @@ export default function AdminEnquiries() {
                                                 {/* Purpose */}
                                                 {enquiry.purpose && (
                                                     <div className="mt-1">
-                                                        <span className="inline-flex items-center gap-1 text-xs font-medium text-red-600 bg-red-50 px-2 py-1 rounded-full">
+                                                        <span className="inline-flex items-center gap-1 text-xs font-medium text-[#0a2e5e] bg-blue-50 px-2 py-1 rounded-full">
                                                             <i className="ri-focus-3-line"></i> {enquiry.purpose}
                                                         </span>
                                                     </div>
@@ -174,7 +174,7 @@ export default function AdminEnquiries() {
                                             {enquiry.message ? (
                                                 <div className="relative group/msg cursor-help">
                                                     <p className="text-sm text-[var(--admin-text-muted)] line-clamp-2 max-w-xs italic">
-                                                        "{enquiry.message}"
+                                                        &quot;{enquiry.message}&quot;
                                                     </p>
                                                     {/* Tooltip for full message */}
                                                     <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg shadow-xl opacity-0 invisible group-hover/msg:opacity-100 group-hover/msg:visible transition-all z-50 pointer-events-none">

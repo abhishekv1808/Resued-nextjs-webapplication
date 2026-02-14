@@ -134,17 +134,17 @@ export default function CartPage() {
                                                 <div key={item.product_id} className="p-4 md:p-6 flex flex-col md:grid md:grid-cols-12 gap-4 items-center group">
                                                     {/* Product Info */}
                                                     <div className="w-full md:col-span-6 flex gap-4 items-center">
-                                                        <div className="w-24 h-24 bg-gray-50 rounded-lg p-2 flex-shrink-0 border border-gray-100">
+                                                        <div className="w-28 h-28 md:w-32 md:h-32 bg-gray-50 rounded-lg p-2 flex-shrink-0 border border-gray-100">
                                                             <Image
                                                                 src={item.image || '/images/placeholder.png'}
                                                                 alt={item.name}
-                                                                width={100}
-                                                                height={100}
+                                                                width={128}
+                                                                height={128}
                                                                 className="w-full h-full object-contain mix-blend-multiply"
                                                             />
                                                         </div>
                                                         <div>
-                                                            <h3 className="font-semibold text-gray-900 md:text-sm mb-1 hover:text-[#a51c30] transition-colors">
+                                                            <h3 className="font-semibold text-gray-900 md:text-sm mb-1 hover:text-[#29abe2] transition-colors">
                                                                 <Link href={`/product/${item.slug}`}>{item.name}</Link>
                                                             </h3>
                                                             <p className="text-xs text-gray-500 mb-2">Condition: Good | Warranty: 6 Months</p>
@@ -173,7 +173,7 @@ export default function CartPage() {
                                                     {/* Total */}
                                                     <div className="w-full md:col-span-2 md:text-center flex justify-between md:block">
                                                         <span className="md:hidden text-gray-500 text-sm">Total:</span>
-                                                        <span className="font-bold text-[#a51c30]">₹{(item.price * item.quantity).toLocaleString("en-IN")}</span>
+                                                        <span className="font-bold text-[#0a2e5e]">₹{(item.price * item.quantity).toLocaleString("en-IN")}</span>
                                                     </div>
                                                 </div>
                                             ))}
@@ -185,8 +185,8 @@ export default function CartPage() {
                                             <i className="ri-shopping-cart-2-line text-4xl text-gray-300"></i>
                                         </div>
                                         <h2 className="text-xl font-bold text-gray-900 mb-2">Your cart is empty</h2>
-                                        <p className="text-gray-500 mb-8">Looks like you haven't added anything to your cart yet.</p>
-                                        <Link href="/" className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-bold rounded-lg text-white bg-[#a51c30] hover:bg-red-700 transition-colors shadow-lg hover:shadow-xl">
+                                        <p className="text-gray-500 mb-8">Looks like you haven&apos;t added anything to your cart yet.</p>
+                                        <Link href="/" className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-bold rounded-lg text-white bg-[#0a2e5e] hover:bg-[#29abe2] transition-colors shadow-lg hover:shadow-xl">
                                             Start Shopping
                                         </Link>
                                     </div>
@@ -194,7 +194,7 @@ export default function CartPage() {
 
                                 {cartItems.length > 0 && (
                                     <div className="mt-6 flex justify-between items-center">
-                                        <Link href="/" className="text-gray-600 hover:text-[#a51c30] font-semibold flex items-center gap-2 transition-colors">
+                                        <Link href="/" className="text-gray-600 hover:text-[#29abe2] font-semibold flex items-center gap-2 transition-colors">
                                             <i className="ri-arrow-left-line"></i> Continue Shopping
                                         </Link>
                                     </div>
@@ -226,7 +226,7 @@ export default function CartPage() {
                                         <div className="border-t border-gray-100 pt-4 mb-6">
                                             <div className="flex justify-between items-end">
                                                 <span className="text-lg font-bold text-gray-900">Total</span>
-                                                <span className="text-2xl font-bold text-[#a51c30]">₹{totals.total.toLocaleString("en-IN")}</span>
+                                                <span className="text-2xl font-bold text-[#0a2e5e]">₹{totals.total.toLocaleString("en-IN")}</span>
                                             </div>
                                             <p className="text-xs text-gray-500 mt-1 text-right">Inclusive of all taxes</p>
                                         </div>
@@ -247,14 +247,14 @@ export default function CartPage() {
                         </div>
                     ) : (
                         <div className="flex flex-col items-center justify-center py-20 bg-white rounded-xl shadow-sm border border-gray-200">
-                            <div className="w-24 h-24 bg-red-50 rounded-full flex items-center justify-center mb-6">
-                                <i className="ri-lock-2-line text-4xl text-[#a51c30]"></i>
+                            <div className="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center mb-6">
+                                <i className="ri-lock-2-line text-4xl text-[#0a2e5e]"></i>
                             </div>
                             <h2 className="text-2xl font-bold text-gray-900 mb-3">Login Required</h2>
                             <p className="text-gray-500 mb-8 text-center max-w-md">
                                 Please login to view your shopping cart and proceed with your purchase.
                             </p>
-                            <Link href="/login" className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-bold rounded-lg text-white bg-[#a51c30] hover:bg-red-700 transition-colors shadow-lg hover:shadow-xl gap-2">
+                            <Link href="/login" className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-bold rounded-lg text-white bg-[#0a2e5e] hover:bg-[#29abe2] transition-colors shadow-lg hover:shadow-xl gap-2">
                                 <i className="ri-login-box-line"></i> Login Now
                             </Link>
                         </div>

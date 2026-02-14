@@ -52,7 +52,7 @@ export default function StockAlertModal({ isOpen, onClose, productId, productNam
                     </div>
                     <h3 className="text-xl font-bold text-gray-900">Get Notified!</h3>
                     <p className="text-gray-500 text-sm mt-1">
-                        We'll alert you when <strong>{productName}</strong> is back in stock.
+                        We&apos;ll alert you when <strong>{productName}</strong> is back in stock.
                     </p>
                 </div>
 

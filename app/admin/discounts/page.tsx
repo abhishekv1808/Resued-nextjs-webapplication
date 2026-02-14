@@ -149,7 +149,7 @@ export default function AdminDiscounts() {
                 <h1 className="text-2xl font-bold text-gray-800">Discount Codes</h1>
                 <button
                     onClick={() => handleOpenModal()}
-                    className="bg-[#a51c30] text-white px-4 py-2 rounded-lg hover:bg-red-700 transition"
+                    className="bg-[#0a2e5e] text-white px-4 py-2 rounded-lg hover:bg-[#29abe2] transition shadow-lg shadow-blue-900/20"
                 >
                     + Create New
                 </button>
@@ -185,7 +185,7 @@ export default function AdminDiscounts() {
                                         {discount.usageLimit ? ` / ${discount.usageLimit}` : ''}
                                     </td>
                                     <td className="p-4">
-                                        <span className={`px-2 py-1 rounded text-xs font-bold ${discount.isActive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                                        <span className={`px-2 py-1 rounded text-xs font-bold ${discount.isActive ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'}`}>
                                             {discount.isActive ? 'Active' : 'Inactive'}
                                         </span>
                                     </td>
@@ -288,7 +288,7 @@ export default function AdminDiscounts() {
                                     id="isActive"
                                     checked={formData.isActive}
                                     onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
-                                    className="w-4 h-4 text-red-600 rounded focus:ring-red-500"
+                                    className="w-4 h-4 text-[#0a2e5e] rounded focus:ring-[#29abe2]"
                                 />
                                 <label htmlFor="isActive" className="text-sm font-semibold">Active</label>
                             </div>
@@ -304,7 +304,7 @@ export default function AdminDiscounts() {
                                 <button
                                     type="submit"
                                     disabled={loading}
-                                    className="px-4 py-2 bg-[#a51c30] text-white rounded-lg font-medium hover:bg-red-700 disabled:opacity-50"
+                                    className="px-4 py-2 bg-[#0a2e5e] text-white rounded-lg font-medium hover:bg-[#29abe2] disabled:opacity-50 transition-colors shadow-lg shadow-blue-900/20"
                                 >
                                     {loading ? 'Saving...' : 'Save Discount'}
                                 </button>

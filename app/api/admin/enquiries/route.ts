@@ -1,8 +1,11 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Enquiry from '@/models/Enquiry';
+import { requireAdmin } from '@/lib/admin-auth';
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+    const authError = await requireAdmin();
+    if (authError) return authError;
     try {
         await dbConnect();
         const enquiries = await Enquiry.find({}).sort({ date: -1 });

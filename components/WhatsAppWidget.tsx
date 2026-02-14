@@ -14,7 +14,7 @@ export default function WhatsAppWidget() {
 
     // Replace with actual support number
     const phoneNumber = "919632178786";
-    const message = encodeURIComponent("Hello! I'm interested in buying a refurbished computer.");
+    const message = encodeURIComponent("Hello! I'm interested in buying an original used laptop (Corporate Pull).");
 
     return (
         <div

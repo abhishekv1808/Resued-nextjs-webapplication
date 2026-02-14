@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
   serverExternalPackages: ['mongoose', 'mongodb'],
   images: {
+    minimumCacheTTL: 2592000,
     remotePatterns: [
       {
         protocol: 'https',

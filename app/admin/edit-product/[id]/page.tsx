@@ -136,7 +136,7 @@ export default function EditProduct() {
         }
     };
 
-    if (loading) return <div className="flex items-center justify-center h-screen"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div></div>;
+    if (loading) return <div className="flex items-center justify-center h-screen"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0a2e5e]"></div></div>;
     if (!product) return <div className="p-8 text-center text-red-500 font-bold">Product not found</div>;
 
     return (
@@ -152,7 +152,7 @@ export default function EditProduct() {
                 {/* Basic Details */}
                 <div className="bg-[var(--admin-card)] rounded-xl border border-[var(--admin-border)] p-6 shadow-sm">
                     <h3 className="text-lg font-bold text-[var(--admin-text-main)] mb-4 flex items-center gap-2">
-                        <i className="ri-article-line text-red-500"></i> Basic Details
+                        <i className="ri-article-line text-[#0a2e5e]"></i> Basic Details
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
@@ -161,7 +161,7 @@ export default function EditProduct() {
                         </div>
                         <div>
                             <label className="block text-xs font-bold text-[var(--admin-text-muted)] uppercase tracking-wider mb-2">Brand</label>
-                            <select name="brand" value={product.brand} onChange={handleInputChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 transition-colors" required>
+                            <select name="brand" value={product.brand} onChange={handleInputChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#29abe2] transition-colors" required>
                                 <option value="Apple">Apple</option>
                                 <option value="Dell">Dell</option>
                                 <option value="HP">HP</option>
@@ -177,11 +177,11 @@ export default function EditProduct() {
                         </div>
                         <div className="md:col-span-2">
                             <label className="block text-xs font-bold text-[var(--admin-text-muted)] uppercase tracking-wider mb-2">Product Name</label>
-                            <input type="text" name="name" value={product.name} onChange={handleInputChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 transition-colors" required />
+                            <input type="text" name="name" value={product.name} onChange={handleInputChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#29abe2] transition-colors" required />
                         </div>
                         <div className="md:col-span-2">
                             <label className="block text-xs font-bold text-[var(--admin-text-muted)] uppercase tracking-wider mb-2">Description</label>
-                            <textarea name="description" rows={4} value={product.description || ''} onChange={handleInputChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 transition-colors resize-none"></textarea>
+                            <textarea name="description" rows={4} value={product.description || ''} onChange={handleInputChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#29abe2] transition-colors resize-none"></textarea>
                         </div>
                     </div>
                 </div>
@@ -194,15 +194,15 @@ export default function EditProduct() {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div>
                             <label className="block text-xs font-bold text-[var(--admin-text-muted)] uppercase tracking-wider mb-2">MRP (₹)</label>
-                            <input type="number" name="mrp" value={product.mrp} onChange={handleInputChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 transition-colors" required />
+                            <input type="number" name="mrp" value={product.mrp} onChange={handleInputChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#29abe2] transition-colors" required />
                         </div>
                         <div>
                             <label className="block text-xs font-bold text-[var(--admin-text-muted)] uppercase tracking-wider mb-2">Selling Price (₹)</label>
-                            <input type="number" name="price" value={product.price} onChange={handleInputChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 transition-colors" required />
+                            <input type="number" name="price" value={product.price} onChange={handleInputChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#29abe2] transition-colors" required />
                         </div>
                         <div>
                             <label className="block text-xs font-bold text-[var(--admin-text-muted)] uppercase tracking-wider mb-2">Stock Quantity</label>
-                            <input type="number" name="quantity" value={product.quantity} onChange={handleInputChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 transition-colors" required />
+                            <input type="number" name="quantity" value={product.quantity} onChange={handleInputChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#29abe2] transition-colors" required />
                         </div>
                     </div>
                 </div>
@@ -219,11 +219,11 @@ export default function EditProduct() {
                                 <>
                                     <div>
                                         <label className="block text-xs font-bold text-[var(--admin-text-muted)] uppercase tracking-wider mb-2">Processor</label>
-                                        <input type="text" name="processor" value={specifications.processor || ''} onChange={handleSpecChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 transition-colors" />
+                                        <input type="text" name="processor" value={specifications.processor || ''} onChange={handleSpecChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#29abe2] transition-colors" />
                                     </div>
                                     <div>
                                         <label className="block text-xs font-bold text-[var(--admin-text-muted)] uppercase tracking-wider mb-2">RAM</label>
-                                        <select name="ram" value={specifications.ram || ''} onChange={handleSpecChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 transition-colors">
+                                        <select name="ram" value={specifications.ram || ''} onChange={handleSpecChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#29abe2] transition-colors">
                                             <option value="">Select RAM</option>
                                             <option value="4GB">4GB</option>
                                             <option value="8GB">8GB</option>
@@ -234,7 +234,7 @@ export default function EditProduct() {
                                     </div>
                                     <div>
                                         <label className="block text-xs font-bold text-[var(--admin-text-muted)] uppercase tracking-wider mb-2">Storage</label>
-                                        <select name="storage" value={specifications.storage || ''} onChange={handleSpecChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 transition-colors">
+                                        <select name="storage" value={specifications.storage || ''} onChange={handleSpecChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#29abe2] transition-colors">
                                             <option value="">Select Storage</option>
                                             <option value="128GB SSD">128GB SSD</option>
                                             <option value="256GB SSD">256GB SSD</option>
@@ -247,11 +247,11 @@ export default function EditProduct() {
                                     </div>
                                     <div>
                                         <label className="block text-xs font-bold text-[var(--admin-text-muted)] uppercase tracking-wider mb-2">Graphics</label>
-                                        <input type="text" name="graphics" value={specifications.graphics || ''} onChange={handleSpecChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 transition-colors" />
+                                        <input type="text" name="graphics" value={specifications.graphics || ''} onChange={handleSpecChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#29abe2] transition-colors" />
                                     </div>
                                     <div>
                                         <label className="block text-xs font-bold text-[var(--admin-text-muted)] uppercase tracking-wider mb-2">OS</label>
-                                        <select name="os" value={specifications.os || ''} onChange={handleSpecChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 transition-colors">
+                                        <select name="os" value={specifications.os || ''} onChange={handleSpecChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#29abe2] transition-colors">
                                             <option value="">Select OS</option>
                                             <option value="Windows 10">Windows 10</option>
                                             <option value="Windows 11">Windows 11</option>
@@ -263,7 +263,7 @@ export default function EditProduct() {
                                     {product.category === 'desktop' && (
                                         <div>
                                             <label className="block text-xs font-bold text-[var(--admin-text-muted)] uppercase tracking-wider mb-2">Form Factor</label>
-                                            <select name="formFactor" value={specifications.formFactor || ''} onChange={handleSpecChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 transition-colors">
+                                            <select name="formFactor" value={specifications.formFactor || ''} onChange={handleSpecChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#29abe2] transition-colors">
                                                 <option value="">Select Form Factor</option>
                                                 <option value="All-in-One (AIO)">All-in-One (AIO)</option>
                                                 <option value="Tower Desktop">Tower Desktop</option>
@@ -277,7 +277,7 @@ export default function EditProduct() {
                             {product.category === 'laptop' && (
                                 <div>
                                     <label className="block text-xs font-bold text-[var(--admin-text-muted)] uppercase tracking-wider mb-2">Display Size</label>
-                                    <input type="text" name="display" value={specifications.display || ''} onChange={handleSpecChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 transition-colors" />
+                                    <input type="text" name="display" value={specifications.display || ''} onChange={handleSpecChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#29abe2] transition-colors" />
                                 </div>
                             )}
 
@@ -285,7 +285,7 @@ export default function EditProduct() {
                                 <>
                                     <div>
                                         <label className="block text-xs font-bold text-[var(--admin-text-muted)] uppercase tracking-wider mb-2">Screen Size</label>
-                                        <select name="screenSize" value={specifications.screenSize || ''} onChange={handleSpecChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 transition-colors">
+                                        <select name="screenSize" value={specifications.screenSize || ''} onChange={handleSpecChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#29abe2] transition-colors">
                                             <option value="">Select Size</option>
                                             <option value="21.5 inch">21.5 inch</option>
                                             <option value="22 inch">22 inch</option>
@@ -296,7 +296,7 @@ export default function EditProduct() {
                                     </div>
                                     <div>
                                         <label className="block text-xs font-bold text-[var(--admin-text-muted)] uppercase tracking-wider mb-2">Panel Type</label>
-                                        <select name="panelType" value={specifications.panelType || ''} onChange={handleSpecChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 transition-colors">
+                                        <select name="panelType" value={specifications.panelType || ''} onChange={handleSpecChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#29abe2] transition-colors">
                                             <option value="">Select Panel</option>
                                             <option value="IPS">IPS</option>
                                             <option value="VA">VA</option>
@@ -306,7 +306,7 @@ export default function EditProduct() {
                                     </div>
                                     <div>
                                         <label className="block text-xs font-bold text-[var(--admin-text-muted)] uppercase tracking-wider mb-2">Refresh Rate</label>
-                                        <select name="refreshRate" value={specifications.refreshRate || ''} onChange={handleSpecChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 transition-colors">
+                                        <select name="refreshRate" value={specifications.refreshRate || ''} onChange={handleSpecChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#29abe2] transition-colors">
                                             <option value="">Select Refresh Rate</option>
                                             <option value="60Hz">60Hz</option>
                                             <option value="75Hz">75Hz</option>
@@ -318,7 +318,7 @@ export default function EditProduct() {
                                     </div>
                                     <div>
                                         <label className="block text-xs font-bold text-[var(--admin-text-muted)] uppercase tracking-wider mb-2">Resolution</label>
-                                        <select name="resolution" value={specifications.resolution || ''} onChange={handleSpecChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 transition-colors">
+                                        <select name="resolution" value={specifications.resolution || ''} onChange={handleSpecChange} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#29abe2] transition-colors">
                                             <option value="">Select Resolution</option>
                                             <option value="HD (1366x768)">HD (1366x768)</option>
                                             <option value="Full HD (1920x1080)">Full HD (1920x1080)</option>
@@ -361,7 +361,7 @@ export default function EditProduct() {
                     )}
 
                     {/* New Uploads */}
-                    <div className="w-full h-[150px] border-2 border-dashed border-[var(--admin-border)] hover:border-red-500 rounded-xl flex flex-col items-center justify-center bg-[var(--admin-hover)]/30 transition-all cursor-pointer relative overflow-hidden group">
+                    <div className="w-full h-[150px] border-2 border-dashed border-[var(--admin-border)] hover:border-[#29abe2] rounded-xl flex flex-col items-center justify-center bg-[var(--admin-hover)]/30 transition-all cursor-pointer relative overflow-hidden group">
                         <input
                             type="file"
                             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
@@ -370,7 +370,7 @@ export default function EditProduct() {
                             onChange={handleFileChange}
                         />
                         <div className="text-center pointer-events-none">
-                            <i className="ri-upload-cloud-2-line text-3xl text-red-500 mb-2 block"></i>
+                            <i className="ri-upload-cloud-2-line text-3xl text-[#0a2e5e] mb-2 block"></i>
                             <p className="text-[var(--admin-text-main)] font-medium text-sm">Upload New Images</p>
                         </div>
                     </div>
@@ -396,7 +396,7 @@ export default function EditProduct() {
 
                 <div className="flex justify-end gap-3 pt-6 border-t border-[var(--admin-border)]">
                     <Link href="/admin/products" className="px-5 py-2.5 rounded-lg border border-[var(--admin-border)] text-[var(--admin-text-muted)] hover:text-[var(--admin-text-main)] hover:bg-[var(--admin-hover)] text-sm font-bold transition-all">Cancel</Link>
-                    <button type="submit" disabled={submitting} className="px-6 py-2.5 rounded-lg bg-red-600 hover:bg-red-700 text-white text-sm font-bold shadow-lg shadow-red-900/20 transition-all flex items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed">
+                    <button type="submit" disabled={submitting} className="px-6 py-2.5 rounded-lg bg-[#0a2e5e] hover:bg-[#29abe2] text-white text-sm font-bold shadow-lg shadow-blue-900/20 transition-all flex items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed">
                         {submitting ? <><i className="ri-loader-4-line animate-spin"></i> Updating...</> : 'Update Product'}
                     </button>
                 </div>

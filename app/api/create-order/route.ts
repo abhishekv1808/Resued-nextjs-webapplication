@@ -1,60 +1,66 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import dbConnect from "@/lib/db";
 import Product from "@/models/Product";
 import Order from "@/models/Order";
-import Razorpay from "razorpay";
+import User from "@/models/User";
 import { getIronSession } from "iron-session";
 import { sessionOptions, SessionData } from "@/lib/session";
+import { cookies } from "next/headers";
 
 
 export async function POST(req: NextRequest) {
     try {
-        const razorpay = new Razorpay({
-            key_id: process.env.RAZORPAY_KEY_ID!,
-            key_secret: process.env.RAZORPAY_KEY_SECRET!
-        });
-
-        const session = await getIronSession<SessionData>(req, new Response(), sessionOptions);
+        const session = await getIronSession<SessionData>(await cookies(), sessionOptions);
         if (!session.isLoggedIn || !session.user) {
             return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
         }
 
         const { address, discountCode } = await req.json();
-        const cookieStore = await cookies();
-        let cart: any[] = [];
-        if (cookieStore.has('cart')) {
-            cart = JSON.parse(cookieStore.get('cart')!.value);
-        }
-
-        if (cart.length === 0) {
-            return NextResponse.json({ success: false, message: "Cart is empty" }, { status: 400 });
-        }
 
         await dbConnect();
 
+        // Read cart from user's DB document (NOT from cookies)
+        const dbUser = await User.findById(session.user._id).populate('cart.product').lean();
+        if (!dbUser || !dbUser.cart || dbUser.cart.length === 0) {
+            return NextResponse.json({ success: false, message: "Cart is empty" }, { status: 400 });
+        }
+
         // --- 1. Calculate Base Total ---
-        const productIds = cart.map(item => item.productId);
+        // Extract product IDs (handle both populated and unpopulated cart)
+        const productIds = dbUser.cart.map((item: any) =>
+            item.product?._id || item.product
+        );
         const products = await Product.find({ _id: { $in: productIds } }).lean();
 
-        let subToal = 0;
+        let subTotal = 0;
         const orderProducts: any[] = [];
 
-        cart.forEach((cartItem: any) => {
-            const product = products.find((p: any) => p._id.toString() === cartItem.productId);
+        for (const cartItem of dbUser.cart as any[]) {
+            const cartProductId = (cartItem.product?._id || cartItem.product)?.toString();
+            const product = products.find((p: any) => p._id.toString() === cartProductId);
             if (product) {
+                if (!product.inStock || product.quantity < cartItem.quantity) {
+                    return NextResponse.json({
+                        success: false,
+                        message: `"${product.name}" is out of stock or has insufficient quantity`
+                    }, { status: 400 });
+                }
                 const itemTotal = product.price * cartItem.quantity;
-                subToal += itemTotal;
+                subTotal += itemTotal;
                 orderProducts.push({
                     product: product,
                     quantity: cartItem.quantity
                 });
             }
-        });
+        }
+
+        if (orderProducts.length === 0) {
+            return NextResponse.json({ success: false, message: "No valid products in cart" }, { status: 400 });
+        }
 
         // --- 2. Calculate Tax ---
-        const tax = Math.round(subToal * 0.18);
-        const totalWithTax = subToal + tax;
+        const tax = Math.round(subTotal * 0.18);
+        const totalWithTax = subTotal + tax;
 
         // --- 3. Apply Discount ---
         let finalAmount = totalWithTax;
@@ -92,26 +98,98 @@ export async function POST(req: NextRequest) {
             }
         }
 
-        // --- 4. Create Razorpay Order ---
-        const options = {
-            amount: Math.round(finalAmount * 100), // paise
-            currency: "INR",
-            receipt: "order_rcptid_" + Date.now()
-        };
+        // --- 4. Create PhonePe Payment (OAuth API) ---
+        const clientId = process.env.PHONEPE_CLIENT_ID!;
+        const clientSecret = process.env.PHONEPE_CLIENT_SECRET!;
+        const clientVersion = process.env.PHONEPE_CLIENT_VERSION || "1";
+        const isProduction = process.env.PHONEPE_ENV === "PRODUCTION";
 
-        const order = await razorpay.orders.create(options);
+        const phonePeBaseUrl = isProduction
+            ? "https://api.phonepe.com/apis/pg"
+            : "https://api-preprod.phonepe.com/apis/pg-sandbox";
 
-        if (!order) {
-            return NextResponse.json({ success: false, message: "Error creating Razorpay order" }, { status: 500 });
+        // Step 1: Get OAuth access token
+        const tokenResponse = await fetch(`${phonePeBaseUrl}/v1/oauth/token`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: new URLSearchParams({
+                client_id: clientId,
+                client_version: clientVersion,
+                client_secret: clientSecret,
+                grant_type: "client_credentials",
+            }).toString(),
+        });
+
+        const tokenData = await tokenResponse.json();
+
+        if (!tokenData.access_token) {
+            console.error("PhonePe OAuth error:", JSON.stringify(tokenData, null, 2));
+            return NextResponse.json({
+                success: false,
+                message: "Failed to authenticate with PhonePe"
+            }, { status: 500 });
         }
 
+        const accessToken = tokenData.access_token;
+
+        // Step 2: Create payment order
+        const merchantOrderId = "ORDER_" + Date.now() + "_" + Math.random().toString(36).substring(2, 7);
+        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+
+        const paymentPayload = {
+            merchantOrderId: merchantOrderId,
+            amount: Math.round(finalAmount * 100), // paise
+            expireAfter: 1200, // 20 minutes
+            paymentFlow: {
+                type: "PG_CHECKOUT",
+                message: "Payment for your order",
+                merchantUrls: {
+                    redirectUrl: `${baseUrl}/api/verify-payment?merchantOrderId=${merchantOrderId}`,
+                },
+            },
+        };
+
+        const paymentResponse = await fetch(`${phonePeBaseUrl}/checkout/v2/pay`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `O-Bearer ${accessToken}`,
+            },
+            body: JSON.stringify(paymentPayload),
+        });
+
+        const paymentData = await paymentResponse.json();
+
+        if (!paymentResponse.ok || !paymentData.orderId) {
+            console.error("PhonePe payment error:", JSON.stringify(paymentData, null, 2));
+            return NextResponse.json({
+                success: false,
+                message: paymentData.message || "Error creating PhonePe payment",
+            }, { status: 500 });
+        }
+
+        // Use the redirectUrl from PhonePe's response (contains JWT token for checkout page)
+        const phonePeCheckoutUrl = paymentData.redirectUrl;
+
+        // --- 5. Save Order ---
         const newOrder = new Order({
             user: session.user._id,
             products: orderProducts,
             totalAmount: finalAmount,
-            razorpayOrderId: order.id,
+            phonePeTransactionId: paymentData.orderId || merchantOrderId,
+            phonePeMerchantTransactionId: merchantOrderId,
             address: address || session.user.location || 'Default Address',
             status: 'Pending',
+            customerName: session.user.name || '',
+            customerPhone: session.user.phone || '',
+            statusHistory: [{
+                status: 'Pending',
+                timestamp: new Date(),
+                note: 'Order created',
+                updatedBy: 'system',
+            }],
             discountCode: appliedDiscountCode,
             discountAmount: discountAmount > 0 ? discountAmount : undefined
         });
@@ -120,14 +198,12 @@ export async function POST(req: NextRequest) {
 
         return NextResponse.json({
             success: true,
-            id: order.id,
-            currency: order.currency,
-            amount: order.amount,
-            key_id: process.env.RAZORPAY_KEY_ID
+            redirectUrl: phonePeCheckoutUrl,
+            merchantOrderId: merchantOrderId
         });
 
     } catch (error: any) {
-        console.error("Order creation error:", error);
-        return NextResponse.json({ success: false, message: "Internal Server Error" }, { status: 500 });
+        console.error("Order creation error:", error?.message || error, error?.stack);
+        return NextResponse.json({ success: false, message: error?.message || "Internal Server Error" }, { status: 500 });
     }
 }

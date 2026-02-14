@@ -53,15 +53,15 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     }
 
     const title = product.name;
-    const description = product.description?.substring(0, 160) || `Buy ${product.name} at Simtech Computers. Best price for ${product.brand} ${product.category}.`;
-    const url = `https://simtechcomputers.in/product/${slug}`;
+    const description = product.description?.substring(0, 160) || `Buy ${product.name} at Reused. Best price for ${product.brand} ${product.category}.`;
+    const url = `https://reused.in/product/${slug}`;
 
     const image = product.image || '/images/og-image.jpg';
 
     return {
         title: title, // Root template will add suffix
         description: description,
-        keywords: [product.name, product.brand, product.category, "refurbished laptop", "simtech computers"],
+        keywords: [product.name, product.brand, product.category, "refurbished laptop", "reused"],
         alternates: {
             canonical: url,
         },
@@ -69,7 +69,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
             title: title,
             description: description,
             url: url,
-            siteName: "Simtech Computers",
+            siteName: "Reused",
             images: [
                 {
                     url: image,
@@ -111,7 +111,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         },
         offers: {
             '@type': 'Offer',
-            url: `https://simtechcomputers.in/product/${product.slug}`,
+            url: `https://reused.in/product/${product.slug}`,
             priceCurrency: 'INR',
             price: product.price,
             availability: product.inStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
@@ -131,9 +131,9 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                 <div className="max-w-7xl mx-auto px-4">
                     {/* Breadcrumb */}
                     <nav className="flex mb-6 text-sm text-gray-500">
-                        <Link href="/" className="hover:text-[#a51c30]">Home</Link>
+                        <Link href="/" className="hover:text-[#0a2e5e]">Home</Link>
                         <span className="mx-2">&gt;</span>
-                        <Link href={`/${product.category}s`} className="hover:text-[#a51c30] capitalize">{product.category === 'accessory' ? 'accessories' : `${product.category}s`}</Link>
+                        <Link href={`/${product.category}s`} className="hover:text-[#0a2e5e] capitalize">{product.category === 'accessory' ? 'accessories' : `${product.category}s`}</Link>
                         <span className="mx-2">&gt;</span>
                         <span className="text-gray-900 font-medium truncate max-w-xs">{product.name}</span>
                     </nav>
@@ -144,7 +144,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                     <div className="mt-16">
                         <div className="flex justify-between items-end mb-8">
                             <h2 className="text-2xl font-bold text-gray-900">Similar Products</h2>
-                            <Link href={`/${product.category}s`} className="text-[#a51c30] font-semibold hover:underline flex items-center gap-1 text-sm">
+                            <Link href={`/${product.category}s`} className="text-[#0a2e5e] font-semibold hover:underline flex items-center gap-1 text-sm">
                                 View All <i className="ri-arrow-right-line"></i>
                             </Link>
                         </div>

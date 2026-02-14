@@ -28,6 +28,7 @@ export default function SidebarFilter({ filters }: SidebarFilterProps) {
                 newFilters[filter.id] = values;
             }
         });
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setSelectedFilters(newFilters);
     }, [searchParams, filters]);
 
@@ -67,7 +68,7 @@ export default function SidebarFilter({ filters }: SidebarFilterProps) {
                     <h2 className="text-lg font-bold text-gray-900">Filters</h2>
                     <button
                         onClick={() => router.push(pathname)}
-                        className="text-sm text-[#a51c30] hover:underline"
+                        className="text-sm text-[#0a2e5e] hover:underline"
                     >
                         Clear All
                     </button>
@@ -85,7 +86,7 @@ export default function SidebarFilter({ filters }: SidebarFilterProps) {
                                         value={option}
                                         checked={selectedFilters[filter.id]?.includes(option) || false}
                                         onChange={() => handleFilterChange(filter.id, option)}
-                                        className="rounded border-gray-300 text-[#a51c30] focus:ring-red-100"
+                                        className="rounded border-gray-300 text-[#0a2e5e] focus:ring-blue-100"
                                     />
                                     <span className="text-sm text-gray-600">{option}</span>
                                 </label>

@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
-    const baseUrl = 'https://simtechcomputers.in';
+    const baseUrl = 'https://reused.in';
 
     return {
         rules: {

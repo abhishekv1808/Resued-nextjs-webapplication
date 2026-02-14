@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         // Strip HTML from content for description
         const plainText = blog.content ? blog.content.replace(/<[^>]+>/g, '') : '';
         const description = plainText.substring(0, 160);
-        const url = `https://simtechcomputers.in/blogs/${id}`;
+        const url = `https://reused.in/blogs/${id}`;
 
         return {
             title: blog.title,
@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
                 url: url,
                 type: 'article',
                 publishedTime: blog.date?.toISOString(),
-                authors: [blog.author || 'Simtech Computers'],
+                authors: [blog.author || 'Reused'],
                 images: [
                     {
                         url: blog.image || '/images/og-image.jpg',
@@ -95,16 +95,16 @@ export default async function BlogPostPage({ params }: PageProps) {
 
                     {/* Breadcrumbs */}
                     <nav className="flex text-sm text-gray-500 mb-6">
-                        <Link href="/" className="hover:text-[#a51c30]">Home</Link>
+                        <Link href="/" className="hover:text-[#0a2e5e]">Home</Link>
                         <span className="mx-2">/</span>
-                        <Link href="/blogs" className="hover:text-[#a51c30]">Blog</Link>
+                        <Link href="/blogs" className="hover:text-[#0a2e5e]">Blog</Link>
                         <span className="mx-2">/</span>
                         <span className="text-gray-900 font-semibold truncate max-w-[200px] md:max-w-md">{blog.title}</span>
                     </nav>
 
                     {/* Blog Header */}
                     <header className="mb-10 text-center">
-                        <span className="inline-block px-3 py-1 bg-red-100 text-[#a51c30] rounded-full text-xs font-bold tracking-wide uppercase mb-4">
+                        <span className="inline-block px-3 py-1 bg-blue-100 text-[#0a2e5e] rounded-full text-xs font-bold tracking-wide uppercase mb-4">
                             Tech Insights
                         </span>
                         <h1 className="text-3xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight font-heading">
@@ -134,6 +134,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                             src={blog.image}
                             alt={blog.title}
                             fill
+                            unoptimized
                             className="object-cover"
                             priority
                         />
@@ -141,7 +142,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                     </div>
 
                     {/* Content */}
-                    <div className="prose prose-lg md:prose-xl max-w-none text-gray-700 leading-relaxed prose-headings:font-heading prose-a:text-[#a51c30] prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl">
+                    <div className="prose prose-lg md:prose-xl max-w-none text-gray-700 leading-relaxed prose-headings:font-heading prose-a:text-[#0a2e5e] prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl">
                         <div dangerouslySetInnerHTML={{ __html: blog.content }} />
                     </div>
 
@@ -179,13 +180,14 @@ export default async function BlogPostPage({ params }: PageProps) {
                                             src={item.image}
                                             alt={item.title}
                                             fill
+                                            unoptimized
                                             className="object-cover group-hover:scale-110 transition-transform duration-500"
                                         />
                                     </div>
                                     <div className="flex items-center gap-2 text-xs text-gray-500 mb-2">
                                         <span>{new Date(item.date).toLocaleDateString()}</span>
                                     </div>
-                                    <h4 className="font-bold text-gray-900 text-lg group-hover:text-[#a51c30] transition-colors line-clamp-2 font-heading">
+                                    <h4 className="font-bold text-gray-900 text-lg group-hover:text-[#0a2e5e] transition-colors line-clamp-2 font-heading">
                                         {item.title}
                                     </h4>
                                 </Link>

@@ -50,7 +50,7 @@ export default function AddProductSelection() {
                     <Link
                         key={category.name}
                         href={category.href}
-                        className="group bg-[var(--admin-card)] rounded-2xl p-8 border border-[var(--admin-border)] hover:border-red-500 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col items-center text-center"
+                        className="group bg-[var(--admin-card)] rounded-2xl p-8 border border-[var(--admin-border)] hover:border-[#29abe2] shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col items-center text-center"
                     >
                         <div className={`w-16 h-16 ${category.color} rounded-2xl flex items-center justify-center text-white text-3xl mb-6 group-hover:scale-110 transition-transform shadow-lg shadow-black/10`}>
                             <i className={category.icon}></i>
@@ -61,7 +61,7 @@ export default function AddProductSelection() {
                         <p className="text-[var(--admin-text-muted)] text-sm mb-6 leading-relaxed">
                             {category.description}
                         </p>
-                        <span className="mt-auto px-6 py-2 rounded-lg bg-[var(--admin-hover)] text-[var(--admin-text-main)] text-sm font-bold group-hover:bg-red-600 group-hover:text-white transition-colors">
+                        <span className="mt-auto px-6 py-2 rounded-lg bg-[var(--admin-hover)] text-[var(--admin-text-main)] text-sm font-bold group-hover:bg-[#0a2e5e] group-hover:text-white transition-colors">
                             Select {category.name}
                         </span>
                     </Link>
@@ -71,7 +71,7 @@ export default function AddProductSelection() {
             <div className="mt-12 text-center">
                 <Link
                     href="/admin/products"
-                    className="text-[var(--admin-text-muted)] hover:text-red-600 font-medium transition-colors inline-flex items-center gap-2"
+                    className="text-[var(--admin-text-muted)] hover:text-[#0a2e5e] font-medium transition-colors inline-flex items-center gap-2"
                 >
                     <i className="ri-arrow-left-line"></i> Back to Inventory
                 </Link>

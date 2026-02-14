@@ -7,7 +7,9 @@
   --color-admin-bg: #0b0c15;
   --color-admin-card: #15161e;
   --color-admin-text: #9ca3af;
-  --color-accent-purple: #a51c30;
+  --color-brand-primary: #0a2e5e;
+  --color-brand-secondary: #29abe2;
+  --color-accent: #29abe2;
 }
 
 @layer base {
@@ -190,5 +192,23 @@
   #why-choose-us [class*="ri-shopping-"],
   #why-choose-us button:has([class*="ri-shopping-"]) {
     display: none !important;
+  }
+
+  /* Phone.email button theme overrides */
+  .phone-btn-themed .pe_button {
+    background: linear-gradient(135deg, #0a2e5e 0%, #29abe2 100%) !important;
+    border-radius: 12px !important;
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(10, 46, 94, 0.3) !important;
+    transition: all 0.3s ease !important;
+    font-family: var(--font-heading) !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.02em !important;
+    padding: 12px 28px !important;
+  }
+
+  .phone-btn-themed .pe_button:hover {
+    box-shadow: 0 6px 20px rgba(10, 46, 94, 0.4) !important;
+    transform: translateY(-2px) !important;
   }
 }

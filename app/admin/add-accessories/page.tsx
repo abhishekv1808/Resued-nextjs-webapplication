@@ -111,7 +111,7 @@ export default function AddAccessories() {
                         {/* Section 1: Basic Details */}
                         <div className="bg-[var(--admin-card)] rounded-xl border border-[var(--admin-border)] p-6 shadow-sm">
                             <h3 className="text-lg font-bold text-[var(--admin-text-main)] mb-4 flex items-center gap-2">
-                                <i className="ri-article-line text-red-500"></i> Basic Details
+                                <i className="ri-article-line text-[#0a2e5e]"></i> Basic Details
                             </h3>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
@@ -120,7 +120,7 @@ export default function AddAccessories() {
                                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                             <i className="ri-store-2-line text-gray-400"></i>
                                         </div>
-                                        <select name="brand" className="w-full pl-10 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors appearance-none" required>
+                                        <select name="brand" className="w-full pl-10 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#29abe2] focus:ring-1 focus:ring-[#29abe2] transition-colors appearance-none" required>
                                             <option value="" disabled>Select Brand</option>
                                             <option value="Logitech">Logitech</option>
                                             <option value="Razer">Razer</option>
@@ -144,13 +144,13 @@ export default function AddAccessories() {
                                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                             <i className="ri-keyboard-line text-gray-400"></i>
                                         </div>
-                                        <input type="text" name="name" className="w-full pl-10 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors" placeholder="e.g. MX Master 3S" required />
+                                        <input type="text" name="name" className="w-full pl-10 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#29abe2] focus:ring-1 focus:ring-[#29abe2] transition-colors" placeholder="e.g. MX Master 3S" required />
                                     </div>
                                 </div>
                                 <div className="md:col-span-2">
                                     <label className="block text-xs font-bold text-[var(--admin-text-muted)] uppercase tracking-wider mb-2">Description</label>
                                     <div className="relative">
-                                        <textarea name="description" rows={4} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors resize-none" placeholder="Enter detailed product description..."></textarea>
+                                        <textarea name="description" rows={4} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#29abe2] focus:ring-1 focus:ring-[#29abe2] transition-colors resize-none" placeholder="Enter detailed product description..."></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -168,7 +168,7 @@ export default function AddAccessories() {
                                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                             <span className="text-gray-400 font-bold">₹</span>
                                         </div>
-                                        <input type="number" name="mrp" className="w-full pl-8 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors" placeholder="0.00" required />
+                                        <input type="number" name="mrp" className="w-full pl-8 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#29abe2] focus:ring-1 focus:ring-[#29abe2] transition-colors" placeholder="0.00" required />
                                     </div>
                                 </div>
                                 <div>
@@ -177,7 +177,7 @@ export default function AddAccessories() {
                                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                             <span className="text-gray-400 font-bold">₹</span>
                                         </div>
-                                        <input type="number" name="price" className="w-full pl-8 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors" placeholder="0.00" required />
+                                        <input type="number" name="price" className="w-full pl-8 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#29abe2] focus:ring-1 focus:ring-[#29abe2] transition-colors" placeholder="0.00" required />
                                     </div>
                                 </div>
                                 <div>
@@ -186,7 +186,7 @@ export default function AddAccessories() {
                                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                             <i className="ri-stack-line text-gray-400"></i>
                                         </div>
-                                        <input type="number" name="quantity" className="w-full pl-10 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors" placeholder="0" required />
+                                        <input type="number" name="quantity" className="w-full pl-10 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#29abe2] focus:ring-1 focus:ring-[#29abe2] transition-colors" placeholder="0" required />
                                     </div>
                                 </div>
                             </div>
@@ -201,7 +201,7 @@ export default function AddAccessories() {
                                 onClick={() => fileInputRef.current?.click()}
                                 onDrop={handleDrop}
                                 onDragOver={handleDragOver}
-                                className="w-full h-[200px] border-2 border-dashed border-[var(--admin-border)] hover:border-red-500 rounded-xl flex flex-col items-center justify-center bg-[var(--admin-hover)]/30 transition-all cursor-pointer relative overflow-hidden group"
+                                className="w-full h-[200px] border-2 border-dashed border-[var(--admin-border)] hover:border-[#29abe2] rounded-xl flex flex-col items-center justify-center bg-[var(--admin-hover)]/30 transition-all cursor-pointer relative overflow-hidden group"
                             >
                                 <input
                                     type="file"
@@ -212,8 +212,8 @@ export default function AddAccessories() {
                                     onChange={handleFileChange}
                                 />
                                 <div className="text-center pointer-events-none">
-                                    <div className="w-16 h-16 bg-red-50 dark:bg-red-900/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                                        <i className="ri-upload-cloud-2-line text-3xl text-red-500"></i>
+                                    <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                                        <i className="ri-upload-cloud-2-line text-3xl text-[#0a2e5e]"></i>
                                     </div>
                                     <p className="text-[var(--admin-text-main)] font-medium">Click to upload or drag and drop</p>
                                     <p className="text-[var(--admin-text-muted)] text-xs mt-1">SVG, PNG, JPG or GIF (max. 10 images)</p>
@@ -246,7 +246,7 @@ export default function AddAccessories() {
 
                     <div className="pt-6 mt-6 border-t border-[var(--admin-border)] flex justify-end gap-3">
                         <Link href="/admin/products" className="px-5 py-2 rounded-lg border border-[var(--admin-border)] text-[var(--admin-text-muted)] hover:text-[var(--admin-text-main)] hover:bg-[var(--admin-hover)] text-sm font-bold transition-all">Cancel</Link>
-                        <button type="submit" disabled={submitting} className="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white text-sm font-bold shadow-lg shadow-red-900/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                        <button type="submit" disabled={submitting} className="px-6 py-2 rounded-lg bg-[#0a2e5e] hover:bg-[#29abe2] text-white text-sm font-bold shadow-lg shadow-blue-900/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
                             {submitting ? 'Saving...' : 'Save Accessory'}
                         </button>
                     </div>

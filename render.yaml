@@ -4,6 +4,7 @@ services:
     env: node
     buildCommand: npm install && npm run build
     startCommand: npx next start -p 10000
+    healthCheckPath: /api/health
     envVars:
       - key: NODE_VERSION
         value: 20.11.0
@@ -13,11 +14,15 @@ services:
         sync: false
       - key: IRON_SESSION_PASSWORD
         sync: false
-      - key: NEXT_PUBLIC_BASE_URL
+      - key: NEXT_PUBLIC_BASE_URL 
         sync: false
-      - key: RAZORPAY_KEY_ID
+      - key: PHONEPE_CLIENT_ID
         sync: false
-      - key: RAZORPAY_KEY_SECRET
+      - key: PHONEPE_CLIENT_SECRET
+        sync: false
+      - key: PHONEPE_CLIENT_VERSION
+        sync: false
+      - key: PHONEPE_ENV
         sync: false
       - key: VAPID_PUBLIC_KEY
         sync: false

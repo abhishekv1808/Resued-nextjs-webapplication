@@ -1,26 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/db";
 import User from "@/models/User";
-import { getIronSession } from "iron-session";
-import { sessionOptions, SessionData } from "@/lib/session";
+import { setSessionOnResponse } from "@/lib/session";
 import axios from "axios";
-
-function isValidAuthUrl(urlString: string | undefined): boolean {
-    try {
-        if (!urlString || typeof urlString !== 'string') return false;
-        const url = new URL(urlString);
-        return (
-            url.protocol === 'https:' &&
-            (url.hostname === 'phone.email' ||
-                url.hostname.endsWith('.phone.email') ||
-                url.hostname === 'www.phone.email')
-        );
-    } catch (e) {
-        return false;
-    }
-}
-
+import { signupSchema } from "@/lib/validations/auth";
 import { rateLimit } from '@/lib/rate-limit';
+
+export const dynamic = 'force-dynamic';
 
 export async function POST(req: NextRequest) {
     if (!await rateLimit(req, 5, 60)) {
@@ -30,19 +16,21 @@ export async function POST(req: NextRequest) {
         );
     }
     try {
-        const { name, location, user_json_url } = await req.json();
+        const body = await req.json();
+        const validation = signupSchema.safeParse(body);
 
-        if (!isValidAuthUrl(user_json_url)) {
-            console.error('Invalid auth URL:', user_json_url);
+        if (!validation.success) {
             return NextResponse.json(
-                { message: 'Invalid authentication URL' },
+                { message: 'Invalid input', errors: validation.error.format() },
                 { status: 400 }
             );
         }
 
+        const { name, location, user_json_url } = validation.data;
+
         const response = await axios.get(user_json_url, { timeout: 10000 });
         console.log("Phone.email response:", response.data);
-        const { user_phone_number, user_country_code } = response.data;
+        const { user_phone_number } = response.data;
 
         if (!user_phone_number) {
             console.error('Missing phone number in response:', response.data);
@@ -54,10 +42,8 @@ export async function POST(req: NextRequest) {
 
         await dbConnect();
 
-        // Normalize phone number (remove + if present for consistency or check logic)
-        // The previous logic seemed to handle both. Here we will store as is from provider?
-        // Let's stick to simple find first.
-        let existingUser = await User.findOne({ phone: user_phone_number });
+        // Check for existing user
+        const existingUser = await User.findOne({ phone: user_phone_number });
 
         if (existingUser) {
             return NextResponse.json(
@@ -70,28 +56,13 @@ export async function POST(req: NextRequest) {
             name,
             phone: user_phone_number,
             location,
+            tags: ['new_user'],
+            lastLogin: new Date(),
         });
 
         await newUser.save();
 
-        const session = await getIronSession<SessionData>(req, new Response(), sessionOptions);
-
-        // Create actual session on response
-        const res = NextResponse.json({
-            isLoggedIn: true,
-            user: {
-                _id: newUser._id.toString(),
-                name: newUser.name,
-                phone: newUser.phone,
-                location: newUser.location,
-                email: newUser.email,
-                address: newUser.address,
-            }
-        });
-
-        const ironSession = await getIronSession<SessionData>(req, res, sessionOptions);
-        ironSession.isLoggedIn = true;
-        ironSession.user = {
+        const userData = {
             _id: newUser._id.toString(),
             name: newUser.name,
             phone: newUser.phone,
@@ -99,14 +70,16 @@ export async function POST(req: NextRequest) {
             email: newUser.email,
             address: newUser.address,
         };
-        await ironSession.save();
 
+        // Create response FIRST, then set sealed cookie DIRECTLY on it
+        const res = NextResponse.json({ isLoggedIn: true, user: userData });
+        await setSessionOnResponse(res, { isLoggedIn: true, user: userData });
         return res;
 
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error('Signup error:', error);
         return NextResponse.json(
-            { message: error.message || 'Internal Server Error' },
+            { message: 'Internal Server Error' },
             { status: 500 }
         );
     }

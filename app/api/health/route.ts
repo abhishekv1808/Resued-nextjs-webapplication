@@ -40,8 +40,7 @@ export async function GET() {
         return NextResponse.json({
             status: 'unhealthy',
             database: {
-                status: 'error',
-                error: error instanceof Error ? error.message : 'Unknown error'
+                status: 'error'
             },
             timestamp: new Date().toISOString()
         }, { status: 500 });

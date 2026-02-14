@@ -2,6 +2,7 @@
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import Link from "next/link";
 import { useActionState, useEffect, useState } from "react";
 import { submitContact } from "@/app/actions/contact";
 
@@ -16,6 +17,7 @@ export default function ContactPage() {
 
     useEffect(() => {
         if (state.success) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setShowModal(true);
         }
     }, [state]);
@@ -28,7 +30,7 @@ export default function ContactPage() {
 
                     {/* Breadcrumb */}
                     <nav className="flex mb-8 text-sm text-gray-500">
-                        <a href="/" className="hover:text-[#a51c30]">Home</a>
+                        <Link href="/" className="hover:text-[#0a2e5e]">Home</Link>
                         <span className="mx-2">/</span>
                         <span className="text-gray-900 font-medium">Contact Us</span>
                     </nav>
@@ -45,7 +47,7 @@ export default function ContactPage() {
 
                                 {/* Jayanagar Store */}
                                 <div className="flex items-start gap-4 mb-6">
-                                    <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center text-[#a51c30] flex-shrink-0">
+                                    <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-[#0a2e5e] flex-shrink-0">
                                         <i className="ri-store-2-fill text-xl"></i>
                                     </div>
                                     <div>
@@ -55,7 +57,7 @@ export default function ContactPage() {
                                 </div>
 
                                 <div className="flex items-start gap-4 mb-6">
-                                    <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center text-[#a51c30] flex-shrink-0">
+                                    <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-[#0a2e5e] flex-shrink-0">
                                         <i className="ri-phone-line text-xl"></i>
                                     </div>
                                     <div>
@@ -65,12 +67,12 @@ export default function ContactPage() {
                                 </div>
 
                                 <div className="flex items-start gap-4">
-                                    <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center text-[#a51c30] flex-shrink-0">
+                                    <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-[#0a2e5e] flex-shrink-0">
                                         <i className="ri-mail-line text-xl"></i>
                                     </div>
                                     <div>
                                         <h3 className="font-bold text-gray-900 mb-1">Email</h3>
-                                        <p className="text-gray-600 text-sm">support@simtechcomputers.com</p>
+                                        <p className="text-gray-600 text-sm">support@reused.in</p>
                                     </div>
                                 </div>
                             </div>
@@ -79,7 +81,7 @@ export default function ContactPage() {
                             <div className="flex-grow flex flex-col min-h-[400px]">
                                 {/* Jayanagar Map */}
                                 <div className="bg-gray-200 rounded-xl w-full overflow-hidden relative flex-grow shadow-sm h-full">
-                                    <iframe src="https://maps.google.com/maps?q=Simtech+Computers+Jayanagar+Bangalore&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+                                    <iframe src="https://maps.google.com/maps?q=Reused+Jayanagar+Bangalore&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
                                 </div>
                             </div>
                         </div>
@@ -100,7 +102,7 @@ export default function ContactPage() {
                                         </div>
                                         <h3 className="text-xl font-bold text-gray-900 mb-2">Success!</h3>
                                         <p className="text-gray-600 text-center mb-6">{state.message}</p>
-                                        <button type="button" onClick={() => setShowModal(false)} className="w-full bg-[#a51c30] hover:bg-red-700 text-white font-bold py-2.5 rounded-lg transition-colors">
+                                        <button type="button" onClick={() => setShowModal(false)} className="w-full bg-[#0a2e5e] hover:bg-[#29abe2] text-white font-bold py-2.5 rounded-lg transition-colors">
                                             Close
                                         </button>
                                     </div>
@@ -112,7 +114,7 @@ export default function ContactPage() {
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
                                         <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
-                                        <input type="text" id="name" name="name" required autoComplete="name" className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-100 focus:border-[#a51c30] outline-none transition-all placeholder-gray-400" placeholder="John Doe" />
+                                        <input type="text" id="name" name="name" required autoComplete="name" className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-[#0a2e5e] outline-none transition-all placeholder-gray-400" placeholder="John Doe" />
                                     </div>
                                     <div>
                                         <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">Phone Number *</label>
@@ -124,7 +126,7 @@ export default function ContactPage() {
                                             autoComplete="tel"
                                             pattern="[0-9]{10,15}"
                                             title="Please enter a valid phone number (at least 10 digits)"
-                                            className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-100 focus:border-[#a51c30] outline-none transition-all placeholder-gray-400"
+                                            className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-[#0a2e5e] outline-none transition-all placeholder-gray-400"
                                             placeholder="9876543210"
                                         />
                                     </div>
@@ -132,7 +134,7 @@ export default function ContactPage() {
 
                                 <div>
                                     <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                                    <input type="email" id="email" name="email" className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-100 focus:border-[#a51c30] outline-none transition-all placeholder-gray-400" placeholder="john@example.com" />
+                                    <input type="email" id="email" name="email" className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-[#0a2e5e] outline-none transition-all placeholder-gray-400" placeholder="john@example.com" />
                                 </div>
 
                                 <hr className="border-gray-100 my-6" />
@@ -145,7 +147,7 @@ export default function ContactPage() {
                                     {/* Brand */}
                                     <div>
                                         <label htmlFor="brand" className="block text-sm font-medium text-gray-700 mb-1">Preferred Brand</label>
-                                        <select id="brand" name="brand" className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-100 focus:border-[#a51c30] outline-none transition-all bg-white" defaultValue="">
+                                        <select id="brand" name="brand" className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-[#0a2e5e] outline-none transition-all bg-white" defaultValue="">
                                             <option value="" disabled>Select Brand</option>
                                             <option value="Apple">Apple</option>
                                             <option value="Dell">Dell</option>
@@ -158,7 +160,7 @@ export default function ContactPage() {
                                     {/* Processor */}
                                     <div>
                                         <label htmlFor="processor" className="block text-sm font-medium text-gray-700 mb-1">Processor</label>
-                                        <select id="processor" name="processor" className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-100 focus:border-[#a51c30] outline-none transition-all bg-white" defaultValue="">
+                                        <select id="processor" name="processor" className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-[#0a2e5e] outline-none transition-all bg-white" defaultValue="">
                                             <option value="" disabled>Select Processor</option>
                                             <option value="i3">Core i3</option>
                                             <option value="i5">Core i5</option>
@@ -174,7 +176,7 @@ export default function ContactPage() {
                                     {/* RAM */}
                                     <div>
                                         <label htmlFor="ram" className="block text-sm font-medium text-gray-700 mb-1">RAM</label>
-                                        <select id="ram" name="ram" className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-100 focus:border-[#a51c30] outline-none transition-all bg-white" defaultValue="">
+                                        <select id="ram" name="ram" className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-[#0a2e5e] outline-none transition-all bg-white" defaultValue="">
                                             <option value="" disabled>Select RAM</option>
                                             <option value="8GB">8GB</option>
                                             <option value="16GB">16GB</option>
@@ -187,7 +189,7 @@ export default function ContactPage() {
                                     {/* Storage */}
                                     <div>
                                         <label htmlFor="storage" className="block text-sm font-medium text-gray-700 mb-1">Storage</label>
-                                        <select id="storage" name="storage" className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-100 focus:border-[#a51c30] outline-none transition-all bg-white" defaultValue="">
+                                        <select id="storage" name="storage" className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-[#0a2e5e] outline-none transition-all bg-white" defaultValue="">
                                             <option value="" disabled>Select Storage</option>
                                             <option value="256GB SSD">256GB SSD</option>
                                             <option value="512GB SSD">512GB SSD</option>
@@ -200,13 +202,13 @@ export default function ContactPage() {
                                     {/* Model No */}
                                     <div>
                                         <label htmlFor="model" className="block text-sm font-medium text-gray-700 mb-1">Model No (Optional)</label>
-                                        <input type="text" id="model" name="model" className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-100 focus:border-[#a51c30] outline-none transition-all placeholder-gray-400" placeholder="e.g. XPS 13, MacBook Air M2" />
+                                        <input type="text" id="model" name="model" className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-[#0a2e5e] outline-none transition-all placeholder-gray-400" placeholder="e.g. XPS 13, MacBook Air M2" />
                                     </div>
 
                                     {/* Purpose */}
                                     <div>
                                         <label htmlFor="purpose" className="block text-sm font-medium text-gray-700 mb-1">Purpose</label>
-                                        <select id="purpose" name="purpose" className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-100 focus:border-[#a51c30] outline-none transition-all bg-white" defaultValue="">
+                                        <select id="purpose" name="purpose" className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-[#0a2e5e] outline-none transition-all bg-white" defaultValue="">
                                             <option value="" disabled>Select Purpose</option>
                                             <option value="Business">Business</option>
                                             <option value="Gaming">Gaming</option>
@@ -220,10 +222,10 @@ export default function ContactPage() {
                                 {/* Message */}
                                 <div>
                                     <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Additional Requirements</label>
-                                    <textarea id="message" name="message" rows={4} className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-100 focus:border-[#a51c30] outline-none transition-all placeholder-gray-400" placeholder="Any specific details, model years, or budget range..."></textarea>
+                                    <textarea id="message" name="message" rows={4} className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-[#0a2e5e] outline-none transition-all placeholder-gray-400" placeholder="Any specific details, model years, or budget range..."></textarea>
                                 </div>
 
-                                <button type="submit" disabled={isPending} className="w-full bg-[#a51c30] hover:bg-red-700 text-white font-bold py-3 rounded-lg shadow-md transition-colors flex items-center justify-center gap-2 disabled:opacity-50">
+                                <button type="submit" disabled={isPending} className="w-full bg-[#0a2e5e] hover:bg-[#29abe2] text-white font-bold py-3 rounded-lg shadow-md transition-colors flex items-center justify-center gap-2 disabled:opacity-50">
                                     {isPending ? 'Sending...' : (
                                         <>
                                             <span>Send Enquiry</span>

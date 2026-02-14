@@ -122,7 +122,7 @@ export default function AddLaptop() {
                         {/* Section 1: Basic Details */}
                         <div className="bg-[var(--admin-card)] rounded-xl border border-[var(--admin-border)] p-6 shadow-sm">
                             <h3 className="text-lg font-bold text-[var(--admin-text-main)] mb-4 flex items-center gap-2">
-                                <i className="ri-article-line text-red-500"></i> Basic Details
+                                <i className="ri-article-line text-[#0a2e5e]"></i> Basic Details
                             </h3>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
@@ -131,7 +131,7 @@ export default function AddLaptop() {
                                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                             <i className="ri-store-2-line text-gray-400"></i>
                                         </div>
-                                        <select name="brand" className="w-full pl-10 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors appearance-none" required defaultValue="">
+                                        <select name="brand" className="w-full pl-10 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#29abe2] focus:ring-1 focus:ring-[#29abe2] transition-colors appearance-none" required defaultValue="">
                                             <option value="" disabled>Select Brand</option>
                                             <option value="Apple">Apple</option>
                                             <option value="Dell">Dell</option>
@@ -153,13 +153,13 @@ export default function AddLaptop() {
                                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                             <i className="ri-macbook-line text-gray-400"></i>
                                         </div>
-                                        <input type="text" name="name" className="w-full pl-10 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors" placeholder="e.g. MacBook Pro M1" required />
+                                        <input type="text" name="name" className="w-full pl-10 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#29abe2] focus:ring-1 focus:ring-[#29abe2] transition-colors" placeholder="e.g. MacBook Pro M1" required />
                                     </div>
                                 </div>
                                 <div className="md:col-span-2">
                                     <label className="block text-xs font-bold text-[var(--admin-text-muted)] uppercase tracking-wider mb-2">Description</label>
                                     <div className="relative">
-                                        <textarea name="description" rows={4} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors resize-none" placeholder="Enter detailed product description..."></textarea>
+                                        <textarea name="description" rows={4} className="w-full bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#29abe2] focus:ring-1 focus:ring-[#29abe2] transition-colors resize-none" placeholder="Enter detailed product description..."></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -177,7 +177,7 @@ export default function AddLaptop() {
                                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                             <span className="text-gray-400 font-bold">₹</span>
                                         </div>
-                                        <input type="number" name="mrp" className="w-full pl-8 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors" placeholder="0.00" required />
+                                        <input type="number" name="mrp" className="w-full pl-8 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#29abe2] focus:ring-1 focus:ring-[#29abe2] transition-colors" placeholder="0.00" required />
                                     </div>
                                 </div>
                                 <div>
@@ -186,7 +186,7 @@ export default function AddLaptop() {
                                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                             <span className="text-gray-400 font-bold">₹</span>
                                         </div>
-                                        <input type="number" name="price" className="w-full pl-8 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors" placeholder="0.00" required />
+                                        <input type="number" name="price" className="w-full pl-8 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#29abe2] focus:ring-1 focus:ring-[#29abe2] transition-colors" placeholder="0.00" required />
                                     </div>
                                 </div>
                                 <div>
@@ -195,7 +195,7 @@ export default function AddLaptop() {
                                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                             <i className="ri-stack-line text-gray-400"></i>
                                         </div>
-                                        <input type="number" name="quantity" className="w-full pl-10 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors" placeholder="0" required />
+                                        <input type="number" name="quantity" className="w-full pl-10 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#29abe2] focus:ring-1 focus:ring-[#29abe2] transition-colors" placeholder="0" required />
                                     </div>
                                 </div>
                             </div>
@@ -213,7 +213,7 @@ export default function AddLaptop() {
                                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                             <i className="ri-cpu-line text-gray-400"></i>
                                         </div>
-                                        <input type="text" name="processor" className="w-full pl-10 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors" placeholder="e.g. i7-12700H" required />
+                                        <input type="text" name="processor" className="w-full pl-10 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#29abe2] focus:ring-1 focus:ring-[#29abe2] transition-colors" placeholder="e.g. i7-12700H" required />
                                     </div>
                                 </div>
                                 <div>
@@ -222,7 +222,7 @@ export default function AddLaptop() {
                                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                             <i className="ri-microchip-line text-gray-400"></i>
                                         </div>
-                                        <select name="ram" className="w-full pl-10 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors appearance-none" required>
+                                        <select name="ram" className="w-full pl-10 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#29abe2] focus:ring-1 focus:ring-[#29abe2] transition-colors appearance-none" required>
                                             <option value="" disabled>Select RAM</option>
                                             <option value="8GB">8GB</option>
                                             <option value="16GB">16GB</option>
@@ -240,7 +240,7 @@ export default function AddLaptop() {
                                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                             <i className="ri-hard-drive-2-line text-gray-400"></i>
                                         </div>
-                                        <select name="storage" className="w-full pl-10 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors appearance-none" required defaultValue="">
+                                        <select name="storage" className="w-full pl-10 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#29abe2] focus:ring-1 focus:ring-[#29abe2] transition-colors appearance-none" required defaultValue="">
                                             <option value="" disabled>Select Storage</option>
                                             <option value="256GB SSD">256GB SSD</option>
                                             <option value="512GB SSD">512GB SSD</option>
@@ -258,7 +258,7 @@ export default function AddLaptop() {
                                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                             <i className="ri-tv-line text-gray-400"></i>
                                         </div>
-                                        <input type="text" name="display" className="w-full pl-10 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors" placeholder="e.g. 15.6 inch" />
+                                        <input type="text" name="display" className="w-full pl-10 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#29abe2] focus:ring-1 focus:ring-[#29abe2] transition-colors" placeholder="e.g. 15.6 inch" />
                                     </div>
                                 </div>
                                 <div>
@@ -267,7 +267,7 @@ export default function AddLaptop() {
                                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                             <i className="ri-gamepad-line text-gray-400"></i>
                                         </div>
-                                        <input type="text" name="graphics" className="w-full pl-10 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors" placeholder="e.g. RTX 3050" />
+                                        <input type="text" name="graphics" className="w-full pl-10 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#29abe2] focus:ring-1 focus:ring-[#29abe2] transition-colors" placeholder="e.g. RTX 3050" />
                                     </div>
                                 </div>
                                 <div>
@@ -276,7 +276,7 @@ export default function AddLaptop() {
                                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                             <i className="ri-windows-fill text-gray-400"></i>
                                         </div>
-                                        <select name="os" className="w-full pl-10 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors appearance-none">
+                                        <select name="os" className="w-full pl-10 bg-[var(--admin-hover)] border border-[var(--admin-border)] text-[var(--admin-text-main)] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#29abe2] focus:ring-1 focus:ring-[#29abe2] transition-colors appearance-none">
                                             <option value="macOS">macOS</option>
                                             <option value="Windows 10">Windows 10</option>
                                             <option value="Windows 11">Windows 11</option>
@@ -300,7 +300,7 @@ export default function AddLaptop() {
                                 onClick={() => fileInputRef.current?.click()}
                                 onDrop={handleDrop}
                                 onDragOver={handleDragOver}
-                                className="w-full h-[200px] border-2 border-dashed border-[var(--admin-border)] hover:border-red-500 rounded-xl flex flex-col items-center justify-center bg-[var(--admin-hover)]/30 transition-all cursor-pointer relative overflow-hidden group"
+                                className="w-full h-[200px] border-2 border-dashed border-[var(--admin-border)] hover:border-[#29abe2] rounded-xl flex flex-col items-center justify-center bg-[var(--admin-hover)]/30 transition-all cursor-pointer relative overflow-hidden group"
                             >
                                 <input
                                     type="file"
@@ -311,8 +311,8 @@ export default function AddLaptop() {
                                     onChange={handleFileChange}
                                 />
                                 <div className="text-center pointer-events-none">
-                                    <div className="w-16 h-16 bg-red-50 dark:bg-red-900/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                                        <i className="ri-upload-cloud-2-line text-3xl text-red-500"></i>
+                                    <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                                        <i className="ri-upload-cloud-2-line text-3xl text-[#0a2e5e]"></i>
                                     </div>
                                     <p className="text-[var(--admin-text-main)] font-medium">Click to upload or drag and drop</p>
                                     <p className="text-[var(--admin-text-muted)] text-xs mt-1">SVG, PNG, JPG or GIF (max. 10 images)</p>
@@ -345,7 +345,7 @@ export default function AddLaptop() {
 
                     <div className="pt-6 mt-6 border-t border-[var(--admin-border)] flex justify-end gap-3">
                         <Link href="/admin/products" className="px-5 py-2 rounded-lg border border-[var(--admin-border)] text-[var(--admin-text-muted)] hover:text-[var(--admin-text-main)] hover:bg-[var(--admin-hover)] text-sm font-bold transition-all">Cancel</Link>
-                        <button type="submit" disabled={submitting} className="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-bold shadow-lg shadow-red-900/20 transition-all">
+                        <button type="submit" disabled={submitting} className="px-6 py-2 rounded-lg bg-[#0a2e5e] hover:bg-[#29abe2] disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-bold shadow-lg shadow-blue-900/20 transition-all">
                             {submitting ? 'Saving...' : 'Save Laptop'}
                         </button>
                     </div>

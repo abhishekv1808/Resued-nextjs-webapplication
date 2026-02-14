@@ -28,6 +28,7 @@ export function CompareProvider({ children }: { children: ReactNode }) {
 
     // Load from localStorage on mount (client-side only)
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setIsMounted(true);
         const saved = localStorage.getItem("simtech_compare");
         if (saved) {

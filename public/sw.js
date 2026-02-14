@@ -1,9 +1,9 @@
-const CACHE_NAME = 'simtech-static-v1';
+const CACHE_NAME = 'reused-static-v1';
 const ASSETS_TO_CACHE = [
     '/output.css',
     '/js/layout.js',
     '/js/wishlist.js',
-    '/images/simtech-computers-logo.svg',
+    '/images/Reused-logo.svg',
     'https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css'
 ];
 
@@ -66,9 +66,9 @@ self.addEventListener('push', function (event) {
 
     const options = {
         body: data.body,
-        icon: data.icon || '/images/logo.png',
+        icon: data.icon || '/images/Reused-logo.svg',
         image: data.image, // Large banner image
-        badge: '/images/logo.png',
+        badge: '/images/Reused-logo.svg',
         data: {
             url: data.url || '/'
         },

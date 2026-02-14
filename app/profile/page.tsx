@@ -17,12 +17,21 @@ export default async function ProfilePage() {
 
     await dbConnect();
     // Fetch full user data to ensure latest details
-    const user = await User.findById(session.user._id).lean();
+    let user;
+    try {
+        user = await User.findById(session.user._id).lean();
+    } catch (err) {
+        console.error('Profile: DB query failed for user', session.user._id, err);
+        // Don't destroy the session on transient DB errors — just show stale session data
+        user = null;
+    }
 
     if (!user) {
-        // Handle edge case where session exists but user is deleted
-        // We cannot modify cookies in Server Component, so redirect to an API route to do it
-        redirect('/api/auth/clear-session');
+        // Instead of destroying the session (which causes logout), redirect to home.
+        // The session is still valid — the user might just have a DB connectivity issue.
+        // Only clear session if we're SURE the user was deleted (not a transient failure).
+        console.warn('Profile: User not found in DB for session user:', session.user._id);
+        redirect('/');
     }
 
     const userData = {
@@ -30,7 +39,8 @@ export default async function ProfilePage() {
         email: user.email,
         phone: user.phone,
         location: user.location,
-        address: user.address
+        address: user.address,
+        authProvider: user.authProvider || 'phone',
     };
 
     return (

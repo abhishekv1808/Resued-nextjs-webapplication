@@ -1,10 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { getIronSession } from 'iron-session';
-import { sessionOptions, SessionData } from '@/lib/session';
+import { NextResponse } from 'next/server';
+import { clearSessionOnResponse } from '@/lib/session';
 
-export async function POST(req: NextRequest) {
+export const dynamic = 'force-dynamic';
+
+export async function POST() {
     const res = NextResponse.json({ isLoggedIn: false });
-    const session = await getIronSession<SessionData>(req, res, sessionOptions);
-    session.destroy();
+    clearSessionOnResponse(res);
     return res;
 }

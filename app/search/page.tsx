@@ -26,7 +26,8 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
     }
 
     if (q) {
-        const searchRegex = new RegExp(q, 'i');
+        const escaped = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const searchRegex = new RegExp(escaped, 'i');
         const searchConditions = [
             { name: { $regex: searchRegex } },
             { brand: { $regex: searchRegex } },
@@ -67,7 +68,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
                 <div className="max-w-7xl mx-auto px-4">
                     {/* Breadcrumbs */}
                     <nav className="flex text-sm text-gray-500 mb-6">
-                        <Link href="/" className="hover:text-[#a51c30]">Home</Link>
+                        <Link href="/" className="hover:text-[#29abe2]">Home</Link>
                         <span className="mx-2">/</span>
                         <span className="text-gray-900 font-semibold">Search Results</span>
                     </nav>
@@ -77,7 +78,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
                             {q ? `Ah, searching for "${q}"...` : 'All Products'}
                         </h1>
                         <p className="text-gray-500">
-                            We found <span className="font-bold text-[#a51c30]">{products.length}</span> results
+                            We found <span className="font-bold text-[#0a2e5e]">{products.length}</span> results
                             {category ? ` in ${category}` : ''}
                             {q ? ` for "${q}"` : ''}
                         </p>
@@ -91,15 +92,15 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
                         </div>
                     ) : (
                         <div className="flex flex-col items-center justify-center py-16 bg-white rounded-2xl border border-gray-100 shadow-sm text-center px-4">
-                            <div className="w-24 h-24 bg-red-50 rounded-full flex items-center justify-center mb-6 text-[#a51c30]">
+                            <div className="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center mb-6 text-[#0a2e5e]">
                                 <i className="ri-search-2-line text-4xl"></i>
                             </div>
                             <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">No matches found</h2>
                             <p className="text-gray-500 max-w-md mx-auto mb-8">
-                                We couldn't find any products matching your search. Try different keywords or browse our categories.
+                                We couldn&apos;t find any products matching your search. Try different keywords or browse our categories.
                             </p>
                             <div className="flex flex-wrap justify-center gap-4">
-                                <Link href="/" className="px-6 py-3 bg-[#a51c30] text-white rounded-xl font-bold hover:bg-red-700 transition-colors">
+                                <Link href="/" className="px-6 py-3 bg-[#0a2e5e] text-white rounded-xl font-bold hover:bg-[#29abe2] transition-colors">
                                     Go Home
                                 </Link>
                                 <Link href="/laptops" className="px-6 py-3 bg-white border border-gray-200 text-gray-700 rounded-xl font-bold hover:bg-gray-50 transition-colors">

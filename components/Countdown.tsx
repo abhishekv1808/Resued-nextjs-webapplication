@@ -36,7 +36,7 @@ export default function Countdown() {
                 </div>
                 <span className="text-gray-500 font-bold">:</span>
                 <div className="flex flex-col">
-                    <span className="font-bold text-lg md:text-2xl leading-none w-[3ch] text-left font-mono text-[#a51c30]">{String(timeLeft.seconds).padStart(2, '0')}</span>
+                    <span className="font-bold text-lg md:text-2xl leading-none w-[3ch] text-left font-mono text-[#29abe2]">{String(timeLeft.seconds).padStart(2, '0')}</span>
                     <span className="text-[8px] md:text-[10px] text-gray-400 uppercase">Sec</span>
                 </div>
             </div>

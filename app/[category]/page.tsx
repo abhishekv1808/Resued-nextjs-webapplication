@@ -8,6 +8,7 @@ import SortDropdown from "@/components/ProductList/SortDropdown";
 import ProductCard from "@/components/ProductCard";
 import { categoryConfig } from "@/constants/categoryConfig";
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import Image from "next/image";
 
 interface PageProps {
@@ -145,7 +146,7 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
                 <div className="max-w-7xl mx-auto px-4">
                     {/* Breadcrumb */}
                     <nav className="flex mb-8 text-sm text-gray-500">
-                        <a href="/" className="hover:text-[#a51c30]">Home</a>
+                        <Link href="/" className="hover:text-[#29abe2]">Home</Link>
                         <span className="mx-2">/</span>
                         <span className="text-gray-900 font-medium capitalize">{normalizedCategory}</span>
                     </nav>
@@ -183,7 +184,7 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
                                     <button className="w-10 h-10 rounded-lg flex items-center justify-center border border-gray-300 text-gray-600 hover:bg-gray-50 disabled:opacity-50" disabled>
                                         <i className="ri-arrow-left-s-line"></i>
                                     </button>
-                                    <button className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#a51c30] text-white font-bold">1</button>
+                                    <button className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#0a2e5e] text-white font-bold">1</button>
                                     <button className="w-10 h-10 rounded-lg flex items-center justify-center border border-gray-300 text-gray-600 hover:bg-gray-50">
                                         <i className="ri-arrow-right-s-line"></i>
                                     </button>

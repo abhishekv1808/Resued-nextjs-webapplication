@@ -88,7 +88,7 @@ export default function ProductRow({
                             </button>
                         </div>
 
-                        <Link href={viewAllLink} className="text-[#a51c30] font-semibold hover:underline text-sm whitespace-nowrap">
+                        <Link href={viewAllLink} className="text-[#0a2e5e] font-semibold hover:underline text-sm whitespace-nowrap">
                             View All
                         </Link>
                     </div>

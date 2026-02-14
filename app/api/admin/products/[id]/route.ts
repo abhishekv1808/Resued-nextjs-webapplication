@@ -1,12 +1,15 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Product from '@/models/Product';
 import cloudinary, { deleteFromCloudinaryByUrl } from '@/lib/cloudinary';
+import { requireAdmin } from '@/lib/admin-auth';
 
 export async function GET(
-    request: Request,
+    request: NextRequest,
     context: { params: Promise<{ id: string }> }
 ) {
+    const authError = await requireAdmin();
+    if (authError) return authError;
     try {
         await dbConnect();
         const { id } = await context.params;
@@ -30,9 +33,11 @@ export async function GET(
 }
 
 export async function PUT(
-    request: Request,
+    request: NextRequest,
     context: { params: Promise<{ id: string }> }
 ) {
+    const authError = await requireAdmin();
+    if (authError) return authError;
     try {
         await dbConnect();
         const { id } = await context.params;
@@ -88,7 +93,7 @@ export async function PUT(
 
         // Handle Images
         const files = formData.getAll('images') as File[];
-        let imageUrls: string[] = [];
+        const imageUrls: string[] = [];
 
         // Keep existing images (handled via frontend usually passing what's left, 
         // but here we might just append new ones to the existing set if sending both is hard.
@@ -175,9 +180,11 @@ export async function PUT(
 }
 
 export async function DELETE(
-    request: Request,
+    request: NextRequest,
     context: { params: Promise<{ id: string }> }
 ) {
+    const authError = await requireAdmin();
+    if (authError) return authError;
     try {
         await dbConnect();
         const { id } = await context.params;

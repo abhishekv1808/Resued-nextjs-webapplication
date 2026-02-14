@@ -1,11 +1,10 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { getIronSession } from 'iron-session';
-import { sessionOptions, SessionData } from '@/lib/session';
+import { adminSessionOptions, SessionData } from '@/lib/session';
 
 export async function middleware(req: NextRequest) {
     const res = NextResponse.next();
-    const session = await getIronSession<SessionData>(req, res, sessionOptions);
 
     const { pathname } = req.nextUrl;
 
@@ -25,6 +24,8 @@ export async function middleware(req: NextRequest) {
 
     // Protection Logic
     if (isAdminPage || isAdminApi) {
+        const session = await getIronSession<SessionData>(req, res, adminSessionOptions);
+
         // Validation: Must be logged in AND be an admin
         if (!session.isLoggedIn || !session.user?.isAdmin) {
 
@@ -37,9 +38,14 @@ export async function middleware(req: NextRequest) {
             }
 
             // Handle Page requests (redirect to login)
+            // Copy any Set-Cookie headers from res to the redirect to preserve cookie refresh
             const loginUrl = new URL('/admin/login', req.url);
-            // Optional: returnUrl parameter could be added here
-            return NextResponse.redirect(loginUrl);
+            const redirectRes = NextResponse.redirect(loginUrl);
+            const setCookie = res.headers.get('set-cookie');
+            if (setCookie) {
+                redirectRes.headers.set('set-cookie', setCookie);
+            }
+            return redirectRes;
         }
     }
 

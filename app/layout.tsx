@@ -20,14 +20,14 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-    metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://simtechcomputers.in'),
+    metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://reused.in'),
     title: {
-        default: "Simtech Computers | Refurbished Laptops & Desktops in Bangalore",
-        template: "%s | Simtech Computers"
+        default: "Reused | Premium Laptops & Desktops in Bangalore",
+        template: "%s | Reused"
     },
     description: "Buy high-quality refurbished laptops, desktops, and monitors in Bangalore. Premium brands like Apple, Dell, HP, Lenovo at unbeatable prices with warranty.",
-    keywords: ["refurbished laptops", "used laptops bangalore", "second hand computers", "dell", "hp", "lenovo", "macbook", "simtech computers"],
-    publisher: "Simtech Computers",
+    keywords: ["refurbished laptops", "used laptops bangalore", "second hand computers", "dell", "hp", "lenovo", "macbook", "reused"],
+    publisher: "Reused",
     robots: {
         index: true,
         follow: true,
@@ -40,9 +40,9 @@ export const metadata: Metadata = {
         },
     },
     openGraph: {
-        title: "Simtech Computers | Premium Refurbished Tech",
+        title: "Reused | Premium Pre-Owned Tech",
         description: "Best deals on used laptops and desktops in Bangalore. Quality tested, warranty backed.",
-        siteName: "Simtech Computers",
+        siteName: "Reused",
         locale: "en_IN",
         type: "website",
         images: [
@@ -50,21 +50,26 @@ export const metadata: Metadata = {
                 url: '/images/og-image.jpg', // Ensure this exists or fallback
                 width: 1200,
                 height: 630,
-                alt: 'Simtech Computers Store',
+                alt: 'Reused Store',
             }
         ],
     },
     twitter: {
         card: "summary_large_image",
-        title: "Simtech Computers",
+        title: "Reused",
         description: "Premium refurbished laptops and desktops in Bangalore.",
         images: ['/images/og-image.jpg'], // Same as OG
     },
     icons: {
-        icon: '/images/favicon/favicon.ico',
+        icon: [
+            { url: '/images/favicon/favicon.ico', sizes: 'any' },
+            { url: '/images/favicon/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+            { url: '/images/favicon/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+        ],
         shortcut: '/images/favicon/favicon.ico',
         apple: '/images/favicon/apple-touch-icon.png',
     },
+    manifest: '/images/favicon/site.webmanifest',
     // Add your Google Search Console verification code here
     // verification: {
     //     google: "your-actual-verification-code",
@@ -84,11 +89,10 @@ export default function RootLayout({
                     rel="stylesheet"
                 />
                 <link rel="icon" href="/images/favicon/favicon.ico" sizes="any" />
-                <script
-                    dangerouslySetInnerHTML={{
-                        __html: `window.publicVapidKey = "${process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || ''}";`,
-                    }}
-                />
+                <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png" />
+                <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png" />
+                <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png" />
+                <link rel="manifest" href="/images/favicon/site.webmanifest" />
             </head>
             <body
                 className={`${plusJakartaSans.variable} ${outfit.variable} antialiased`}

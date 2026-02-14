@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useCart } from "@/context/CartContext";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import { addToWishlist, removeFromWishlist } from "@/app/actions/user";
 import Toast from "./Toast";
 import StockAlertModal from "./StockAlertModal";
 
@@ -80,9 +80,14 @@ export default function ProductCard({ product, isBestSeller = false }: ProductCa
         // Optimistic update
         setInWishlist(!inWishlist);
         try {
-            // await axios.post('/api/wishlist/toggle', { productId: product._id });
+            if (inWishlist) {
+                await removeFromWishlist(product._id);
+            } else {
+                await addToWishlist(product._id);
+            }
         } catch (err) {
-            setInWishlist(!inWishlist); // Revert
+            setInWishlist(!inWishlist); // Revert on error
+            setToast({ message: 'Failed to update wishlist', type: 'error' });
         }
     };
 
@@ -95,12 +100,12 @@ export default function ProductCard({ product, isBestSeller = false }: ProductCa
         return (
             <div className="bg-white rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-6 flex flex-row gap-3 md:gap-8 hover:shadow-[0_20px_50px_rgba(8,_112,_184,_0.07)] border border-gray-100 transition-all duration-300 group hover:-translate-y-1 relative overflow-hidden">
                 {/* Discount Badge */}
-                <div className="absolute top-0 left-0 bg-[#a51c30] text-white text-[10px] md:text-xs font-bold px-2 py-1 md:px-4 md:py-2 rounded-br-xl md:rounded-br-2xl z-10 shadow-lg">
+                <div className="absolute top-0 left-0 bg-[#0a2e5e] text-white text-[10px] md:text-xs font-bold px-2 py-1 md:px-4 md:py-2 rounded-br-xl md:rounded-br-2xl z-10 shadow-lg">
                     Save ₹{(product.mrp - product.price).toLocaleString('en-IN')}
                 </div>
 
-                <button onClick={toggleWishlist} className="absolute top-2 right-2 md:top-4 md:right-4 z-20 w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/90 hover:bg-white shadow-md flex items-center justify-center hover:text-red-500 transition-all group/wishlist" title="Add to Wishlist">
-                    <i className={`${inWishlist ? 'ri-heart-fill text-red-500' : 'ri-heart-line text-gray-400 group-hover/wishlist:text-red-500'} text-base md:text-xl transition-colors`}></i>
+                <button onClick={toggleWishlist} className="absolute top-2 right-2 md:top-4 md:right-4 z-20 w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/90 hover:bg-white shadow-md flex items-center justify-center hover:text-[#29abe2] transition-all group/wishlist" title="Add to Wishlist">
+                    <i className={`${inWishlist ? 'ri-heart-fill text-[#29abe2]' : 'ri-heart-line text-gray-400 group-hover/wishlist:text-[#29abe2]'} text-base md:text-xl transition-colors`}></i>
                 </button>
 
                 {/* Image Side */}
@@ -121,7 +126,7 @@ export default function ProductCard({ product, isBestSeller = false }: ProductCa
                             {product.category}
                         </span>
                         <Link href={`/product/${product.slug}`} className="block group/title">
-                            <h3 className="font-semibold text-gray-900 text-sm md:text-xl leading-tight mb-1 md:mb-2 group-hover/title:text-[#a51c30] transition-colors line-clamp-2">{product.name}</h3>
+                            <h3 className="font-semibold text-gray-900 text-sm md:text-xl leading-tight mb-1 md:mb-2 group-hover/title:text-[#0a2e5e] transition-colors line-clamp-2">{product.name}</h3>
                         </Link>
                         {/* Stars */}
                         <div className="flex text-yellow-400 text-xs md:text-sm gap-0.5">
@@ -134,7 +139,7 @@ export default function ProductCard({ product, isBestSeller = false }: ProductCa
 
                     {/* Price */}
                     <div className="flex items-baseline gap-2 md:gap-3 mb-2 md:mb-5">
-                        <span className="text-[#a51c30] font-bold text-lg md:text-3xl">₹{product.price.toLocaleString('en-IN')}</span>
+                        <span className="text-[#0a2e5e] font-bold text-lg md:text-3xl">₹{product.price.toLocaleString('en-IN')}</span>
                         <span className="text-gray-400 text-xs md:text-sm line-through font-medium">₹{product.mrp.toLocaleString('en-IN')}</span>
                     </div>
 
@@ -142,10 +147,10 @@ export default function ProductCard({ product, isBestSeller = false }: ProductCa
                     <div className="mt-auto">
                         <div className="flex justify-between text-[10px] md:text-xs font-bold mb-1">
                             <span className="text-gray-500">Sold: <span className="text-gray-900">{percentage}/100</span></span>
-                            <span className="text-[#a51c30]">{100 - percentage} items left</span>
+                            <span className="text-[#0a2e5e]">{100 - percentage} pulls left</span>
                         </div>
                         <div className="w-full bg-gray-100 rounded-full h-1.5 md:h-2.5 overflow-hidden">
-                            <div className="bg-gradient-to-r from-[#a51c30] to-red-500 h-1.5 md:h-2.5 rounded-full" style={{ width: `${percentage}%` }}></div>
+                            <div className="bg-gradient-to-r from-[#0a2e5e] to-[#29abe2] h-1.5 md:h-2.5 rounded-full" style={{ width: `${percentage}%` }}></div>
                         </div>
                     </div>
                 </div>
@@ -157,14 +162,14 @@ export default function ProductCard({ product, isBestSeller = false }: ProductCa
     return (
         <div className="w-[280px] flex-shrink-0 block bg-white rounded-xl border border-gray-200 p-4 hover:shadow-lg transition-all duration-300 relative group cursor-pointer snap-start">
             {/* Wishlist Button */}
-            <button onClick={toggleWishlist} className="absolute top-2 right-2 z-30 w-8 h-8 rounded-full bg-white hover:bg-red-50 shadow-sm flex items-center justify-center transition-all group/wishlist" title="Add to Wishlist">
-                <i className={`${inWishlist ? 'ri-heart-fill text-red-500' : 'ri-heart-line text-gray-400 group-hover/wishlist:text-red-500'} text-lg transition-colors`}></i>
+            <button onClick={toggleWishlist} className="absolute top-2 right-2 z-30 w-8 h-8 rounded-full bg-white hover:bg-blue-50 shadow-sm flex items-center justify-center transition-all group/wishlist" title="Add to Wishlist">
+                <i className={`${inWishlist ? 'ri-heart-fill text-[#29abe2]' : 'ri-heart-line text-gray-400 group-hover/wishlist:text-[#29abe2]'} text-lg transition-colors`}></i>
             </button>
 
             <Link href={`/product/${product.slug}`} className="block">
                 <div className="flex justify-between items-start mb-4">
                     <div className="bg-black text-white text-[10px] font-bold px-2 py-1.5 rounded-full flex items-center gap-1">
-                        <i className="ri-checkbox-circle-fill text-green-400 text-sm"></i> SIMTECH ASSURED
+                        <i className="ri-checkbox-circle-fill text-cyan-400 text-sm"></i> REUSED ASSURED
                     </div>
                     <div className="border border-green-300 text-green-700 text-[10px] font-bold px-2 py-0.5 rounded bg-green-50">
                         -₹{(product.mrp - product.price).toLocaleString('en-IN')} OFF
@@ -180,13 +185,13 @@ export default function ProductCard({ product, isBestSeller = false }: ProductCa
                     />
                     {!product.inStock && (
                         <div className="absolute inset-0 flex items-center justify-center z-10">
-                            <span className="bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">Out of Stock</span>
+                            <span className="bg-gray-800 text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-md uppercase tracking-tighter">Next Corporate Pull Soon</span>
                         </div>
                     )}
                 </div>
                 <h3 className="font-semibold text-gray-900 text-base leading-snug mb-3 line-clamp-2">{product.name}</h3>
                 <div className="flex items-center gap-2 mb-4">
-                    <span className="bg-red-700 text-white text-[10px] font-bold px-2 py-1 rounded">Best Price Guaranteed</span>
+                    <span className="bg-[#0a2e5e] text-white text-[10px] font-bold px-2 py-1 rounded">Best Price Guaranteed</span>
                     <div className="flex items-center gap-1 border border-gray-200 px-1.5 py-0.5 rounded text-xs font-bold text-gray-700 bg-gray-50">
                         {product.rating || 4.5} <i className="ri-star-fill text-yellow-400 text-[10px]"></i>
                     </div>
@@ -194,7 +199,7 @@ export default function ProductCard({ product, isBestSeller = false }: ProductCa
                 <div className="flex items-baseline gap-2 flex-wrap pr-10">
                     <span className="text-xl font-bold text-gray-900">₹{product.price.toLocaleString('en-IN')}</span>
                     <span className="text-gray-400 text-xs line-through">₹{product.mrp.toLocaleString('en-IN')}</span>
-                    <span className="text-red-500 font-bold text-sm">-{product.discount}%</span>
+                    <span className="text-[#29abe2] font-bold text-sm">-{product.discount}%</span>
                 </div>
             </Link>
 
@@ -212,7 +217,7 @@ export default function ProductCard({ product, isBestSeller = false }: ProductCa
                     <button
                         onClick={handleAddToCart}
                         disabled={addingLocal}
-                        className="absolute bottom-4 right-4 bg-[#a51c30] text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-red-700 transition-colors shadow-md z-20 disabled:opacity-70"
+                        className="absolute bottom-4 right-4 bg-[#0a2e5e] text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-[#29abe2] transition-colors shadow-md z-20 disabled:opacity-70"
                         title="Add to Cart">
                         {addingLocal ? <i className="ri-loader-4-line animate-spin"></i> : <i className="ri-shopping-cart-2-line"></i>}
                     </button>

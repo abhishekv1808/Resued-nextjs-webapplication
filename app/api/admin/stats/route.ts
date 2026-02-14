@@ -1,9 +1,13 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Product from '@/models/Product';
 import Enquiry from '@/models/Enquiry';
+import Order from '@/models/Order';
+import { requireAdmin } from '@/lib/admin-auth';
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+    const authError = await requireAdmin();
+    if (authError) return authError;
     try {
         await dbConnect();
 
@@ -50,12 +54,26 @@ export async function GET() {
             .limit(5)
             .select('name category price inStock quantity images');
 
+        // 7. Order Stats
+        const [totalOrders, pendingOrders, revenueAgg] = await Promise.all([
+            Order.countDocuments({}),
+            Order.countDocuments({ status: { $in: ['Pending', 'Paid', 'Confirmed'] } }),
+            Order.aggregate([
+                { $match: { status: { $in: ['Paid', 'Confirmed', 'Processing', 'Shipped', 'Delivered'] } } },
+                { $group: { _id: null, total: { $sum: '$totalAmount' } } },
+            ]),
+        ]);
+        const totalRevenue = revenueAgg.length > 0 ? revenueAgg[0].total : 0;
+
         return NextResponse.json({
             stats: {
                 totalProducts,
                 outOfStock,
                 newEnquiries,
-                inventoryValue
+                inventoryValue,
+                totalOrders,
+                pendingOrders,
+                totalRevenue,
             },
             categorySplit,
             recentProducts

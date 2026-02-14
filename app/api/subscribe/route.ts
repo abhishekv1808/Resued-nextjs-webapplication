@@ -1,8 +1,10 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { getIronSession } from 'iron-session';
+import { sessionOptions, SessionData } from '@/lib/session';
 import connectDB from '@/lib/db';
 import Subscription from '@/models/Subscription';
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
     try {
         await connectDB();
 
@@ -16,10 +18,32 @@ export async function POST(req: Request) {
             );
         }
 
+        // Try to get the logged-in user's ID from the session
+        let userId = null;
+        try {
+            const { cookies } = await import('next/headers');
+            const session = await getIronSession<SessionData>(await cookies(), sessionOptions);
+            if (session.isLoggedIn && session.user?._id) {
+                userId = session.user._id;
+            }
+        } catch {
+            // Session read failed — save subscription without userId
+        }
+
+        // Build the update payload
+        const updateData: Record<string, unknown> = {
+            endpoint: subscription.endpoint,
+            keys: subscription.keys,
+        };
+        // Only set userId if we have one (don't overwrite existing userId with null)
+        if (userId) {
+            updateData.userId = userId;
+        }
+
         // Use findOneAndUpdate with upsert to prevent duplicates
         await Subscription.findOneAndUpdate(
             { endpoint: subscription.endpoint },
-            subscription,
+            updateData,
             { upsert: true, new: true }
         );
 

@@ -1,9 +1,12 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Product from '@/models/Product';
 import cloudinary from '@/lib/cloudinary';
+import { requireAdmin } from '@/lib/admin-auth';
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
+    const authError = await requireAdmin();
+    if (authError) return authError;
     try {
         await dbConnect();
 
@@ -12,9 +15,10 @@ export async function GET(request: Request) {
 
         let filter: any = {};
         if (query) {
+            const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
             filter = {
                 $or: [
-                    { name: { $regex: query, $options: 'i' } },
+                    { name: { $regex: escaped, $options: 'i' } },
                     { brand: { $regex: query, $options: 'i' } },
                     { category: { $regex: query, $options: 'i' } }
                 ]
@@ -29,7 +33,9 @@ export async function GET(request: Request) {
     }
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+    const authError = await requireAdmin();
+    if (authError) return authError;
     try {
         await dbConnect();
         const formData = await request.formData();

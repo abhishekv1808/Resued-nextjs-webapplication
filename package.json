@@ -1,5 +1,5 @@
 {
-  "name": "simtech-next",
+  "name": "reused-next",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,18 +9,20 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@rive-app/react-canvas": "^4.26.2",
     "axios": "^1.13.4",
     "bcryptjs": "^3.0.3",
     "cloudinary": "^2.9.0",
+    "framer-motion": "^12.34.0",
     "iron-session": "^8.0.4",
     "jsonwebtoken": "^9.0.3",
     "lucide-react": "^0.563.0",
     "mongoose": "^9.1.5",
     "next": "16.1.6",
-    "razorpay": "^2.9.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "web-push": "^3.6.7"
+    "web-push": "^3.6.7",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

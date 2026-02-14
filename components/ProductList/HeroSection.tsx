@@ -18,7 +18,7 @@ export default function HeroSection({ config }: HeroSectionProps) {
     return (
         <div className="mb-8 relative rounded-2xl overflow-hidden shadow-2xl min-h-[250px] md:min-h-[280px] grid grid-cols-1 md:grid-cols-2 items-center" style={{ background: config.gradient }}>
             {/* Subtle Noise Overlay for Texture */}
-            <div className="absolute inset-0 opacity-10 mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url('https://grainy-gradients.vercel.app/noise.svg')" }}></div>
+            <div className="absolute inset-0 opacity-[0.08] mix-blend-overlay pointer-events-none" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}></div>
 
             {/* Text Content (Left Column) */}
             <div className="p-8 md:pl-12 text-left relative z-20">

@@ -15,6 +15,15 @@ export async function POST(req: Request) {
             );
         }
 
+        // Validate email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return NextResponse.json(
+                { message: "Invalid email format" },
+                { status: 400 }
+            );
+        }
+
         // Verify product exists
         const product = await Product.findById(productId);
         if (!product) {

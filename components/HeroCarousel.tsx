@@ -8,46 +8,50 @@ const slides = [
     {
         brand: 'Apple',
         gradient: 'linear-gradient(135deg, #1E0B36 0%, #102B7B 45%, #04D0D9 100%)',
-        badge: 'Premium Collection',
+        badge: 'Premium Original',
         title: 'MacBook Pro & Air',
-        subtitle: 'Performance Refined.',
-        subtitleGradient: 'from-red-400 to-purple-400',
-        desc: 'Power through your workflow with M-series chips. Simtech Assured quality.',
+        subtitle: '100% Originality.',
+        subtitleGradient: 'from-blue-400 to-cyan-400',
+        desc: 'Fresh corporate pulls with factory-sealed internals. Zero soldering, zero substitutions.',
         image: '/images/Indian-women-with-apple-laptop.png',
-        link: '/laptops?brand=Apple'
+        link: '/laptops?brand=Apple',
+        priority: true
     },
     {
         brand: 'Dell',
         gradient: 'linear-gradient(135deg, #021B35 0%, #004E8F 50%, #007DB8 100%)',
-        badge: 'Business Ready',
+        badge: 'Corporate Pulls',
         title: 'Dell Latitude & XPS',
-        subtitle: 'Built for Business.',
-        subtitleGradient: 'from-cyan-300 to-red-200',
-        desc: 'Enterprise-grade durability meets premium design. The perfect choice for professionals.',
+        subtitle: 'Zero Soldered Boards.',
+        subtitleGradient: 'from-cyan-300 to-blue-200',
+        desc: 'Untouched factory engineering for professionals who demand 100% original hardware.',
         image: '/images/Indian-women-with-Dell-laptop.png',
-        link: '/laptops?brand=Dell'
+        link: '/laptops?brand=Dell',
+        priority: false
     },
     {
         brand: 'HP',
         gradient: 'linear-gradient(135deg, #002D3A 0%, #006D85 50%, #00A6C7 100%)',
-        badge: 'Elite Performance',
+        badge: 'MNC Standards',
         title: 'HP EliteBook',
-        subtitle: 'Elegance Meets Power.',
+        subtitle: 'No Repaired Parts.',
         subtitleGradient: 'from-teal-300 to-emerald-200',
-        desc: 'Stunning craftsmanship with robust security features for the modern workplace.',
+        desc: 'Audit-grade machines straight from global bank pulls. Just as the factory intended.',
         image: '/images/Indian-women-with-hp-laptop.png',
-        link: '/laptops?brand=HP'
+        link: '/laptops?brand=HP',
+        priority: false
     },
     {
         brand: 'Lenovo',
         gradient: 'linear-gradient(135deg, #2D0F0F 0%, #881212 50%, #E22B2B 100%)',
-        badge: 'Pro Series',
+        badge: 'Originality Audit',
         title: 'Lenovo ThinkPad',
         subtitle: 'Legendary Reliability.',
         subtitleGradient: 'from-red-400 to-orange-300',
-        desc: 'Tested against 12 military-grade requirements. The ultimate tool for productivity.',
+        desc: 'Factory-sealed ThinkPads that have never seen a local repair shop. 100% Original DNA.',
         image: '/images/Indian-women-with-lenovo-laptop.png',
-        link: '/laptops?brand=Lenovo'
+        link: '/laptops?brand=Lenovo',
+        priority: false
     }
 ];
 
@@ -64,6 +68,9 @@ export default function HeroCarousel() {
     const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
     const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
 
+    // Optimized local noise pattern
+    const noiseBg = `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`;
+
     return (
         <div className="relative w-full rounded-xl md:rounded-3xl overflow-hidden shadow-xl md:shadow-2xl mb-6 md:mb-12 group h-[160px] md:h-[380px]">
             <div className="carousel-inner relative w-full h-full">
@@ -73,8 +80,11 @@ export default function HeroCarousel() {
                         className={`carousel-item absolute inset-0 w-full h-full transition-opacity duration-700 ease-in-out ${index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
                         style={{ background: slide.gradient }}
                     >
-                        {/* Noise Overlay */}
-                        <div className="absolute inset-0 opacity-10 mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url('https://grainy-gradients.vercel.app/noise.svg')" }}></div>
+                        {/* Optimized Noise Overlay */}
+                        <div
+                            className="absolute inset-0 opacity-[0.08] mix-blend-overlay pointer-events-none"
+                            style={{ backgroundImage: noiseBg }}
+                        ></div>
 
                         <div className="flex flex-col md:flex-row h-full items-center relative z-20">
                             <div className="pl-4 pr-0 py-2 md:py-8 md:px-16 md:pl-24 flex flex-col justify-center items-start text-left h-full w-full md:w-[58%]">
@@ -102,7 +112,7 @@ export default function HeroCarousel() {
                                     width={500}
                                     height={400}
                                     className="object-contain w-auto h-[80%] md:h-[85%] drop-shadow-2xl animate-slide-up"
-                                    priority={index === 0}
+                                    priority={slide.priority}
                                 />
                             </div>
                         </div>

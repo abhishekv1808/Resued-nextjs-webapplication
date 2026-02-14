@@ -6,6 +6,7 @@ export interface ISubscription extends Document {
         p256dh: string;
         auth: string;
     };
+    userId?: mongoose.Types.ObjectId;
     createdAt: Date;
 }
 
@@ -24,6 +25,12 @@ const subscriptionSchema: Schema = new Schema({
             type: String,
             required: true,
         },
+    },
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: false,
+        index: true,
     },
     createdAt: {
         type: Date,

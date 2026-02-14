@@ -58,7 +58,8 @@ export async function POST(req: NextRequest) {
             message: "Discount applied successfully"
         });
 
-    } catch (error: any) {
-        return NextResponse.json({ success: false, message: error.message }, { status: 500 });
+    } catch (error: unknown) {
+        console.error('Discount verification error:', error);
+        return NextResponse.json({ success: false, message: 'Internal Server Error' }, { status: 500 });
     }
 }

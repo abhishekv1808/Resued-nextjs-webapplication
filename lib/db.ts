@@ -50,8 +50,16 @@ if (!cached) {
 }
 
 async function dbConnect() {
+    // Check if cached connection is still alive
     if (cached.conn) {
-        return cached.conn;
+        const readyState = cached.conn.connection.readyState;
+        if (readyState === 1) {
+            return cached.conn; // Connected - reuse
+        }
+        // Connection is disconnected/disconnecting - reset cache
+        console.warn(`MongoDB connection stale (readyState: ${readyState}), reconnecting...`);
+        cached.conn = null;
+        cached.promise = null;
     }
 
     if (!cached.promise) {
@@ -72,9 +80,10 @@ async function dbConnect() {
             try {
                 console.log(`Attempting MongoDB connection... (Retries left: ${retries})`);
                 return await mongoose.connect(MONGODB_URI!, opts);
-            } catch (error: any) {
-                if (retries > 0 && (error.message.includes('ECONNREFUSED') || error.message.includes('querySrv'))) {
-                    console.warn(`MongoDB connection failed (DNS/Network), retrying in 2s... Error: ${error.message}`);
+            } catch (error: unknown) {
+                const message = error instanceof Error ? error.message : String(error);
+                if (retries > 0 && (message.includes('ECONNREFUSED') || message.includes('querySrv'))) {
+                    console.warn(`MongoDB connection failed (DNS/Network), retrying in 2s... Error: ${message}`);
                     await new Promise(resolve => setTimeout(resolve, 2000));
                     return connectWithRetry(retries - 1);
                 }

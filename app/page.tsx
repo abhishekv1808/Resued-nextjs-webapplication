@@ -14,10 +14,12 @@ import CTABanner from "@/components/CTABanner";
 import SEOContent from "@/components/SEOContent";
 import FAQ from "@/components/FAQ";
 import BlogSection from "@/components/BlogSection";
+import UsedVsRefurbished from "@/components/UsedVsRefurbished";
 import Image from "next/image";
 import Link from "next/link";
 import Loader from "@/components/Loader";
 import ProductRow from "@/components/ProductRow";
+import PriceDeals from "@/components/PriceDeals";
 
 async function getHomeData() {
     await dbConnect();
@@ -88,16 +90,16 @@ export default async function Home() {
                 {/* Hero Section */}
                 <section className="bg-white">
                     <div className="max-w-6xl mx-auto px-2 md:px-4 py-4 md:py-8 space-y-4 md:space-y-8">
-                        <h1 className="sr-only">Simtech Computers - Used Laptops & Desktops Bangalore</h1>
+                        <h1 className="sr-only">Reused - Used Laptops & Desktops Bangalore</h1>
                         <HeroCarousel />
 
                         {/* Sub Banners Grid */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div className="bg-[#ffeeee] rounded-2xl p-4 md:p-8 flex flex-row items-center justify-between relative overflow-hidden group hover:shadow-md transition-all h-[140px] md:h-auto">
+                            <div className="bg-blue-50 rounded-2xl p-4 md:p-8 flex flex-row items-center justify-between relative overflow-hidden group hover:shadow-md transition-all h-[140px] md:h-auto border border-blue-100/50">
                                 <div className="w-7/12 md:w-1/2 z-10">
-                                    <span className="text-rose-500 font-semibold text-[10px] md:text-sm mb-1 md:mb-2 block">Power & Performance</span>
+                                    <span className="text-[#0a2e5e] font-bold text-[10px] md:text-sm mb-1 md:mb-2 block uppercase tracking-wider">Power & Performance</span>
                                     <h3 className="text-lg md:text-2xl font-bold text-gray-900 mb-1 md:mb-2 leading-tight">Build Your Dream Workstation</h3>
-                                    <Link href="/desktops" className="inline-flex items-center text-rose-600 font-semibold text-xs md:text-base mt-2 md:mt-4 group-hover:underline">
+                                    <Link href="/desktops" className="inline-flex items-center text-[#29abe2] font-bold text-xs md:text-base mt-2 md:mt-4 group-hover:underline">
                                         Order Now <i className="ri-arrow-right-line ml-1"></i>
                                     </Link>
                                 </div>
@@ -122,12 +124,14 @@ export default async function Home() {
                     </div>
                 </section>
 
+                <PriceDeals />
+
                 {/* Why Choose Us */}
                 <section id="why-choose-us" className="bg-white py-8 md:py-16 border-t border-gray-100 rounded-2xl mb-0 relative overflow-hidden">
                     <div className="max-w-6xl mx-auto px-4">
                         <div className="text-center mb-6 md:mb-12">
-                            <h2 className="text-xl md:text-3xl font-bold text-gray-900 mb-2 px-4 md:px-0">Why Choose Simtech Computers?</h2>
-                            <p className="text-gray-500 text-xs md:text-base">The trusted destination for premium refurbished technology.</p>
+                            <h2 className="text-xl md:text-3xl font-bold text-gray-900 mb-2 px-4 md:px-0">Why Choose Reused?</h2>
+                            <p className="text-gray-500 text-xs md:text-base">The trusted destination for premium used technology.</p>
                         </div>
 
                         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-8">
@@ -137,9 +141,9 @@ export default async function Home() {
                                 { icon: "ri-arrow-left-right-line", title: "30 Day", subtitle: "Replacement", desc: "Hassle-free returns policy." },
                                 { icon: "ri-star-smile-fill", title: "4.9", subIcon: "ri-star-fill", subtitle: "Customer Review", desc: "Trusted by thousands." }
                             ].map((item, idx) => (
-                                <div key={idx} className="text-center group p-3 md:p-6 rounded-2xl hover:bg-red-50 transition-colors duration-300 border border-transparent hover:border-red-100">
-                                    <div className="w-10 h-10 md:w-16 md:h-16 mx-auto bg-red-50 rounded-full flex items-center justify-center mb-2 md:mb-4 group-hover:bg-[#a51c30] transition-colors duration-300">
-                                        <i className={`${item.icon} text-lg md:text-2xl text-[#a51c30] group-hover:text-white transition-colors duration-300`}></i>
+                                <div key={idx} className="text-center group p-3 md:p-6 rounded-2xl hover:bg-blue-50 transition-colors duration-300 border border-transparent hover:border-blue-100">
+                                    <div className="w-10 h-10 md:w-16 md:h-16 mx-auto bg-blue-50 rounded-full flex items-center justify-center mb-2 md:mb-4 group-hover:bg-[#0a2e5e] transition-colors duration-300">
+                                        <i className={`${item.icon} text-lg md:text-2xl text-[#0a2e5e] group-hover:text-white transition-colors duration-300`}></i>
                                     </div>
                                     <h3 className="text-lg md:text-3xl font-bold text-gray-900 mb-1 group-hover:scale-110 transition-transform duration-300 flex items-center justify-center gap-1">
                                         {item.title} {item.subIcon && <i className={`${item.subIcon} text-yellow-400 text-base md:text-xl`}></i>}
@@ -153,6 +157,7 @@ export default async function Home() {
                 </section>
 
                 <BrandLogos />
+                <UsedVsRefurbished />
 
                 {/* Daily Best Sells */}
                 {bestSellers.length > 0 && (
@@ -161,14 +166,14 @@ export default async function Home() {
                             <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 md:mb-8 gap-4">
                                 <div className="flex-1">
                                     <div className="flex items-center gap-2 mb-1 md:mb-2">
-                                        <div className="h-1 w-6 md:w-8 bg-[#a51c30] rounded-full"></div>
-                                        <span className="text-[#a51c30] font-bold text-[10px] md:text-sm uppercase tracking-wider">Don't Miss Out</span>
+                                        <div className="h-1 w-6 md:w-8 bg-[#0a2e5e] rounded-full"></div>
+                                        <span className="text-[#0a2e5e] font-bold text-[10px] md:text-sm uppercase tracking-wider">Don&apos;t Miss Out</span>
                                     </div>
                                     <h2 className="text-2xl md:text-4xl font-bold text-gray-900 flex items-center gap-3">
                                         Daily Best Sells
                                         <span className="relative flex h-2 w-2 md:h-3 md:w-3">
-                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                                            <span className="relative inline-flex rounded-full h-2 w-2 md:h-3 md:w-3 bg-red-500"></span>
+                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                                            <span className="relative inline-flex rounded-full h-2 w-2 md:h-3 md:w-3 bg-[#0a2e5e]"></span>
                                         </span>
                                     </h2>
                                 </div>

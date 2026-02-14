@@ -1,27 +1,38 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import axios from "axios";
-import Script from "next/script";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Loader from "@/components/Loader";
 import CelebrationModal from "@/components/CelebrationModal";
+import Script from "next/script";
 
 export default function CheckoutPage() {
+    return (
+        <Suspense fallback={<Loader />}>
+            <CheckoutContent />
+        </Suspense>
+    );
+}
+
+function CheckoutContent() {
     const { user, loading: authLoading } = useAuth();
     const [cartItems, setCartItems] = useState<any[]>([]);
     const [totals, setTotals] = useState({ subtotal: 0, tax: 0, total: 0 });
     const [discount, setDiscount] = useState({ code: "", amount: 0, message: "", isApplied: false });
     const [discountInput, setDiscountInput] = useState("");
     const [loading, setLoading] = useState(true);
+    const [paying, setPaying] = useState(false);
     const [showCelebration, setShowCelebration] = useState(false);
     const [celebrationData, setCelebrationData] = useState({ discountAmount: 0, originalTotal: 0, code: "" });
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const paymentError = searchParams.get("error");
 
     // specific form state for the new detailed layout
     const [formData, setFormData] = useState({
@@ -110,8 +121,9 @@ export default function CheckoutPage() {
         // Combine address for backend
         const fullAddress = `${streetAddress}, ${city}, ${state} - ${zipCode}, ${country}`;
 
+        setPaying(true);
         try {
-            // Create Order
+            // Create Order & get PhonePe redirect URL
             const { data } = await axios.post("/api/create-order", {
                 address: fullAddress,
                 discountCode: discount.isApplied ? discount.code : undefined
@@ -119,55 +131,31 @@ export default function CheckoutPage() {
 
             if (!data.success) {
                 alert(data.message);
+                setPaying(false);
                 return;
             }
 
-            const options = {
-                "key": data.key_id,
-                "amount": data.amount,
-                "currency": "INR",
-                "name": "Simtech Computers",
-                "description": "Order Payment",
-                "image": "/images/favicon/android-chrome-192x192.png",
-                "order_id": data.id,
-                "handler": async function (response: any) {
-                    try {
-                        const verifyRes = await axios.post('/api/verify-payment', {
-                            razorpay_order_id: response.razorpay_order_id,
-                            razorpay_payment_id: response.razorpay_payment_id,
-                            razorpay_signature: response.razorpay_signature
-                        });
-
-                        if (verifyRes.data.success) {
-                            alert('Payment Successful! Order Placed.');
-                            router.push('/');
-                        } else {
-                            alert('Payment Verification Failed');
-                        }
-                    } catch (err) {
-                        alert('Payment Verification Failed');
-                        console.error(err);
-                    }
-                },
-                "prefill": {
-                    "name": fullName,
-                    "email": formData.email,
-                    "contact": phone
-                },
-                "theme": {
-                    "color": "#a51c30"
+            // Use PhonePe Checkout SDK to open payment page
+            if (data.redirectUrl) {
+                const win = window as any;
+                if (win.PhonePeCheckout && win.PhonePeCheckout.transact) {
+                    win.PhonePeCheckout.transact({
+                        tokenUrl: data.redirectUrl,
+                        type: "REDIRECT",
+                    });
+                } else {
+                    // Fallback: direct redirect if SDK hasn't loaded
+                    window.location.href = data.redirectUrl;
                 }
-            };
-
-            const rzp1 = new (window as any).Razorpay(options);
-            rzp1.on('payment.failed', function (response: any) {
-                alert(response.error.description);
-            });
-            rzp1.open();
+            } else {
+                alert("Failed to get payment URL. Please try again.");
+                setPaying(false);
+            }
 
         } catch (err: any) {
             console.error("Payment Error", err);
             alert(err.response?.data?.message || "Something went wrong");
+            setPaying(false);
         }
     };
 
@@ -220,8 +208,11 @@ export default function CheckoutPage() {
 
     return (
         <>
+            <Script
+                src="https://mercury.phonepe.com/web/bundle/checkout.js"
+                strategy="beforeInteractive"
+            />
             <Header />
-            <Script src="https://checkout.razorpay.com/v1/checkout.js" />
             <main className="min-h-screen bg-white">
                 <div className="flex flex-col lg:flex-row max-w-7xl mx-auto">
 
@@ -236,7 +227,7 @@ export default function CheckoutPage() {
 
                         {/* Delivery Toggle (Visual Only) */}
                         <div className="flex gap-4 mb-8">
-                            <button className="flex-1 py-3 px-4 rounded-xl border-2 border-[#a51c30] bg-red-50 text-[#a51c30] font-bold flex items-center justify-center gap-2 transition-colors">
+                            <button className="flex-1 py-3 px-4 rounded-xl border-2 border-[#0a2e5e] bg-blue-50 text-[#0a2e5e] font-bold flex items-center justify-center gap-2 transition-colors">
                                 <i className="ri-truck-line"></i> Delivery
                             </button>
                             <button className="flex-1 py-3 px-4 rounded-xl border border-gray-200 text-gray-500 font-medium flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors">
@@ -252,7 +243,7 @@ export default function CheckoutPage() {
                                     name="fullName"
                                     value={formData.fullName}
                                     onChange={handleInputChange}
-                                    className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-[#a51c30] focus:ring-1 focus:ring-[#a51c30] outline-none transition-colors"
+                                    className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-[#0a2e5e] focus:ring-1 focus:ring-[#0a2e5e] outline-none transition-colors"
                                     placeholder="Enter your full name"
                                 />
                             </div>
@@ -264,7 +255,7 @@ export default function CheckoutPage() {
                                     name="email"
                                     value={formData.email}
                                     onChange={handleInputChange}
-                                    className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-[#a51c30] focus:ring-1 focus:ring-[#a51c30] outline-none transition-colors"
+                                    className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-[#0a2e5e] focus:ring-1 focus:ring-[#0a2e5e] outline-none transition-colors"
                                     placeholder="Enter your email address"
                                 />
                             </div>
@@ -281,9 +272,8 @@ export default function CheckoutPage() {
                                         name="phone"
                                         value={formData.phone}
                                         onChange={handleInputChange}
-                                        className="w-full px-4 py-3 rounded-r-lg border border-gray-200 focus:border-[#a51c30] focus:ring-1 focus:ring-[#a51c30] outline-none transition-colors"
+                                        className="w-full px-4 py-3 rounded-r-lg border border-gray-200 focus:border-[#0a2e5e] focus:ring-1 focus:ring-[#0a2e5e] outline-none transition-colors"
                                         placeholder="Enter phone number"
-                                        readOnly
                                     />
                                 </div>
                             </div>
@@ -295,7 +285,7 @@ export default function CheckoutPage() {
                                         name="country"
                                         value={formData.country}
                                         onChange={handleInputChange}
-                                        className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-[#a51c30] focus:ring-1 focus:ring-[#a51c30] outline-none appearance-none bg-white transition-colors"
+                                        className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-[#0a2e5e] focus:ring-1 focus:ring-[#0a2e5e] outline-none appearance-none bg-white transition-colors"
                                     >
                                         <option value="India">India</option>
                                         {/* Add more if needed */}
@@ -311,7 +301,7 @@ export default function CheckoutPage() {
                                     name="streetAddress"
                                     value={formData.streetAddress}
                                     onChange={handleInputChange}
-                                    className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-[#a51c30] focus:ring-1 focus:ring-[#a51c30] outline-none transition-colors"
+                                    className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-[#0a2e5e] focus:ring-1 focus:ring-[#0a2e5e] outline-none transition-colors"
                                     placeholder="Street address, Apartment, Suite, etc."
                                 />
                             </div>
@@ -324,7 +314,7 @@ export default function CheckoutPage() {
                                         name="city"
                                         value={formData.city}
                                         onChange={handleInputChange}
-                                        className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-[#a51c30] focus:ring-1 focus:ring-[#a51c30] outline-none transition-colors"
+                                        className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-[#0a2e5e] focus:ring-1 focus:ring-[#0a2e5e] outline-none transition-colors"
                                         placeholder="Enter city"
                                     />
                                 </div>
@@ -335,7 +325,7 @@ export default function CheckoutPage() {
                                         name="state"
                                         value={formData.state}
                                         onChange={handleInputChange}
-                                        className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-[#a51c30] focus:ring-1 focus:ring-[#a51c30] outline-none transition-colors"
+                                        className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-[#0a2e5e] focus:ring-1 focus:ring-[#0a2e5e] outline-none transition-colors"
                                         placeholder="Enter state"
                                     />
                                 </div>
@@ -346,7 +336,7 @@ export default function CheckoutPage() {
                                         name="zipCode"
                                         value={formData.zipCode}
                                         onChange={handleInputChange}
-                                        className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-[#a51c30] focus:ring-1 focus:ring-[#a51c30] outline-none transition-colors"
+                                        className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-[#0a2e5e] focus:ring-1 focus:ring-[#0a2e5e] outline-none transition-colors"
                                         placeholder="Zip code"
                                     />
                                 </div>
@@ -360,10 +350,10 @@ export default function CheckoutPage() {
                                         onChange={(e) => setAgreedToTerms(e.target.checked)}
                                         id="terms"
                                         name="terms"
-                                        className="w-5 h-5 rounded border-gray-300 text-[#a51c30] focus:ring-[#a51c30] transition-colors"
+                                        className="w-5 h-5 rounded border-gray-300 text-[#0a2e5e] focus:ring-[#0a2e5e] transition-colors"
                                     />
                                     <span className="text-sm text-gray-500 group-hover:text-gray-700 transition-colors">
-                                        I have read and agree to the <Link href="/terms" className="text-[#a51c30] font-semibold hover:underline">Terms and Conditions</Link>.
+                                        I have read and agree to the <Link href="/terms" className="text-[#0a2e5e] font-semibold hover:underline">Terms and Conditions</Link>.
                                     </span>
                                 </label>
                             </div>
@@ -411,13 +401,13 @@ export default function CheckoutPage() {
                                                 onChange={(e) => setDiscountInput(e.target.value)}
                                                 id="discountCode"
                                                 name="discountCode"
-                                                className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 focus:border-[#a51c30] focus:ring-1 focus:ring-[#a51c30] outline-none text-sm transition-colors uppercase"
+                                                className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 focus:border-[#0a2e5e] focus:ring-1 focus:ring-[#0a2e5e] outline-none text-sm transition-colors uppercase"
                                             />
                                         </div>
                                         <button
                                             onClick={handleApplyDiscount}
                                             disabled={!discountInput}
-                                            className="bg-white border border-gray-200 text-[#a51c30] font-semibold px-6 py-2 rounded-lg hover:bg-gray-50 transition-colors text-sm disabled:opacity-50"
+                                            className="bg-white border border-gray-200 text-[#0a2e5e] font-semibold px-6 py-2 rounded-lg hover:bg-gray-50 transition-colors text-sm disabled:opacity-50"
                                         >
                                             Apply
                                         </button>
@@ -470,16 +460,37 @@ export default function CheckoutPage() {
                             )}
                             <div className="flex justify-between items-center text-lg font-bold text-gray-900 pt-4 border-t border-gray-200">
                                 <span>Total</span>
-                                <span className="text-[#a51c30]">₹{totals.total.toLocaleString("en-IN")}</span>
+                                <span className="text-[#0a2e5e]">₹{totals.total.toLocaleString("en-IN")}</span>
                             </div>
                         </div>
 
+                        {paymentError && (
+                            <div className="bg-red-50 border border-red-200 rounded-lg p-3 mb-4 flex items-center gap-2">
+                                <i className="ri-error-warning-fill text-red-500"></i>
+                                <span className="text-sm text-red-700 font-medium">
+                                    {paymentError === "PAYMENT_FAILED" ? "Payment failed. Please try again." :
+                                     paymentError === "PAYMENT_PENDING" ? "Payment is still processing. Please wait or try again." :
+                                     paymentError === "missing_transaction" ? "Invalid payment session." :
+                                     paymentError === "verification_failed" ? "Payment verification failed. If amount was deducted, it will be refunded." :
+                                     paymentError === "order_update_failed" ? "Payment was received but order update failed. Please contact support." :
+                                     "Payment could not be completed. Please try again."}
+                                </span>
+                            </div>
+                        )}
+
                         <button
                             onClick={handlePayment}
-                            disabled={!agreedToTerms}
-                            className={`w-full text-white font-bold py-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 ${agreedToTerms ? 'bg-[#a51c30] hover:bg-[#8a1728] hover:shadow-xl hover:-translate-y-0.5 cursor-pointer' : 'bg-gray-400 cursor-not-allowed'}`}
+                            disabled={!agreedToTerms || paying}
+                            className={`w-full text-white font-bold py-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 ${agreedToTerms && !paying ? 'bg-[#0a2e5e] hover:bg-[#08244a] hover:shadow-xl hover:-translate-y-0.5 cursor-pointer' : 'bg-gray-400 cursor-not-allowed'}`}
                         >
-                            Pay Now
+                            {paying ? (
+                                <>
+                                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                                    Redirecting to PhonePe...
+                                </>
+                            ) : (
+                                "Pay Now"
+                            )}
                         </button>
 
                         <div className="mt-4 flex items-center justify-center gap-2 text-xs text-gray-500">
