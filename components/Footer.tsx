@@ -148,8 +148,8 @@ export default function Footer() {
                                     </div>
                                     <div>
                                         <p className="text-xs text-gray-500 uppercase tracking-wide">Call Us 24/7</p>
-                                        <a href="tel:+919886786706" className="text-white font-bold text-lg hover:text-[#29abe2] transition-colors">
-                                            +91 98867 86706
+                                        <a href="tel:+918147867701" className="text-white font-bold text-lg hover:text-[#29abe2] transition-colors block">
+                                            +91 81478 67701
                                         </a>
                                     </div>
                                 </div>
@@ -319,7 +319,7 @@ export default function Footer() {
                             </p>
                             <div className="flex flex-wrap gap-3">
                                 <a
-                                    href="https://www.facebook.com/reused.in"
+                                    href="https://www.facebook.com/share/1CXwZobKja/?mibextid=wwXIfr"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="relative group"
@@ -331,7 +331,7 @@ export default function Footer() {
                                     </div>
                                 </a>
                                 <a
-                                    href="https://www.instagram.com/reused.in"
+                                    href="https://www.instagram.com/simtechcomputers?igsh=cmRuMHl0dTZjeWpt"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="relative group"

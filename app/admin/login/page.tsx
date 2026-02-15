@@ -49,11 +49,11 @@ export default function AdminLogin() {
     };
 
     return (
-        <div className="bg-[#f0f2f5] min-h-screen flex items-center justify-center font-sans selection:bg-[#29abe2] selection:text-white p-4">
+        <div className="bg-[#f0f2f5] min-h-screen flex items-center justify-center font-sans selection:bg-[#29abe2] selection:text-white p-2 sm:p-4">
             {/* Welcome Modal Overlay */}
             {showWelcome && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm transition-all duration-300">
-                    <div className="bg-white rounded-[40px] p-8 max-w-sm w-full mx-4 shadow-2xl text-center animate-scale-up relative overflow-hidden">
+                    <div className="bg-white rounded-2xl sm:rounded-[40px] p-6 sm:p-8 max-w-sm w-full mx-2 sm:mx-4 shadow-2xl text-center animate-scale-up relative overflow-hidden">
                         <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-10">
                             <div className="absolute top-[-20%] left-[-20%] w-[50%] h-[50%] bg-[#0a2e5e] rounded-full blur-3xl"></div>
                             <div className="absolute bottom-[-20%] right-[-20%] w-[50%] h-[50%] bg-[#29abe2] rounded-full blur-3xl"></div>
@@ -78,7 +78,7 @@ export default function AdminLogin() {
                 </div>
             )}
 
-            <div className={`bg-white w-full max-w-[1100px] min-h-[720px] rounded-[50px] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.1)] overflow-hidden flex flex-col lg:flex-row transition-all duration-500 ${showWelcome ? 'scale-95 blur-sm' : ''}`}>
+            <div className={`bg-white w-full max-w-[1100px] sm:min-h-[720px] rounded-2xl sm:rounded-[50px] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.1)] overflow-hidden flex flex-col lg:flex-row transition-all duration-500 ${showWelcome ? 'scale-95 blur-sm' : ''}`}>
 
                 {/* Left Side: Decorative Column - Exact Literal Replication */}
                 <div className="hidden lg:flex w-[48%] bg-[#f8f2f2] relative items-end justify-center overflow-hidden">
@@ -125,7 +125,7 @@ export default function AdminLogin() {
                 </div>
 
                 {/* Right Side: Form Column */}
-                <div className="flex-1 p-10 lg:p-16 flex flex-col justify-center bg-white relative">
+                <div className="flex-1 p-5 sm:p-10 lg:p-16 flex flex-col justify-center bg-white relative">
                     {/* Reused Logo */}
                     <div className="flex items-start mb-4">
                         <Image
@@ -133,17 +133,17 @@ export default function AdminLogin() {
                             alt="Reused"
                             width={160}
                             height={40}
-                            className="h-28 w-auto object-contain"
+                            className="h-14 sm:h-28 w-auto object-contain"
                             priority
                         />
                     </div>
 
                     {/* Header Text */}
-                    <div className="mb-10">
-                        <h2 className="text-3xl font-semibold text-gray-900 mb-2 tracking-tight">
+                    <div className="mb-4 sm:mb-10">
+                        <h2 className="text-xl sm:text-3xl font-semibold text-gray-900 mb-0.5 sm:mb-2 tracking-tight">
                             Reused admin panel! 👋
                         </h2>
-                        <p className="text-gray-400 text-sm font-medium">
+                        <p className="text-gray-400 text-xs sm:text-sm font-medium">
                             Please sign-in to your account and start the operations
                         </p>
                     </div>
@@ -155,11 +155,11 @@ export default function AdminLogin() {
                             <span className="font-bold">{error}</span>
                         </div>
                     )}
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                        <div className="space-y-3">
+                    <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-6">
+                        <div className="space-y-1.5 sm:space-y-3">
                             <label
                                 htmlFor="email"
-                                className="block text-[11px] font-black text-gray-400 uppercase tracking-[0.2em]"
+                                className="block text-[9px] sm:text-[11px] font-black text-gray-400 uppercase tracking-[0.15em] sm:tracking-[0.2em]"
                             >
                                 Email or Username
                             </label>
@@ -170,20 +170,20 @@ export default function AdminLogin() {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 placeholder="admin@reused.in"
-                                className="w-full bg-[#f3f6f9] border-none text-gray-900 text-sm rounded-xl px-5 py-5 focus:outline-none focus:bg-white focus:ring-4 focus:ring-[#29abe2]/10 transition-all font-bold placeholder:text-gray-300 placeholder:font-medium"
+                                className="w-full bg-[#f3f6f9] border-none text-gray-900 text-xs sm:text-sm rounded-lg sm:rounded-xl px-3 py-2.5 sm:px-5 sm:py-5 focus:outline-none focus:bg-white focus:ring-4 focus:ring-[#29abe2]/10 transition-all font-bold placeholder:text-gray-300 placeholder:font-medium"
                                 required
                             />
                         </div>
 
-                        <div className="space-y-3">
+                        <div className="space-y-1.5 sm:space-y-3">
                             <div className="flex justify-between items-center">
                                 <label
                                     htmlFor="password"
-                                    className="block text-[11px] font-black text-gray-400 uppercase tracking-[0.2em]"
+                                    className="block text-[9px] sm:text-[11px] font-black text-gray-400 uppercase tracking-[0.15em] sm:tracking-[0.2em]"
                                 >
                                     Password
                                 </label>
-                                <a href="#" className="text-xs text-[#0a2e5e] hover:text-[#29abe2] font-black underline underline-offset-4 decoration-2">
+                                <a href="#" className="text-[10px] sm:text-xs text-[#0a2e5e] hover:text-[#29abe2] font-black underline underline-offset-4 decoration-2">
                                     Forgot Password?
                                 </a>
                             </div>
@@ -195,7 +195,7 @@ export default function AdminLogin() {
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     placeholder="••••••••"
-                                    className="w-full bg-[#f3f6f9] border-none text-gray-900 text-sm rounded-xl px-5 py-5 focus:outline-none focus:bg-white focus:ring-4 focus:ring-[#29abe2]/10 transition-all font-bold placeholder:text-gray-300 placeholder:font-medium"
+                                    className="w-full bg-[#f3f6f9] border-none text-gray-900 text-xs sm:text-sm rounded-lg sm:rounded-xl px-3 py-2.5 sm:px-5 sm:py-5 focus:outline-none focus:bg-white focus:ring-4 focus:ring-[#29abe2]/10 transition-all font-bold placeholder:text-gray-300 placeholder:font-medium"
                                     required
                                 />
                                 <button
@@ -220,7 +220,7 @@ export default function AdminLogin() {
                                     <div className="w-5 h-5 border-2 border-gray-200 rounded-md bg-white peer-checked:bg-[#0a2e5e] peer-checked:border-[#0a2e5e] transition-all"></div>
                                     <i className="ri-check-line absolute inset-0 text-white text-lg flex items-center justify-center scale-0 peer-checked:scale-100 transition-transform"></i>
                                 </div>
-                                <span className="text-sm text-gray-400 font-bold group-hover:text-gray-600 transition-colors">
+                                <span className="text-xs sm:text-sm text-gray-400 font-bold group-hover:text-gray-600 transition-colors">
                                     Remember Me
                                 </span>
                             </label>
@@ -229,7 +229,7 @@ export default function AdminLogin() {
                         <button
                             type="submit"
                             disabled={loading || showWelcome}
-                            className={`w-full bg-[#0a2e5e] hover:bg-[#29abe2] text-white font-black py-5 rounded-[18px] shadow-xl shadow-blue-900/30 transition-all transform hover:-translate-y-1 active:scale-95 flex items-center justify-center text-lg ${loading || showWelcome ? 'opacity-70 cursor-not-allowed' : ''}`}
+                            className={`w-full bg-[#0a2e5e] hover:bg-[#29abe2] text-white font-black py-2.5 sm:py-5 rounded-lg sm:rounded-[18px] shadow-xl shadow-blue-900/30 transition-all transform hover:-translate-y-1 active:scale-95 flex items-center justify-center text-sm sm:text-lg ${loading || showWelcome ? 'opacity-70 cursor-not-allowed' : ''}`}
                         >
                             {loading ? (
                                 <svg className="animate-spin h-7 w-7 text-white" fill="none" viewBox="0 0 24 24">
