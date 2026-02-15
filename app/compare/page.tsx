@@ -157,7 +157,7 @@ export default function ComparePage() {
           {/* Header */}
           <div className="flex justify-between items-center mb-8">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
                 Compare Products
               </h1>
               <p className="text-gray-500">
@@ -351,7 +351,7 @@ export default function ComparePage() {
                       <td key={index} className="p-4 text-center">
                         {product ? (
                           <>
-                            <div className="text-2xl font-bold text-red-600">
+                            <div className="text-xl md:text-2xl font-bold text-red-600">
                               ₹{product.price.toLocaleString("en-IN")}
                             </div>
                             <div className="text-sm text-gray-400 line-through">
@@ -438,7 +438,7 @@ export default function ComparePage() {
           ) : (
             <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-12 text-center">
               <i className="ri-scales-3-line text-6xl text-gray-300 mb-4 block"></i>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">
+              <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">
                 No Products Selected
               </h2>
               <p className="text-gray-500 mb-6">

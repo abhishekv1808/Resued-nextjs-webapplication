@@ -1,20 +1,25 @@
 services:
   - type: web
-    name: simtech-next
-    env: node
+    name: reused-next
+    runtime: node
+    region: singapore
+    plan: free
     buildCommand: npm install && npm run build
-    startCommand: npx next start -p 10000
-    healthCheckPath: /api/health
+    startCommand: node .next/standalone/server.js
     envVars:
-      - key: NODE_VERSION
-        value: 20.11.0
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "10000"
+      - key: HOSTNAME
+        value: "0.0.0.0"
       - key: MONGODB_URI
         sync: false
       - key: SESSION_SECRET
         sync: false
       - key: IRON_SESSION_PASSWORD
         sync: false
-      - key: NEXT_PUBLIC_BASE_URL 
+      - key: NEXT_PUBLIC_BASE_URL
         sync: false
       - key: PHONEPE_CLIENT_ID
         sync: false
@@ -24,10 +29,21 @@ services:
         sync: false
       - key: PHONEPE_ENV
         sync: false
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
       - key: VAPID_PUBLIC_KEY
         sync: false
       - key: VAPID_PRIVATE_KEY
         sync: false
       - key: NEXT_PUBLIC_VAPID_PUBLIC_KEY
         sync: false
-    autoDeploy: true
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: GOOGLE_CALLBACK_URL
+        sync: false

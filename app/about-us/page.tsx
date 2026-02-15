@@ -9,22 +9,22 @@ export default function AboutPage() {
             <Header />
             <main className="flex-grow">
                 {/* Hero Section */}
-                <section className="bg-[#0a2e5e] text-white py-12 md:py-20 relative overflow-hidden">
+                <section className="bg-[#0a2e5e] text-white py-8 md:py-20 relative overflow-hidden">
                     <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "url('https://www.transparenttextures.com/patterns/cubes.png')" }}></div>
 
                     <div className="max-w-6xl mx-auto px-4 relative z-10 text-center">
-                        <h1 className="text-3xl md:text-5xl font-bold mb-4 md:mb-6">
+                        <h1 className="text-2xl md:text-5xl font-bold mb-3 md:mb-6">
                             Reused
                         </h1>
-                        <p className="text-lg md:text-2xl font-light text-blue-100 mb-6 md:mb-8">
+                        <p className="text-sm md:text-2xl font-light text-blue-100 mb-4 md:mb-8">
                             Your Smart Tech, Sustainable Choice
                         </p>
-                        <div className="w-16 md:w-24 h-1 bg-yellow-400 mx-auto rounded-full"></div>
+                        <div className="w-12 md:w-24 h-1 bg-yellow-400 mx-auto rounded-full"></div>
                     </div>
                 </section>
 
                 {/* Intro Section */}
-                <section className="py-10 md:py-16 bg-white">
+                <section className="py-6 md:py-16 bg-white">
                     <div className="max-w-4xl mx-auto px-4 text-center">
                         <p className="text-gray-600 text-xs md:text-lg leading-relaxed mb-4 md:mb-6">
                             At <span className="font-bold text-[#0a2e5e]">Reused</span>,
@@ -49,14 +49,14 @@ export default function AboutPage() {
                 </section>
 
                 {/* Comparison Table */}
-                <section className="py-10 md:py-16 bg-gray-50">
+                <section className="py-6 md:py-16 bg-gray-50">
                     <div className="max-w-5xl mx-auto px-4">
-                        <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-8 md:mb-12">
+                        <h2 className="text-xl md:text-3xl font-bold text-center text-gray-900 mb-5 md:mb-12">
                             Others vs Reused
                         </h2>
 
-                        <div className="overflow-x-auto bg-white rounded-2xl shadow-sm border border-gray-200">
-                            <table className="w-full text-left border-collapse min-w-[600px]">
+                        <div className="overflow-x-auto bg-white rounded-xl md:rounded-2xl shadow-sm border border-gray-200">
+                            <table className="w-full text-left border-collapse min-w-[500px]">
                                 <thead>
                                     <tr className="bg-gray-100 border-b border-gray-200">
                                         <th className="p-3 md:p-4 font-bold text-gray-700">Feature</th>
@@ -64,7 +64,7 @@ export default function AboutPage() {
                                         <th className="p-3 md:p-4 font-bold text-[#0a2e5e] bg-blue-50">Reused</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-gray-100 text-sm">
+                                <tbody className="divide-y divide-gray-100 text-xs md:text-sm">
                                     <tr>
                                         <td className="p-3 md:p-4 font-medium text-gray-900">Product Testing</td>
                                         <td className="p-3 md:p-4 text-gray-500">Basic or minimal checks</td>
@@ -92,10 +92,10 @@ export default function AboutPage() {
                 </section>
 
                 {/* Sustainability CTA */}
-                <section className="py-12 md:py-20 bg-gray-900 text-white text-center relative overflow-hidden">
+                <section className="py-8 md:py-20 bg-gray-900 text-white text-center relative overflow-hidden">
                     <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "url('https://www.transparenttextures.com/patterns/wood-pattern.png')" }}></div>
                     <div className="max-w-4xl mx-auto px-4 relative z-10">
-                        <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">
+                        <h2 className="text-xl md:text-3xl font-bold mb-3 md:mb-6">
                             Sustainability That Matters
                         </h2>
                         <p className="text-gray-300 text-xs md:text-lg leading-relaxed mb-6 md:mb-8">
@@ -104,7 +104,7 @@ export default function AboutPage() {
                             electronic waste and minimizes carbon emissions. It’s a small
                             decision that creates a big difference, both for you and the planet.
                         </p>
-                        <Link href="/" className="inline-block bg-[#0a2e5e] hover:bg-[#29abe2] text-white font-bold py-3 px-8 rounded-full transition-transform hover:scale-105 shadow-lg">
+                        <Link href="/" className="inline-block bg-[#0a2e5e] hover:bg-[#29abe2] text-white font-bold py-2.5 px-6 md:py-3 md:px-8 rounded-full transition-transform hover:scale-105 shadow-lg text-sm md:text-base">
                             Shop Sustainable Tech
                         </Link>
                     </div>

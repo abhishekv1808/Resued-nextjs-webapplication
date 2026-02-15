@@ -159,16 +159,14 @@ function PaymentSuccessContent() {
                             <div className="p-5 md:p-6">
                                 {/* Status + Payment badge row */}
                                 <div className="flex items-center justify-between mb-5">
-                                    <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold ${
-                                        order.status === 'Paid' || order.status === 'Confirmed'
+                                    <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold ${order.status === 'Paid' || order.status === 'Confirmed'
                                             ? 'bg-green-50 text-green-700 ring-1 ring-green-200'
                                             : order.status === 'Pending'
-                                            ? 'bg-amber-50 text-amber-700 ring-1 ring-amber-200'
-                                            : 'bg-blue-50 text-blue-700 ring-1 ring-blue-200'
-                                    }`}>
-                                        <span className={`w-1.5 h-1.5 rounded-full ${
-                                            order.status === 'Paid' || order.status === 'Confirmed' ? 'bg-green-500' : order.status === 'Pending' ? 'bg-amber-500' : 'bg-blue-500'
-                                        }`}></span>
+                                                ? 'bg-amber-50 text-amber-700 ring-1 ring-amber-200'
+                                                : 'bg-blue-50 text-blue-700 ring-1 ring-blue-200'
+                                        }`}>
+                                        <span className={`w-1.5 h-1.5 rounded-full ${order.status === 'Paid' || order.status === 'Confirmed' ? 'bg-green-500' : order.status === 'Pending' ? 'bg-amber-500' : 'bg-blue-500'
+                                            }`}></span>
                                         {order.status}
                                     </span>
                                     {order.phonePePaymentId && (
@@ -288,7 +286,7 @@ function PaymentSuccessContent() {
                         ) : (
                             <div className="text-center py-10 px-6">
                                 <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <i className="ri-checkbox-circle-fill text-green-500 text-3xl"></i>
+                                    <i className="ri-checkbox-circle-fill text-green-500 text-2xl md:text-3xl"></i>
                                 </div>
                                 <p className="text-gray-600 mb-2">Your payment was processed successfully.</p>
                                 {merchantOrderId && (

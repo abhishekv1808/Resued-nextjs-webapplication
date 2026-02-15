@@ -41,9 +41,9 @@ export default function ProductRow({
     };
 
     return (
-        <section className={`py-12 border-b border-gray-100 ${bgColor === 'gray-50' ? 'bg-gray-50' : 'bg-white'}`}>
+        <section className={`py-6 md:py-12 border-b border-gray-100 ${bgColor === 'gray-50' ? 'bg-gray-50' : 'bg-white'}`}>
             <div className="max-w-6xl mx-auto px-4">
-                <div className="flex justify-between items-center mb-8">
+                <div className="flex justify-between items-center mb-4 md:mb-8">
                     <div className="flex items-center gap-3">
                         {logo ? (
                             <div className="h-8 md:h-12 w-auto flex items-center justify-center">
@@ -96,7 +96,7 @@ export default function ProductRow({
 
                 <div
                     ref={scrollContainerRef}
-                    className="flex overflow-x-auto gap-4 pb-4 scrollbar-hide snap-x scroll-smooth"
+                    className="flex overflow-x-auto gap-3 md:gap-4 pb-4 scrollbar-hide snap-x scroll-smooth [&>div]:w-[180px] [&>div]:md:w-[280px]"
                 >
                     {products.length > 0 ? (
                         products.map(product => (

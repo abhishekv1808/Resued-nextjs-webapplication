@@ -30,7 +30,7 @@ export default function Testimonials() {
                     {[...reviews, ...reviews].map((review, idx) => (
                         <div key={idx} className="w-[280px] md:w-[380px] bg-white p-5 md:p-8 rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_50px_-10px_rgba(41,171,226,0.15)] border border-gray-100 hover:border-blue-100 flex-shrink-0 whitespace-normal relative transition-all duration-300 hover:-translate-y-2 group cursor-default overflow-hidden">
                             <div className="absolute top-0 right-0 w-24 h-24 md:w-32 md:h-32 bg-gradient-to-br from-blue-50 to-transparent rounded-bl-full -mr-8 -mt-8 transition-transform duration-500 group-hover:scale-110"></div>
-                            <div className="absolute top-4 right-6 md:top-6 md:right-8 text-4xl md:text-5xl text-blue-100 font-serif leading-none group-hover:text-blue-200 transition-colors duration-300">&quot;</div>
+                            <div className="absolute top-4 right-6 md:top-6 md:right-8 text-2xl md:text-5xl text-blue-100 font-serif leading-none group-hover:text-blue-200 transition-colors duration-300">&quot;</div>
 
                             <div className="flex items-center gap-1 mb-4 md:mb-6 relative z-10">
                                 <div className="flex text-yellow-400 text-sm md:text-base gap-0.5">

@@ -7,7 +7,7 @@ export default function CTABanner() {
             <div className="max-w-6xl mx-auto px-4">
                 <div className="bg-gradient-to-r from-[#0a2e5e] to-[#29abe2] rounded-[2rem] md:rounded-[2.5rem] px-6 pt-8 md:px-16 md:pt-16 relative overflow-hidden flex flex-col md:flex-row items-center justify-between shadow-xl shadow-teal-100">
                     <div className="z-10 md:w-1/2 text-white pb-8 md:pb-16">
-                        <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-3 md:mb-4 leading-tight md:text-left">Unlock Premium <br className="md:hidden" /> Quality</h2>
+                        <h2 className="text-xl md:text-5xl lg:text-6xl font-bold mb-3 md:mb-4 leading-tight md:text-left">Unlock Premium <br className="md:hidden" /> Quality</h2>
                         <p className="text-sm md:text-lg lg:text-xl font-medium opacity-90 mb-6 md:mb-8 max-w-lg md:max-w-3xl leading-relaxed mx-auto md:mx-0 md:text-left">
                             Buy top-quality Used laptops | Get expert repairs
                         </p>

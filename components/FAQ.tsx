@@ -46,7 +46,7 @@ export default function FAQ() {
                     viewport={{ once: true }}
                     className="text-center mb-12 md:mb-16"
                 >
-                    <h2 className="text-3xl md:text-5xl font-black text-[#0a2e5e] mb-4 tracking-tight">
+                    <h2 className="text-2xl md:text-5xl font-black text-[#0a2e5e] mb-4 tracking-tight">
                         Got Questions? <span className="text-[#29abe2]">We Have Answers.</span>
                     </h2>
                     <p className="text-gray-500 text-base md:text-lg max-w-2xl mx-auto font-medium">
@@ -67,8 +67,8 @@ export default function FAQ() {
                             variants={itemVariants}
                             layout
                             className={`group relative rounded-[2rem] transition-all duration-500 ease-out ${activeIndex === idx
-                                    ? 'bg-white shadow-[0_20px_50px_rgba(10,46,94,0.1)] border-[#29abe2]/20'
-                                    : 'bg-gray-50/50 hover:bg-white border-transparent hover:shadow-[0_10px_30px_rgba(0,0,0,0.05)]'
+                                ? 'bg-white shadow-[0_20px_50px_rgba(10,46,94,0.1)] border-[#29abe2]/20'
+                                : 'bg-gray-50/50 hover:bg-white border-transparent hover:shadow-[0_10px_30px_rgba(0,0,0,0.05)]'
                                 } border-2 overflow-hidden`}
                             onClick={() => toggle(idx)}
                         >
@@ -78,8 +78,8 @@ export default function FAQ() {
                                     {faq.q}
                                 </span>
                                 <div className={`relative flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-500 overflow-hidden ${activeIndex === idx
-                                        ? 'bg-[#0a2e5e] text-white rotate-90 scale-110'
-                                        : 'bg-gray-200/50 text-gray-500 group-hover:bg-[#29abe2]/10 group-hover:text-[#29abe2]'
+                                    ? 'bg-[#0a2e5e] text-white rotate-90 scale-110'
+                                    : 'bg-gray-200/50 text-gray-500 group-hover:bg-[#29abe2]/10 group-hover:text-[#29abe2]'
                                     }`}>
                                     <i className={`${activeIndex === idx ? 'ri-subtract-line' : 'ri-add-line'} text-2xl`}></i>
                                 </div>

@@ -142,10 +142,10 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
     return (
         <>
             <Header />
-            <main className="flex-grow pt-8 pb-12 bg-gray-50">
-                <div className="max-w-7xl mx-auto px-4">
+            <main className="flex-grow pt-4 pb-6 md:pt-8 md:pb-12 bg-gray-50">
+                <div className="max-w-7xl mx-auto px-3 md:px-4">
                     {/* Breadcrumb */}
-                    <nav className="flex mb-8 text-sm text-gray-500">
+                    <nav className="flex mb-4 md:mb-8 text-xs md:text-sm text-gray-500">
                         <Link href="/" className="hover:text-[#29abe2]">Home</Link>
                         <span className="mx-2">/</span>
                         <span className="text-gray-900 font-medium capitalize">{normalizedCategory}</span>
@@ -153,39 +153,39 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
 
                     <HeroSection config={heroConfig} />
 
-                    <div className="flex flex-col lg:flex-row gap-8">
+                    <div className="flex flex-col lg:flex-row gap-4 md:gap-8">
                         <SidebarFilter filters={config.filters} />
 
                         <div className="lg:w-3/4 flex flex-col min-h-[600px]">
-                            <div className="flex justify-between items-center mb-6">
-                                <h2 className="text-2xl font-bold text-gray-900 capitalize">
+                            <div className="flex justify-between items-center mb-4 md:mb-6">
+                                <h2 className="text-base md:text-2xl font-bold text-gray-900 capitalize">
                                     {currentBrand !== 'Default' ? `Used ${currentBrand} ${normalizedCategory}` : `All ${normalizedCategory}`}
-                                    <span className="text-gray-500 text-lg font-normal ml-2">({products.length} items)</span>
+                                    <span className="text-gray-500 text-sm md:text-lg font-normal ml-1 md:ml-2">({products.length} items)</span>
                                 </h2>
                                 {/* Sort Dropdown */}
                                 <SortDropdown />
                             </div>
 
                             {serializedProducts.length > 0 ? (
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
                                     {serializedProducts.map((product: any) => (
                                         <ProductCard key={product._id} product={product} />
                                     ))}
                                 </div>
                             ) : (
-                                <div className="w-full text-center py-12 text-gray-500 bg-white rounded-xl border border-dashed border-gray-300">
-                                    <p className="text-lg">There are no {normalizedCategory} matching your criteria at the moment.</p>
+                                <div className="w-full text-center py-8 md:py-12 text-gray-500 bg-white rounded-xl border border-dashed border-gray-300">
+                                    <p className="text-sm md:text-lg">There are no {normalizedCategory} matching your criteria at the moment.</p>
                                 </div>
                             )}
 
                             {/* Pagination - Simplified Placeholder */}
-                            <div className="flex justify-center mt-auto pt-12">
-                                <nav className="flex gap-2">
-                                    <button className="w-10 h-10 rounded-lg flex items-center justify-center border border-gray-300 text-gray-600 hover:bg-gray-50 disabled:opacity-50" disabled>
+                            <div className="flex justify-center mt-auto pt-6 md:pt-12">
+                                <nav className="flex gap-1.5 md:gap-2">
+                                    <button className="w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center border border-gray-300 text-gray-600 hover:bg-gray-50 disabled:opacity-50 text-sm" disabled>
                                         <i className="ri-arrow-left-s-line"></i>
                                     </button>
-                                    <button className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#0a2e5e] text-white font-bold">1</button>
-                                    <button className="w-10 h-10 rounded-lg flex items-center justify-center border border-gray-300 text-gray-600 hover:bg-gray-50">
+                                    <button className="w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center bg-[#0a2e5e] text-white font-bold text-sm">1</button>
+                                    <button className="w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center border border-gray-300 text-gray-600 hover:bg-gray-50 text-sm">
                                         <i className="ri-arrow-right-s-line"></i>
                                     </button>
                                 </nav>
@@ -194,11 +194,11 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
                     </div>
 
                     {/* You May Also Like Section */}
-                    <div className="mt-20">
-                        <div className="flex justify-between items-end mb-8">
-                            <h2 className="text-2xl font-bold text-gray-900">You May Also Like</h2>
+                    <div className="mt-10 md:mt-20">
+                        <div className="flex justify-between items-end mb-4 md:mb-8">
+                            <h2 className="text-base md:text-2xl font-bold text-gray-900">You May Also Like</h2>
                         </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
                             {serializedRecommended.map((product: any) => (
                                 <ProductCard key={product._id} product={product} />
                             ))}

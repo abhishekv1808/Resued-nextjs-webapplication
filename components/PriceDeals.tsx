@@ -49,14 +49,14 @@ const dealCards = [
 
 export default function PriceDeals() {
     return (
-        <section className="py-12 bg-white">
+        <section className="py-6 md:py-12 bg-white">
             <div className="max-w-7xl mx-auto px-4">
-                <div className="mb-10">
-                    <h2 className="text-3xl font-bold text-gray-900 mb-2">Hot Deals</h2>
-                    <p className="text-gray-500 text-sm">Exciting offers for more value</p>
+                <div className="mb-4 md:mb-10">
+                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-1 md:mb-2">Hot Deals</h2>
+                    <p className="text-gray-500 text-xs md:text-sm">Exciting offers for more value</p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
                     {dealCards.map((card, idx) => (
                         <motion.div
                             key={idx}
@@ -67,26 +67,26 @@ export default function PriceDeals() {
                         >
                             <Link
                                 href={`/laptops?price=${card.filter}`}
-                                className={`group relative block h-[200px] rounded-3xl overflow-hidden ${card.bgColor} p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1`}
+                                className={`group relative block h-[140px] md:h-[200px] rounded-2xl md:rounded-3xl overflow-hidden ${card.bgColor} p-3 md:p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1`}
                             >
                                 {/* Background Decorative Elements */}
                                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-110" />
                                 <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full -ml-12 -mb-12 transition-transform group-hover:scale-110" />
 
                                 <div className="relative z-10 h-full flex flex-col justify-between">
-                                    <div className="w-2/3">
-                                        <h3 className="text-xl font-extrabold text-gray-900 leading-tight mb-2">
+                                    <div className="w-full md:w-2/3">
+                                        <h3 className="text-sm md:text-xl font-extrabold text-gray-900 leading-tight mb-1 md:mb-2">
                                             {card.title}
                                         </h3>
-                                        <p className={`font-bold ${card.textColor} text-sm uppercase tracking-wider`}>
+                                        <p className={`font-bold ${card.textColor} text-[10px] md:text-sm uppercase tracking-wider`}>
                                             Starting ₹{card.price}
                                         </p>
                                     </div>
 
                                     {/* Arrow Button */}
                                     <div className="flex items-center">
-                                        <div className={`w-8 h-8 rounded-full bg-white flex items-center justify-center ${card.textColor} shadow-sm group-hover:scale-110 transition-transform`}>
-                                            <i className="ri-arrow-right-s-line text-lg"></i>
+                                        <div className={`w-6 h-6 md:w-8 md:h-8 rounded-full bg-white flex items-center justify-center ${card.textColor} shadow-sm group-hover:scale-110 transition-transform`}>
+                                            <i className="ri-arrow-right-s-line text-sm md:text-lg"></i>
                                         </div>
                                     </div>
                                 </div>

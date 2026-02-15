@@ -12,7 +12,7 @@ export default function BlogSection({ latestBlogs }: BlogProps) {
                 <div className="flex justify-between items-end mb-6 md:mb-10">
                     <div>
                         <span className="text-[#0a2e5e] font-bold text-xs md:text-sm tracking-widest uppercase mb-1 block">Our Blog</span>
-                        <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Latest Tech Insights</h2>
+                        <h2 className="text-xl md:text-3xl font-bold text-gray-900">Latest Tech Insights</h2>
                     </div>
                 </div>
 

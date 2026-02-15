@@ -22,11 +22,11 @@ export default function SortDropdown() {
 
     return (
         <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-600">Sort by:</span>
+            <span className="text-xs md:text-sm text-gray-600">Sort by:</span>
             <select
                 value={currentSort}
                 onChange={handleSortChange}
-                className="border border-gray-300 rounded-lg px-3 py-1.5 text-sm outline-none focus:border-[#0a2e5e] bg-white text-gray-900 cursor-pointer hover:border-gray-400 transition-colors"
+                className="border border-gray-300 rounded-lg px-2 py-1 md:px-3 md:py-1.5 text-xs md:text-sm outline-none focus:border-[#0a2e5e] bg-white text-gray-900 cursor-pointer hover:border-gray-400 transition-colors"
                 aria-label="Sort products"
             >
                 <option value="featured">Featured</option>

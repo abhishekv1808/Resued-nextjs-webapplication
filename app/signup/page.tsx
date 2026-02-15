@@ -122,7 +122,7 @@ export default function SignupPage() {
                                     </svg>
                                 </div>
 
-                                <h3 className="text-2xl font-black text-gray-900 mb-2">Registered Successfully!</h3>
+                                <h3 className="text-xl md:text-2xl font-black text-gray-900 mb-2">Registered Successfully!</h3>
                                 <p className="text-gray-500 mb-6 font-medium">Welcome, {userName} 👋</p>
 
                                 <div className="flex items-center gap-2 text-sm text-gray-400">
@@ -144,9 +144,9 @@ export default function SignupPage() {
                     <div className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl p-8 border border-white/50">
                         <div className="text-center mb-8">
                             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-50 mb-4 border border-blue-100 shadow-inner">
-                                <i className="ri-user-add-line text-3xl text-[#0a2e5e]"></i>
+                                <i className="ri-user-add-line text-2xl md:text-3xl text-[#0a2e5e]"></i>
                             </div>
-                            <h2 className="text-3xl font-bold text-gray-900 tracking-tight">
+                            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">
                                 Create Account
                             </h2>
                             <p className="mt-2 text-sm text-gray-600">
@@ -166,98 +166,98 @@ export default function SignupPage() {
 
                         {/* Phone Signup Form */}
                         <form onSubmit={handleSubmit} className="space-y-6">
-                                <div className="space-y-4">
-                                    <div>
-                                        <label
-                                            htmlFor="name"
-                                            className="block text-sm font-medium text-gray-700"
-                                        >
-                                            Full Name
-                                        </label>
-                                        <div className="mt-1 relative rounded-md shadow-sm">
-                                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                                <i className="ri-user-line text-gray-400"></i>
-                                            </div>
-                                            <input
-                                                type="text"
-                                                name="name"
-                                                id="name"
-                                                required
-                                                value={formData.name}
-                                                onChange={handleChange}
-                                                className="pl-10 block w-full rounded-lg border-gray-200 bg-gray-50 border focus:bg-white focus:border-[#29abe2] focus:ring-[#29abe2] sm:text-sm py-2.5 transition-all duration-300"
-                                                placeholder="John Doe"
-                                            />
+                            <div className="space-y-4">
+                                <div>
+                                    <label
+                                        htmlFor="name"
+                                        className="block text-sm font-medium text-gray-700"
+                                    >
+                                        Full Name
+                                    </label>
+                                    <div className="mt-1 relative rounded-md shadow-sm">
+                                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <i className="ri-user-line text-gray-400"></i>
                                         </div>
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            id="name"
+                                            required
+                                            value={formData.name}
+                                            onChange={handleChange}
+                                            className="pl-10 block w-full rounded-lg border-gray-200 bg-gray-50 border focus:bg-white focus:border-[#29abe2] focus:ring-[#29abe2] sm:text-sm py-2.5 transition-all duration-300"
+                                            placeholder="John Doe"
+                                        />
                                     </div>
-
-                                    <div>
-                                        <label
-                                            htmlFor="location"
-                                            className="block text-sm font-medium text-gray-700"
-                                        >
-                                            Location
-                                        </label>
-                                        <div className="mt-1 relative rounded-md shadow-sm">
-                                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                                <i className="ri-map-pin-line text-gray-400"></i>
-                                            </div>
-                                            <input
-                                                type="text"
-                                                name="location"
-                                                id="location"
-                                                required
-                                                value={formData.location}
-                                                onChange={handleChange}
-                                                className="pl-10 block w-full rounded-lg border-gray-200 bg-gray-50 border focus:bg-white focus:border-[#29abe2] focus:ring-[#29abe2] sm:text-sm py-2.5 transition-all duration-300"
-                                                placeholder="City, Country"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div
-                                    className="flex flex-col items-center justify-center p-6 bg-gradient-to-br from-[#0a2e5e]/5 to-[#29abe2]/10 rounded-xl border border-[#29abe2]/20 relative overflow-hidden"
-                                    style={{ display: isVerified ? 'none' : 'flex' }}
-                                >
-                                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#0a2e5e] to-[#29abe2]"></div>
-                                    <div className="w-10 h-10 rounded-full bg-[#0a2e5e]/10 flex items-center justify-center mb-3">
-                                        <i className="ri-smartphone-line text-xl text-[#0a2e5e]"></i>
-                                    </div>
-                                    <p className="text-[#0a2e5e] mb-4 font-bold text-sm font-heading">
-                                        Verify your mobile number
-                                    </p>
-
-                                    <div
-                                        className="pe_signin_button phone-btn-themed"
-                                        data-client-id="11157398436047844963"
-                                    ></div>
                                 </div>
 
                                 <div>
-                                    <button
-                                        type="submit"
-                                        disabled={!isVerified || submitting}
-                                        className={`group relative w-full flex justify-center py-2.5 px-4 border border-transparent text-sm font-bold rounded-lg text-white transition-all duration-300 shadow-lg ${!isVerified || submitting
-                                            ? "bg-gray-400 cursor-not-allowed"
-                                            : "bg-[#0a2e5e] hover:bg-[#29abe2] hover:-translate-y-0.5 shadow-blue-900/20"
-                                            }`}
+                                    <label
+                                        htmlFor="location"
+                                        className="block text-sm font-medium text-gray-700"
                                     >
-                                        <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                                            {isVerified ? (
-                                                <i className="ri-check-line text-red-200 group-hover:text-red-100"></i>
-                                            ) : (
-                                                <i className="ri-lock-line text-gray-200 group-hover:text-gray-100"></i>
-                                            )}
-                                        </span>
-                                        {submitting ? "Creating Account..." : isVerified ? "Complete Registration" : "Register Account"}
-                                    </button>
-                                    {!isVerified && (
-                                        <p className="mt-2 text-center text-xs text-gray-500">
-                                            * Please verify your phone number to enable registration
-                                        </p>
-                                    )}
+                                        Location
+                                    </label>
+                                    <div className="mt-1 relative rounded-md shadow-sm">
+                                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <i className="ri-map-pin-line text-gray-400"></i>
+                                        </div>
+                                        <input
+                                            type="text"
+                                            name="location"
+                                            id="location"
+                                            required
+                                            value={formData.location}
+                                            onChange={handleChange}
+                                            className="pl-10 block w-full rounded-lg border-gray-200 bg-gray-50 border focus:bg-white focus:border-[#29abe2] focus:ring-[#29abe2] sm:text-sm py-2.5 transition-all duration-300"
+                                            placeholder="City, Country"
+                                        />
+                                    </div>
                                 </div>
+                            </div>
+
+                            <div
+                                className="flex flex-col items-center justify-center p-6 bg-gradient-to-br from-[#0a2e5e]/5 to-[#29abe2]/10 rounded-xl border border-[#29abe2]/20 relative overflow-hidden"
+                                style={{ display: isVerified ? 'none' : 'flex' }}
+                            >
+                                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#0a2e5e] to-[#29abe2]"></div>
+                                <div className="w-10 h-10 rounded-full bg-[#0a2e5e]/10 flex items-center justify-center mb-3">
+                                    <i className="ri-smartphone-line text-xl text-[#0a2e5e]"></i>
+                                </div>
+                                <p className="text-[#0a2e5e] mb-4 font-bold text-sm font-heading">
+                                    Verify your mobile number
+                                </p>
+
+                                <div
+                                    className="pe_signin_button phone-btn-themed"
+                                    data-client-id="11157398436047844963"
+                                ></div>
+                            </div>
+
+                            <div>
+                                <button
+                                    type="submit"
+                                    disabled={!isVerified || submitting}
+                                    className={`group relative w-full flex justify-center py-2.5 px-4 border border-transparent text-sm font-bold rounded-lg text-white transition-all duration-300 shadow-lg ${!isVerified || submitting
+                                        ? "bg-gray-400 cursor-not-allowed"
+                                        : "bg-[#0a2e5e] hover:bg-[#29abe2] hover:-translate-y-0.5 shadow-blue-900/20"
+                                        }`}
+                                >
+                                    <span className="absolute left-0 inset-y-0 flex items-center pl-3">
+                                        {isVerified ? (
+                                            <i className="ri-check-line text-red-200 group-hover:text-red-100"></i>
+                                        ) : (
+                                            <i className="ri-lock-line text-gray-200 group-hover:text-gray-100"></i>
+                                        )}
+                                    </span>
+                                    {submitting ? "Creating Account..." : isVerified ? "Complete Registration" : "Register Account"}
+                                </button>
+                                {!isVerified && (
+                                    <p className="mt-2 text-center text-xs text-gray-500">
+                                        * Please verify your phone number to enable registration
+                                    </p>
+                                )}
+                            </div>
                         </form>
 
                         {/* Divider */}

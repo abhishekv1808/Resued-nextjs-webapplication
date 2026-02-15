@@ -68,11 +68,11 @@ export default function Footer() {
                             <div className="relative">
                                 <div className="absolute inset-0 bg-[#0a2e5e] rounded-2xl blur-xl opacity-50"></div>
                                 <div className="relative bg-gradient-to-br from-[#0a2e5e] to-[#29abe2] p-4 md:p-5 rounded-2xl text-white shadow-xl">
-                                    <i className="ri-mail-send-line text-3xl md:text-4xl"></i>
+                                    <i className="ri-mail-send-line text-2xl md:text-4xl"></i>
                                 </div>
                             </div>
                             <div>
-                                <h3 className="text-2xl md:text-3xl font-bold text-white mb-1 font-heading">
+                                <h3 className="text-xl md:text-3xl font-bold text-white mb-1 font-heading">
                                     Join Our Newsletter
                                 </h3>
                                 <p className="text-sm md:text-base text-gray-400">
@@ -133,7 +133,7 @@ export default function Footer() {
                         {/* Company Info */}
                         <div className="lg:col-span-2">
                             <div className="mb-6">
-                                <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 font-heading">
+                                <h2 className="text-xl md:text-3xl font-bold text-white mb-2 font-heading">
                                     Reused
                                 </h2>
                                 <p className="text-sm md:text-base text-gray-400 leading-relaxed">

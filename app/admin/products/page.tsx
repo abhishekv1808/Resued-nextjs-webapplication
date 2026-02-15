@@ -505,7 +505,7 @@ export default function AdminProducts() {
                   {/* Details Section */}
                   <div className="lg:w-2/3 space-y-6">
                     <div>
-                      <h2 className="text-2xl font-bold text-[var(--admin-text-main)] leading-tight mb-1">
+                      <h2 className="text-xl md:text-2xl font-bold text-[var(--admin-text-main)] leading-tight mb-1">
                         {selectedProduct.name}
                       </h2>
                       <div className="flex items-center gap-2 text-sm">

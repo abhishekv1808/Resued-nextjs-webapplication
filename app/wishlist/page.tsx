@@ -37,7 +37,7 @@ export default async function WishlistPage() {
             <main className="min-h-screen bg-gray-50 py-12">
                 <div className="container mx-auto px-4 max-w-6xl">
                     <div className="mb-8">
-                        <h1 className="text-3xl font-bold text-gray-900 mb-2">My Wishlist</h1>
+                        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">My Wishlist</h1>
                         <p className="text-gray-500">
                             {products.length > 0
                                 ? `You have ${products.length} item(s) in your wishlist.`
@@ -56,7 +56,7 @@ export default async function WishlistPage() {
                             <div className="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6">
                                 <i className="ri-heart-add-line text-4xl text-[#0a2e5e]"></i>
                             </div>
-                            <h2 className="text-2xl font-bold text-gray-900 mb-2">Your wishlist is empty</h2>
+                            <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">Your wishlist is empty</h2>
                             <p className="text-gray-500 mb-8 max-w-md mx-auto">Looks like you haven&apos;t added anything to your wishlist yet. Explore our products and save your favorites!</p>
                             <Link href="/" className="inline-flex items-center gap-2 bg-[#0a2e5e] text-white px-8 py-3 rounded-full font-bold hover:bg-[#29abe2] transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
                                 Start Shopping <i className="ri-arrow-right-line"></i>

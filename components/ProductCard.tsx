@@ -160,22 +160,22 @@ export default function ProductCard({ product, isBestSeller = false }: ProductCa
 
     // Standard Card
     return (
-        <div className="w-[280px] flex-shrink-0 block bg-white rounded-xl border border-gray-200 p-4 hover:shadow-lg transition-all duration-300 relative group cursor-pointer snap-start">
+        <div className="w-full md:w-[280px] flex-shrink-0 block bg-white rounded-xl border border-gray-200 p-2.5 md:p-4 hover:shadow-lg transition-all duration-300 relative group cursor-pointer snap-start">
             {/* Wishlist Button */}
-            <button onClick={toggleWishlist} className="absolute top-2 right-2 z-30 w-8 h-8 rounded-full bg-white hover:bg-blue-50 shadow-sm flex items-center justify-center transition-all group/wishlist" title="Add to Wishlist">
-                <i className={`${inWishlist ? 'ri-heart-fill text-[#29abe2]' : 'ri-heart-line text-gray-400 group-hover/wishlist:text-[#29abe2]'} text-lg transition-colors`}></i>
+            <button onClick={toggleWishlist} className="absolute top-1.5 right-1.5 md:top-2 md:right-2 z-30 w-6 h-6 md:w-8 md:h-8 rounded-full bg-white hover:bg-blue-50 shadow-sm flex items-center justify-center transition-all group/wishlist" title="Add to Wishlist">
+                <i className={`${inWishlist ? 'ri-heart-fill text-[#29abe2]' : 'ri-heart-line text-gray-400 group-hover/wishlist:text-[#29abe2]'} text-sm md:text-lg transition-colors`}></i>
             </button>
 
             <Link href={`/product/${product.slug}`} className="block">
-                <div className="flex justify-between items-start mb-4">
+                <div className="hidden md:flex justify-between items-start mb-2 md:mb-4">
                     <div className="bg-black text-white text-[10px] font-bold px-2 py-1.5 rounded-full flex items-center gap-1">
                         <i className="ri-checkbox-circle-fill text-cyan-400 text-sm"></i> REUSED ASSURED
                     </div>
-                    <div className="border border-green-300 text-green-700 text-[10px] font-bold px-2 py-0.5 rounded bg-green-50">
+                    <div className="border border-green-300 text-green-700 text-[10px] font-bold px-2 rounded bg-green-50">
                         -₹{(product.mrp - product.price).toLocaleString('en-IN')} OFF
                     </div>
                 </div>
-                <div className="h-48 flex items-center justify-center mb-4 relative">
+                <div className="h-28 md:h-48 flex items-center justify-center mb-2 md:mb-4 relative">
                     <Image
                         src={product.image || '/images/placeholder.png'}
                         alt={product.name}
@@ -189,17 +189,17 @@ export default function ProductCard({ product, isBestSeller = false }: ProductCa
                         </div>
                     )}
                 </div>
-                <h3 className="font-semibold text-gray-900 text-base leading-snug mb-3 line-clamp-2">{product.name}</h3>
-                <div className="flex items-center gap-2 mb-4">
-                    <span className="bg-[#0a2e5e] text-white text-[10px] font-bold px-2 py-1 rounded">Best Price Guaranteed</span>
-                    <div className="flex items-center gap-1 border border-gray-200 px-1.5 py-0.5 rounded text-xs font-bold text-gray-700 bg-gray-50">
-                        {product.rating || 4.5} <i className="ri-star-fill text-yellow-400 text-[10px]"></i>
+                <h3 className="font-semibold text-gray-900 text-xs md:text-base leading-snug mb-1.5 md:mb-3 line-clamp-2">{product.name}</h3>
+                <div className="flex items-center gap-1.5 md:gap-2 mb-2 md:mb-4">
+                    <span className="bg-[#0a2e5e] text-white text-[7px] md:text-[10px] font-bold px-1.5 py-0.5 md:px-2 md:py-1 rounded">Best Price</span>
+                    <div className="flex items-center gap-0.5 md:gap-1 border border-gray-200 px-1 py-0.5 md:px-1.5 rounded text-[10px] md:text-xs font-bold text-gray-700 bg-gray-50">
+                        {product.rating || 4.5} <i className="ri-star-fill text-yellow-400 text-[8px] md:text-[10px]"></i>
                     </div>
                 </div>
-                <div className="flex items-baseline gap-2 flex-wrap pr-10">
-                    <span className="text-xl font-bold text-gray-900">₹{product.price.toLocaleString('en-IN')}</span>
-                    <span className="text-gray-400 text-xs line-through">₹{product.mrp.toLocaleString('en-IN')}</span>
-                    <span className="text-[#29abe2] font-bold text-sm">-{product.discount}%</span>
+                <div className="flex items-baseline gap-1.5 md:gap-2 flex-wrap pr-8 md:pr-10">
+                    <span className="text-sm md:text-xl font-bold text-gray-900">₹{product.price.toLocaleString('en-IN')}</span>
+                    <span className="text-gray-400 text-[10px] md:text-xs line-through">₹{product.mrp.toLocaleString('en-IN')}</span>
+                    <span className="text-[#29abe2] font-bold text-[10px] md:text-sm">-{product.discount}%</span>
                 </div>
             </Link>
 
@@ -209,7 +209,7 @@ export default function ProductCard({ product, isBestSeller = false }: ProductCa
                     <button
                         onClick={handleRemoveFromCart}
                         disabled={addingLocal}
-                        className="absolute bottom-4 right-4 bg-gray-900 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-black transition-colors shadow-md z-20"
+                        className="absolute bottom-3 right-3 md:bottom-4 md:right-4 bg-gray-900 text-white w-7 h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center hover:bg-black transition-colors shadow-md z-20"
                         title="Remove from Cart">
                         {addingLocal ? <i className="ri-loader-4-line animate-spin"></i> : <i className="ri-delete-bin-line"></i>}
                     </button>
@@ -217,7 +217,7 @@ export default function ProductCard({ product, isBestSeller = false }: ProductCa
                     <button
                         onClick={handleAddToCart}
                         disabled={addingLocal}
-                        className="absolute bottom-4 right-4 bg-[#0a2e5e] text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-[#29abe2] transition-colors shadow-md z-20 disabled:opacity-70"
+                        className="absolute bottom-3 right-3 md:bottom-4 md:right-4 bg-[#0a2e5e] text-white w-7 h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center hover:bg-[#29abe2] transition-colors shadow-md z-20 disabled:opacity-70"
                         title="Add to Cart">
                         {addingLocal ? <i className="ri-loader-4-line animate-spin"></i> : <i className="ri-shopping-cart-2-line"></i>}
                     </button>
@@ -229,7 +229,7 @@ export default function ProductCard({ product, isBestSeller = false }: ProductCa
                         e.stopPropagation();
                         setStockAlertOpen(true);
                     }}
-                    className="absolute bottom-4 right-4 bg-blue-500 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors z-20"
+                    className="absolute bottom-3 right-3 md:bottom-4 md:right-4 bg-blue-500 text-white w-7 h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors z-20"
                     title="Notify When Back in Stock"
                 >
                     <i className="ri-notification-3-line"></i>

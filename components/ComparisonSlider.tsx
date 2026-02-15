@@ -62,7 +62,7 @@ export default function ComparisonSlider() {
                     <div className="inline-block px-4 py-1.5 rounded-full bg-[#0a2e5e] text-white text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase mb-4 shadow-xl shadow-blue-900/10">
                         Visual Discovery
                     </div>
-                    <h2 className="text-3xl md:text-5xl font-black text-[#0a2e5e] mb-4">
+                    <h2 className="text-2xl md:text-5xl font-black text-[#0a2e5e] mb-4">
                         The <span className="text-[#29abe2]">Quality</span> Difference
                     </h2>
                     <p className="text-gray-500 max-w-2xl mx-auto text-sm md:text-lg font-medium leading-relaxed">

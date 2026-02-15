@@ -219,7 +219,7 @@ function CheckoutContent() {
                     {/* LEFT COLUMN: Shipping Info */}
                     <div className="w-full lg:w-3/5 p-6 lg:p-12 lg:pr-16">
                         <div className="mb-8">
-                            <h1 className="text-3xl font-bold text-gray-900">Checkout</h1>
+                            <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Checkout</h1>
                             <div className="text-sm text-gray-500 mt-2">Home / Checkout</div>
                         </div>
 
@@ -469,11 +469,11 @@ function CheckoutContent() {
                                 <i className="ri-error-warning-fill text-red-500"></i>
                                 <span className="text-sm text-red-700 font-medium">
                                     {paymentError === "PAYMENT_FAILED" ? "Payment failed. Please try again." :
-                                     paymentError === "PAYMENT_PENDING" ? "Payment is still processing. Please wait or try again." :
-                                     paymentError === "missing_transaction" ? "Invalid payment session." :
-                                     paymentError === "verification_failed" ? "Payment verification failed. If amount was deducted, it will be refunded." :
-                                     paymentError === "order_update_failed" ? "Payment was received but order update failed. Please contact support." :
-                                     "Payment could not be completed. Please try again."}
+                                        paymentError === "PAYMENT_PENDING" ? "Payment is still processing. Please wait or try again." :
+                                            paymentError === "missing_transaction" ? "Invalid payment session." :
+                                                paymentError === "verification_failed" ? "Payment verification failed. If amount was deducted, it will be refunded." :
+                                                    paymentError === "order_update_failed" ? "Payment was received but order update failed. Please contact support." :
+                                                        "Payment could not be completed. Please try again."}
                                 </span>
                             </div>
                         )}

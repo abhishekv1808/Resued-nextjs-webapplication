@@ -142,7 +142,7 @@ export default function EditProduct() {
     return (
         <div className="max-w-[1600px] mx-auto pb-10">
             <header className="flex items-center justify-between py-6">
-                <h2 className="text-3xl font-bold text-[var(--admin-text-main)] font-heading">Edit Product</h2>
+                <h2 className="text-xl md:text-3xl font-bold text-[var(--admin-text-main)] font-heading">Edit Product</h2>
                 <Link href="/admin/products" className="text-[var(--admin-text-muted)] hover:text-[var(--admin-text-main)] text-sm font-medium transition-colors">
                     Back to Inventory
                 </Link>

@@ -127,10 +127,10 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             />
             <Loader />
             <Header />
-            <main className="flex-grow py-8 bg-gray-50 min-h-screen">
-                <div className="max-w-7xl mx-auto px-4">
+            <main className="flex-grow py-4 md:py-8 bg-gray-50 min-h-screen">
+                <div className="max-w-7xl mx-auto px-3 md:px-4">
                     {/* Breadcrumb */}
-                    <nav className="flex mb-6 text-sm text-gray-500">
+                    <nav className="flex mb-3 md:mb-6 text-xs md:text-sm text-gray-500">
                         <Link href="/" className="hover:text-[#0a2e5e]">Home</Link>
                         <span className="mx-2">&gt;</span>
                         <Link href={`/${product.category}s`} className="hover:text-[#0a2e5e] capitalize">{product.category === 'accessory' ? 'accessories' : `${product.category}s`}</Link>
@@ -141,15 +141,15 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                     <ProductDetailsClient product={product} />
 
                     {/* Related Products */}
-                    <div className="mt-16">
-                        <div className="flex justify-between items-end mb-8">
-                            <h2 className="text-2xl font-bold text-gray-900">Similar Products</h2>
-                            <Link href={`/${product.category}s`} className="text-[#0a2e5e] font-semibold hover:underline flex items-center gap-1 text-sm">
+                    <div className="mt-8 md:mt-16">
+                        <div className="flex justify-between items-end mb-4 md:mb-8">
+                            <h2 className="text-base md:text-2xl font-bold text-gray-900">Similar Products</h2>
+                            <Link href={`/${product.category}s`} className="text-[#0a2e5e] font-semibold hover:underline flex items-center gap-1 text-xs md:text-sm">
                                 View All <i className="ri-arrow-right-line"></i>
                             </Link>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
                             {relatedProducts.map((relProduct: any) => (
                                 <ProductCard key={relProduct._id} product={relProduct} />
                             ))}

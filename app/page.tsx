@@ -89,16 +89,16 @@ export default async function Home() {
             <main>
                 {/* Hero Section */}
                 <section className="bg-white">
-                    <div className="max-w-6xl mx-auto px-2 md:px-4 py-4 md:py-8 space-y-4 md:space-y-8">
+                    <div className="max-w-6xl mx-auto px-4 py-4 md:py-8 space-y-4 md:space-y-8">
                         <h1 className="sr-only">Reused - Used Laptops & Desktops Bangalore</h1>
                         <HeroCarousel />
 
                         {/* Sub Banners Grid */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div className="bg-blue-50 rounded-2xl p-4 md:p-8 flex flex-row items-center justify-between relative overflow-hidden group hover:shadow-md transition-all h-[140px] md:h-auto border border-blue-100/50">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+                            <div className="bg-blue-50 rounded-2xl p-3 md:p-8 flex flex-row items-center justify-between relative overflow-hidden group hover:shadow-md transition-all h-[120px] md:h-auto border border-blue-100/50">
                                 <div className="w-7/12 md:w-1/2 z-10">
                                     <span className="text-[#0a2e5e] font-bold text-[10px] md:text-sm mb-1 md:mb-2 block uppercase tracking-wider">Power & Performance</span>
-                                    <h3 className="text-lg md:text-2xl font-bold text-gray-900 mb-1 md:mb-2 leading-tight">Build Your Dream Workstation</h3>
+                                    <h3 className="text-base md:text-2xl font-bold text-gray-900 mb-0.5 md:mb-2 leading-tight">Build Your Dream Workstation</h3>
                                     <Link href="/desktops" className="inline-flex items-center text-[#29abe2] font-bold text-xs md:text-base mt-2 md:mt-4 group-hover:underline">
                                         Order Now <i className="ri-arrow-right-line ml-1"></i>
                                     </Link>
@@ -108,10 +108,10 @@ export default async function Home() {
                                 </div>
                             </div>
 
-                            <div className="bg-[#eefcfc] rounded-2xl p-4 md:p-8 flex flex-row items-center justify-between relative overflow-hidden group hover:shadow-md transition-all h-[140px] md:h-auto">
+                            <div className="bg-[#eefcfc] rounded-2xl p-3 md:p-8 flex flex-row items-center justify-between relative overflow-hidden group hover:shadow-md transition-all h-[120px] md:h-auto">
                                 <div className="w-7/12 md:w-1/2 z-10">
                                     <span className="text-teal-500 font-semibold text-[10px] md:text-sm mb-1 md:mb-2 block">Visual Excellence</span>
-                                    <h3 className="text-lg md:text-2xl font-bold text-gray-900 mb-1 md:mb-2 leading-tight">4K & High Refresh Rate Monitors</h3>
+                                    <h3 className="text-base md:text-2xl font-bold text-gray-900 mb-0.5 md:mb-2 leading-tight">4K & High Refresh Rate Monitors</h3>
                                     <Link href="/monitors" className="inline-flex items-center text-teal-600 font-semibold text-xs md:text-base mt-2 md:mt-4 group-hover:underline">
                                         Order Now <i className="ri-arrow-right-line ml-1"></i>
                                     </Link>
@@ -169,7 +169,7 @@ export default async function Home() {
                                         <div className="h-1 w-6 md:w-8 bg-[#0a2e5e] rounded-full"></div>
                                         <span className="text-[#0a2e5e] font-bold text-[10px] md:text-sm uppercase tracking-wider">Don&apos;t Miss Out</span>
                                     </div>
-                                    <h2 className="text-2xl md:text-4xl font-bold text-gray-900 flex items-center gap-3">
+                                    <h2 className="text-xl md:text-4xl font-bold text-gray-900 flex items-center gap-2 md:gap-3">
                                         Daily Best Sells
                                         <span className="relative flex h-2 w-2 md:h-3 md:w-3">
                                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>

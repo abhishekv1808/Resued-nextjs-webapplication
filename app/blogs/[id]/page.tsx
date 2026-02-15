@@ -107,7 +107,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                         <span className="inline-block px-3 py-1 bg-blue-100 text-[#0a2e5e] rounded-full text-xs font-bold tracking-wide uppercase mb-4">
                             Tech Insights
                         </span>
-                        <h1 className="text-3xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight font-heading">
+                        <h1 className="text-2xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight font-heading">
                             {blog.title}
                         </h1>
 
@@ -168,7 +168,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                 {relatedBlogs.length > 0 && (
                     <section className="max-w-6xl mx-auto px-4 mt-20 border-t border-gray-100 pt-12">
                         <div className="flex items-center gap-2 mb-8">
-                            <h3 className="text-2xl font-bold text-gray-900 font-heading">Read Next</h3>
+                            <h3 className="text-xl md:text-2xl font-bold text-gray-900 font-heading">Read Next</h3>
                             <div className="h-px bg-gray-200 flex-grow"></div>
                         </div>
 

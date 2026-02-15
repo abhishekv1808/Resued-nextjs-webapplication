@@ -16,22 +16,22 @@ export default function HeroSection({ config }: HeroSectionProps) {
     if (!config) return null;
 
     return (
-        <div className="mb-8 relative rounded-2xl overflow-hidden shadow-2xl min-h-[250px] md:min-h-[280px] grid grid-cols-1 md:grid-cols-2 items-center" style={{ background: config.gradient }}>
+        <div className="mb-4 md:mb-8 relative rounded-xl md:rounded-2xl overflow-hidden shadow-lg md:shadow-2xl min-h-[180px] md:min-h-[280px] grid grid-cols-1 md:grid-cols-2 items-center" style={{ background: config.gradient }}>
             {/* Subtle Noise Overlay for Texture */}
             <div className="absolute inset-0 opacity-[0.08] mix-blend-overlay pointer-events-none" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}></div>
 
             {/* Text Content (Left Column) */}
-            <div className="p-8 md:pl-12 text-left relative z-20">
-                <span className="inline-block px-3 py-1 rounded-full bg-white text-gray-900 text-[10px] font-bold tracking-widest uppercase mb-3 shadow-lg">
+            <div className="p-4 md:p-8 md:pl-12 text-left relative z-20">
+                <span className="inline-block px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-white text-gray-900 text-[8px] md:text-[10px] font-bold tracking-widest uppercase mb-2 md:mb-3 shadow-lg">
                     {config.badge}
                 </span>
-                <h1 className="text-3xl md:text-5xl font-bold text-white leading-tight mb-3 tracking-tight">
+                <h1 className="text-lg md:text-5xl font-bold text-white leading-tight mb-2 md:mb-3 tracking-tight">
                     {config.title}
                 </h1>
-                <p className="text-xl md:text-2xl font-light text-gray-300 mb-4">
+                <p className="text-sm md:text-2xl font-light text-gray-300 mb-2 md:mb-4">
                     <span className={`bg-gradient-to-r ${config.textGradient} bg-clip-text text-transparent font-medium`}>{config.subtitle}</span>
                 </p>
-                <p className="text-gray-400 text-sm md:text-base max-w-md leading-relaxed">
+                <p className="text-gray-400 text-xs md:text-base max-w-md leading-relaxed hidden md:block">
                     {config.desc}
                 </p>
             </div>
@@ -43,7 +43,7 @@ export default function HeroSection({ config }: HeroSectionProps) {
                     alt={config.title}
                     width={400}
                     height={300}
-                    className="object-contain h-64 w-auto drop-shadow-2xl translate-y-2"
+                    className="object-contain h-40 md:h-64 w-auto drop-shadow-2xl translate-y-2"
                     priority
                 />
             </div>

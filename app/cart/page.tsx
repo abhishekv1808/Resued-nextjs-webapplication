@@ -112,7 +112,7 @@ export default function CartPage() {
             <Header />
             <main className="flex-grow py-8 bg-gray-50 min-h-screen">
                 <div className="max-w-7xl mx-auto px-4">
-                    <h1 className="text-3xl font-bold text-gray-900 mb-8">Shopping Cart</h1>
+                    <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8">Shopping Cart</h1>
 
                     {user ? (
                         <div className="flex flex-col lg:flex-row gap-8">
@@ -226,7 +226,7 @@ export default function CartPage() {
                                         <div className="border-t border-gray-100 pt-4 mb-6">
                                             <div className="flex justify-between items-end">
                                                 <span className="text-lg font-bold text-gray-900">Total</span>
-                                                <span className="text-2xl font-bold text-[#0a2e5e]">₹{totals.total.toLocaleString("en-IN")}</span>
+                                                <span className="text-xl md:text-2xl font-bold text-[#0a2e5e]">₹{totals.total.toLocaleString("en-IN")}</span>
                                             </div>
                                             <p className="text-xs text-gray-500 mt-1 text-right">Inclusive of all taxes</p>
                                         </div>
@@ -250,7 +250,7 @@ export default function CartPage() {
                             <div className="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center mb-6">
                                 <i className="ri-lock-2-line text-4xl text-[#0a2e5e]"></i>
                             </div>
-                            <h2 className="text-2xl font-bold text-gray-900 mb-3">Login Required</h2>
+                            <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-3">Login Required</h2>
                             <p className="text-gray-500 mb-8 text-center max-w-md">
                                 Please login to view your shopping cart and proceed with your purchase.
                             </p>

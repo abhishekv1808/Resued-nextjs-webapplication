@@ -92,7 +92,7 @@ export default function SloganSection() {
                             }}
                             className="relative group w-full"
                         >
-                            <h2 className="text-4xl sm:text-7xl md:text-[10rem] font-black leading-none tracking-tighter flex flex-wrap justify-center sm:justify-start relative transition-all duration-700">
+                            <h2 className="text-3xl sm:text-7xl md:text-[10rem] font-black leading-none tracking-tighter flex flex-wrap justify-center sm:justify-start relative transition-all duration-700">
                                 {item.text.split(" ").map((word, i) => (
                                     <motion.span
                                         key={i}

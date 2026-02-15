@@ -48,7 +48,7 @@ export default function ExclusiveStores() {
             <div className="max-w-6xl mx-auto px-4">
                 <div className="flex flex-col md:flex-row justify-between items-end mb-6 md:mb-8 gap-4">
                     <div>
-                        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 md:mb-6">Our Exclusive Stores</h2>
+                        <h2 className="text-xl md:text-3xl font-bold text-gray-900 mb-4 md:mb-6">Our Exclusive Stores</h2>
                         <div className="flex gap-3 md:gap-4">
                             <div className="bg-blue-50 text-gray-800 px-3 py-1.5 md:px-4 md:py-2 rounded-full flex items-center gap-2 text-xs md:text-sm font-medium">
                                 <i className="ri-map-pin-line text-[#29abe2]"></i> 3 Experience Centres

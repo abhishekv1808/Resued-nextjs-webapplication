@@ -106,7 +106,7 @@ export default function AddDesktop() {
         <div className="max-w-[1600px] mx-auto">
             <div className="bg-[var(--admin-card)] rounded-xl border border-[var(--admin-border)] shadow-sm">
                 <div className="px-6 py-4 border-b border-[var(--admin-border)] flex items-center justify-between">
-                    <h2 className="text-3xl font-bold text-[var(--admin-text-main)] font-heading">Add New Desktop</h2>
+                    <h2 className="text-xl md:text-3xl font-bold text-[var(--admin-text-main)] font-heading">Add New Desktop</h2>
                     <Link href="/admin/products" className="text-[var(--admin-text-muted)] hover:text-[var(--admin-text-main)] text-sm font-medium transition-colors">
                         <i className="ri-close-line text-xl"></i>
                     </Link>

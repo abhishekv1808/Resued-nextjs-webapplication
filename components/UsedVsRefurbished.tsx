@@ -14,7 +14,7 @@ export default function UsedVsRefurbished() {
                 >
                     The Transparency Audit
                 </motion.div>
-                <h2 className="text-3xl md:text-5xl font-black text-[#0a2e5e] mb-4">
+                <h2 className="text-2xl md:text-5xl font-black text-[#0a2e5e] mb-4">
                     Know Your <span className="text-[#29abe2]">Machine&apos;s</span> DNA
                 </h2>
                 <p className="text-gray-500 max-w-2xl mx-auto text-sm md:text-lg">
@@ -28,7 +28,7 @@ export default function UsedVsRefurbished() {
                     {/* Refurbished Side - The "Surgery" View */}
                     <div className="relative group p-6 md:p-12 bg-white rounded-[2rem] border border-gray-100 shadow-xl overflow-hidden min-h-[500px] flex flex-col justify-between">
                         <div className="z-10">
-                            <h3 className="text-2xl font-bold text-red-600 mb-2 flex items-center gap-2">
+                            <h3 className="text-xl md:text-2xl font-bold text-red-600 mb-2 flex items-center gap-2">
                                 <i className="ri-error-warning-fill"></i> Typical Refurbished
                             </h3>
                             <p className="text-gray-400 text-sm mb-8">Subjected to local repairs and part substitutions.</p>
@@ -111,7 +111,7 @@ export default function UsedVsRefurbished() {
                         />
 
                         <div className="z-10">
-                            <h3 className="text-2xl font-bold text-white mb-2 flex items-center gap-2">
+                            <h3 className="text-xl md:text-2xl font-bold text-white mb-2 flex items-center gap-2">
                                 <i className="ri-shield-flash-fill text-[#29abe2]"></i> Fresh Corporate Original
                             </h3>
                             <p className="text-blue-200 text-sm mb-8">Untouched internal craftsmanship. Just as the factory intended.</p>

@@ -56,11 +56,11 @@ export default function ProfileForm({ user }: { user: UserData }) {
                 <div className="absolute bottom-0 left-0 -mb-10 -ml-10 w-40 h-40 bg-[#29abe2] opacity-10 rounded-full blur-2xl"></div>
 
                 <div className="relative z-10">
-                    <h1 className="text-3xl font-bold tracking-tight">My Profile</h1>
+                    <h1 className="text-2xl md:text-3xl font-bold tracking-tight">My Profile</h1>
                     <p className="text-blue-100 text-sm mt-2 font-medium">Manage your personal information and preferences</p>
                 </div>
                 <div className="relative z-10 bg-white/20 backdrop-blur-sm p-4 rounded-2xl border border-white/10 shadow-inner">
-                    <i className="ri-user-settings-line text-4xl text-white"></i>
+                    <i className="ri-user-settings-line text-3xl md:text-4xl text-white"></i>
                 </div>
             </div>
 

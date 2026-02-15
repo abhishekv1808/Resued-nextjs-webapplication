@@ -72,7 +72,7 @@ export default function HeroCarousel() {
     const noiseBg = `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`;
 
     return (
-        <div className="relative w-full rounded-xl md:rounded-3xl overflow-hidden shadow-xl md:shadow-2xl mb-6 md:mb-12 group h-[160px] md:h-[380px]">
+        <div className="relative w-full rounded-xl md:rounded-3xl overflow-hidden shadow-xl md:shadow-2xl mb-4 md:mb-12 group h-[200px] md:h-[380px]">
             <div className="carousel-inner relative w-full h-full">
                 {slides.map((slide, index) => (
                     <div
@@ -86,32 +86,32 @@ export default function HeroCarousel() {
                             style={{ backgroundImage: noiseBg }}
                         ></div>
 
-                        <div className="flex flex-col md:flex-row h-full items-center relative z-20">
-                            <div className="pl-4 pr-0 py-2 md:py-8 md:px-16 md:pl-24 flex flex-col justify-center items-start text-left h-full w-full md:w-[58%]">
-                                <span className="inline-block px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-white text-gray-900 text-[8px] md:text-xs font-bold tracking-widest uppercase mb-1.5 md:mb-3 shadow-lg animate-fade-in-up">
+                        <div className="flex flex-row h-full items-center relative z-20">
+                            <div className="pl-3 pr-0 py-3 md:py-8 md:px-16 md:pl-24 flex flex-col justify-center items-start text-left h-full w-[55%] md:w-[58%]">
+                                <span className="inline-block px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-white text-gray-900 text-[7px] md:text-xs font-bold tracking-widest uppercase mb-1 md:mb-3 shadow-lg animate-fade-in-up">
                                     {slide.badge}
                                 </span>
-                                <h2 className="text-lg md:text-5xl font-bold text-white leading-tight mb-0.5 md:mb-2 tracking-tight animate-fade-in-up delay-100 line-clamp-2 md:line-clamp-none">
+                                <h2 className="text-xl md:text-5xl font-bold text-white leading-tight mb-0.5 md:mb-2 tracking-tight animate-fade-in-up delay-100">
                                     {slide.title}
                                 </h2>
-                                <p className="text-xs md:text-2xl font-light text-gray-300 mb-2 md:mb-4 animate-fade-in-up delay-200">
+                                <p className="text-[11px] md:text-2xl font-light text-gray-300 mb-1 md:mb-4 animate-fade-in-up delay-200">
                                     <span className={`bg-gradient-to-r ${slide.subtitleGradient} bg-clip-text text-transparent font-medium`}>{slide.subtitle}</span>
                                 </p>
-                                <p className="text-gray-300 text-sm md:text-base max-w-lg leading-relaxed mb-6 animate-fade-in-up delay-300 hidden md:block">
+                                <p className="text-gray-300 text-[9px] md:text-base max-w-lg leading-snug md:leading-relaxed mb-2 md:mb-6 animate-fade-in-up delay-300 line-clamp-2 md:line-clamp-none">
                                     {slide.desc}
                                 </p>
-                                <Link href={slide.link} className="px-3 py-1 md:px-6 md:py-2.5 rounded-full bg-white text-gray-900 text-[10px] md:text-sm font-bold hover:bg-gray-100 hover:scale-105 transition-all shadow-xl animate-fade-in-up delay-400">
+                                <Link href={slide.link} className="px-3 py-1 md:px-6 md:py-2.5 rounded-full bg-white text-gray-900 text-[9px] md:text-sm font-bold hover:bg-gray-100 hover:scale-105 transition-all shadow-xl animate-fade-in-up delay-400">
                                     Shop Now
                                 </Link>
                             </div>
 
-                            <div className="h-full flex items-end justify-center relative pr-0 md:pr-4 pb-0 w-full md:w-[42%]">
+                            <div className="h-full flex items-end justify-center relative pr-0 md:pr-4 pb-0 w-[45%] md:w-[42%]">
                                 <Image
                                     src={slide.image}
                                     alt={slide.title}
                                     width={500}
                                     height={400}
-                                    className="object-contain w-auto h-[80%] md:h-[85%] drop-shadow-2xl animate-slide-up"
+                                    className="object-contain w-auto h-[90%] md:h-[85%] drop-shadow-2xl animate-slide-up"
                                     priority={slide.priority}
                                 />
                             </div>
@@ -129,7 +129,7 @@ export default function HeroCarousel() {
             </button>
 
             {/* Indicators */}
-            <div className="absolute bottom-3 md:bottom-6 left-1/2 transform -translate-x-1/2 z-30 flex space-x-2">
+            <div className="absolute bottom-2 md:bottom-6 left-1/2 transform -translate-x-1/2 z-30 flex space-x-1.5 md:space-x-2">
                 {slides.map((_, index) => (
                     <button
                         key={index}

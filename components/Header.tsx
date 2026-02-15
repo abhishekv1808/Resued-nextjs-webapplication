@@ -74,7 +74,7 @@ export default function Header() {
                         <div className="md:hidden flex items-center">
                             <button
                                 onClick={() => setMobileMenuOpen(true)}
-                                className="text-gray-700 text-2xl mr-4 hover:bg-gray-100 p-3 rounded-full transition-colors"
+                                className="text-gray-700 text-2xl mr-2 hover:bg-gray-100 p-2 rounded-full transition-colors"
                                 aria-label="Open Menu"
                             >
                                 <i className="ri-menu-line"></i>
@@ -85,7 +85,7 @@ export default function Header() {
                                     alt="Reused"
                                     width={180}
                                     height={48}
-                                    className="h-18 w-auto"
+                                    className="h-10 w-auto"
                                 />
                             </Link>
                         </div>
@@ -106,7 +106,7 @@ export default function Header() {
                         {/* Search Bar (Desktop) - Action Center Look */}
                         <form
                             onSubmit={handleSearch}
-                            className="hidden md:flex flex-1 max-w-2xl bg-white/50 backdrop-blur-sm rounded-2xl mr-8 ml-8 relative shadow-[inset_0_2px_4px_rgba(0,0,0,0.05)] border border-gray-200/60 focus-within:border-[#29abe2]/40 focus-within:bg-white focus-within:shadow-lg transition-all duration-500 overflow-hidden"
+                            className="hidden md:flex flex-1 max-w-2xl bg-white/50 backdrop-blur-sm rounded-2xl mr-8 ml-8 relative shadow-[inset_0_2px_4px_rgba(0,0,0,0.05)] border border-gray-200/60 focus-within:border-[#29abe2]/40 focus-within:bg-white focus-within:shadow-lg transition-all duration-500"
                         >
                             <div
                                 className="relative min-w-[170px] border-r border-gray-100 bg-gray-50/50 h-full rounded-l-full"
@@ -190,7 +190,7 @@ export default function Header() {
                             />
                             <button
                                 type="submit"
-                                className="bg-gradient-to-r from-[#0a2e5e] to-[#29abe2] text-white px-6 hover:shadow-glow transition-all duration-300 flex items-center justify-center group"
+                                className="bg-gradient-to-r from-[#0a2e5e] to-[#29abe2] text-white px-6 rounded-r-2xl hover:shadow-glow transition-all duration-300 flex items-center justify-center group"
                             >
                                 <i className="ri-search-2-line text-xl group-hover:scale-125 transition-transform duration-300 font-bold"></i>
                             </button>
@@ -210,7 +210,7 @@ export default function Header() {
                             <div className="flex items-center gap-2">
                                 <Link
                                     href="/wishlist"
-                                    className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-all cursor-pointer group relative"
+                                    className="hidden md:flex w-10 h-10 items-center justify-center rounded-full hover:bg-gray-100 transition-all cursor-pointer group relative"
                                     title="Wishlist"
                                 >
                                     <i className="ri-heart-line text-2xl group-hover:text-pink-300 transition-colors"></i>
@@ -251,7 +251,7 @@ export default function Header() {
                                         <Link
                                             href="/profile/orders"
                                             prefetch={false}
-                                            className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-all cursor-pointer group relative"
+                                            className="hidden md:flex w-10 h-10 items-center justify-center rounded-full hover:bg-gray-100 transition-all cursor-pointer group relative"
                                             title="My Orders"
                                         >
                                             <i className="ri-file-list-3-line text-2xl group-hover:text-[#29abe2] transition-colors"></i>
@@ -259,14 +259,14 @@ export default function Header() {
                                         <Link
                                             href="/profile"
                                             prefetch={false}
-                                            className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-all cursor-pointer group relative"
+                                            className="hidden md:flex w-10 h-10 items-center justify-center rounded-full hover:bg-gray-100 transition-all cursor-pointer group relative"
                                             title="My Profile"
                                         >
                                             <i className="ri-user-settings-line text-2xl group-hover:text-green-300 transition-colors"></i>
                                         </Link>
                                         <button
                                             onClick={() => setLogoutModalOpen(true)}
-                                            className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-all cursor-pointer group relative"
+                                            className="hidden md:flex w-10 h-10 items-center justify-center rounded-full hover:bg-gray-100 transition-all cursor-pointer group relative"
                                             title="Logout"
                                         >
                                             <i className="ri-logout-box-r-line text-2xl group-hover:text-[#29abe2] transition-colors"></i>
@@ -297,11 +297,11 @@ export default function Header() {
                             <input
                                 type="text"
                                 name="q"
-                                placeholder="Search..."
-                                className="flex-1 px-5 md:py-2.5 py-2 outline-none text-gray-700 text-xs md:text-sm "
+                                placeholder="Search in inventory..."
+                                className="flex-1 px-4 py-1.5 outline-none text-gray-700 text-xs bg-transparent"
                             />
-                            <button type="submit" className="bg-[#0a2e5e] text-white px-5">
-                                <i className="ri-search-line"></i>
+                            <button type="submit" className="bg-[#0a2e5e] text-white px-4 py-1.5">
+                                <i className="ri-search-line text-sm"></i>
                             </button>
                         </form>
                     </div>
@@ -315,63 +315,64 @@ export default function Header() {
 
                 {/* Mobile Navigation Menu */}
                 <div
-                    className={`fixed top-0 left-0 h-full w-[80%] max-w-[300px] bg-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out flex flex-col ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full"}`}
+                    className={`fixed top-0 left-0 h-full w-[75%] max-w-[280px] bg-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out flex flex-col ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full"}`}
                 >
-                    <div className="p-4 border-b border-gray-100 flex justify-between items-center bg-[#0a2e5e] text-white">
+                    <div className="px-3 py-3 border-b border-gray-100 flex justify-between items-center bg-[#0a2e5e] text-white">
                         <Link href="/" className="block" onClick={() => setMobileMenuOpen(false)}>
-                            <Image src="/images/Reused-logo.svg" alt="Reused" width={140} height={36} className="h-10 w-auto brightness-0 invert" />
+                            <Image src="/images/Reused-logo.svg" alt="Reused" width={120} height={30} className="h-8 w-auto brightness-0 invert" />
                         </Link>
-                        <button onClick={() => setMobileMenuOpen(false)} className="text-white hover:text-gray-200 transition-colors p-2">
-                            <i className="ri-close-line text-3xl"></i>
+                        <button onClick={() => setMobileMenuOpen(false)} className="text-white hover:text-gray-200 transition-colors p-1.5">
+                            <i className="ri-close-line text-2xl"></i>
                         </button>
                     </div>
 
                     {/* Profile Section */}
-                    <div className="p-4 border-b border-gray-100 bg-gray-50/50">
+                    <div className="px-3 py-3 border-b border-gray-100 bg-gray-50/50">
                         {user ? (
                             <>
-                                <div className="flex items-center gap-4 mb-4">
-                                    <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-[#0a2e5e] font-bold text-xl border-2 border-white shadow-sm">
+                                <div className="flex items-center gap-3 mb-3">
+                                    <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-[#0a2e5e] font-bold text-base border-2 border-white shadow-sm">
                                         {user.name.charAt(0).toUpperCase()}
                                     </div>
                                     <div>
-                                        <p className="font-black text-gray-900 text-lg leading-tight font-heading">{user.name}</p>
-                                        <Link href="/profile" prefetch={false} className="text-xs text-blue-600 hover:text-blue-700 font-bold flex items-center gap-1 font-heading" onClick={() => setMobileMenuOpen(false)}>
-                                            View Profile <i className="ri-arrow-right-s-line"></i>
+                                        <p className="font-bold text-gray-900 text-sm leading-tight">{user.name}</p>
+                                        <Link href="/profile" prefetch={false} className="text-[11px] text-blue-600 hover:text-blue-700 font-semibold flex items-center gap-0.5" onClick={() => setMobileMenuOpen(false)}>
+                                            View Profile <i className="ri-arrow-right-s-line text-xs"></i>
                                         </Link>
                                     </div>
                                 </div>
-                                <button onClick={() => { setMobileMenuOpen(false); setLogoutModalOpen(true); }} className="flex items-center justify-center w-full py-2.5 rounded-xl border border-gray-200 bg-white text-sm font-bold text-gray-700 hover:bg-blue-50 hover:text-[#0a2e5e] hover:border-blue-100 transition-all shadow-sm">
-                                    <i className="ri-logout-box-r-line mr-2"></i> Logout
+                                <button onClick={() => { setMobileMenuOpen(false); setLogoutModalOpen(true); }} className="flex items-center justify-center w-full py-2 rounded-lg border border-gray-200 bg-white text-xs font-bold text-gray-700 hover:bg-blue-50 hover:text-[#0a2e5e] hover:border-blue-100 transition-all shadow-sm">
+                                    <i className="ri-logout-box-r-line mr-1.5 text-sm"></i> Logout
                                 </button>
                             </>
                         ) : (
                             <div className="text-center">
-                                <p className="text-sm text-gray-500 mb-3 font-medium">Welcome! Manage your orders & profile</p>
-                                <div className="flex gap-3">
-                                    <Link href="/login" onClick={() => setMobileMenuOpen(false)} className="flex-1 py-2.5 rounded-xl bg-[#0a2e5e] text-white text-center text-sm font-bold shadow-md hover:bg-[#29abe2] hover:shadow-lg transition-all transform hover:-translate-y-0.5">Login</Link>
-                                    <Link href="/signup" onClick={() => setMobileMenuOpen(false)} className="flex-1 py-2.5 rounded-xl border-2 border-gray-200 bg-white text-gray-700 text-center text-sm font-bold hover:bg-gray-50 hover:border-gray-300 transition-all">Sign Up</Link>
+                                <p className="text-xs text-gray-500 mb-2 font-medium">Welcome! Manage your orders & profile</p>
+                                <div className="flex gap-2">
+                                    <Link href="/login" onClick={() => setMobileMenuOpen(false)} className="flex-1 py-2 rounded-lg bg-[#0a2e5e] text-white text-center text-xs font-bold shadow-md hover:bg-[#29abe2] transition-all">Login</Link>
+                                    <Link href="/signup" onClick={() => setMobileMenuOpen(false)} className="flex-1 py-2 rounded-lg border-2 border-gray-200 bg-white text-gray-700 text-center text-xs font-bold hover:bg-gray-50 transition-all">Sign Up</Link>
                                 </div>
                             </div>
                         )}
                     </div>
 
-                    <div className="flex-1 overflow-y-auto py-2">
-                        <ul className="flex flex-col text-gray-700 font-medium text-base">
+                    <div className="flex-1 overflow-y-auto py-1">
+                        <ul className="flex flex-col text-gray-700 font-medium text-sm">
                             {[
                                 { href: "/", icon: "ri-home-4-line text-blue-500", label: "Home" },
                                 { href: "/desktops", icon: "ri-computer-line text-emerald-500", label: "Desktops" },
                                 { href: "/laptops", icon: "ri-macbook-line text-indigo-500", label: "Laptops" },
                                 { href: "/monitors", icon: "ri-tv-2-line text-purple-500", label: "Monitors" },
                                 { href: "/accessories", icon: "ri-headphone-line text-teal-500", label: "Accessories" },
+                                { href: "/wishlist", icon: "ri-heart-line text-pink-500", label: "Wishlist" },
                                 { href: "/profile/orders", icon: "ri-file-list-3-line text-cyan-500", label: "My Orders" },
                                 { href: "/compare", icon: "ri-scales-3-line text-blue-500", label: "Compare" },
                                 { href: "/about-us", icon: "ri-information-line text-orange-500", label: "About Us" },
                                 { href: "/contact-us", icon: "ri-contacts-line text-pink-500", label: "Contact Us" },
                             ].map(item => (
                                 <li key={item.label}>
-                                    <Link href={item.href} onClick={() => setMobileMenuOpen(false)} className="block px-6 py-4 hover:bg-gray-50 hover:text-[#0a2e5e] transition-colors border-b border-gray-50 flex items-center gap-4">
-                                        <i className={`${item.icon} text-xl`}></i> {item.label}
+                                    <Link href={item.href} onClick={() => setMobileMenuOpen(false)} className="block px-4 py-2.5 hover:bg-blue-50/50 hover:text-[#0a2e5e] transition-colors border-b border-gray-100/50 flex items-center gap-3">
+                                        <i className={`${item.icon} text-lg`}></i> {item.label}
                                     </Link>
                                 </li>
                             ))}

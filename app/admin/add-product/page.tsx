@@ -37,7 +37,7 @@ export default function AddProductSelection() {
     return (
         <div className="max-w-5xl mx-auto py-10 px-6">
             <header className="mb-10 text-center">
-                <h1 className="text-4xl font-bold text-[var(--admin-text-main)] mb-3 font-heading">
+                <h1 className="text-2xl md:text-4xl font-bold text-[var(--admin-text-main)] mb-3 font-heading">
                     Add New Product
                 </h1>
                 <p className="text-[var(--admin-text-muted)]">
@@ -55,7 +55,7 @@ export default function AddProductSelection() {
                         <div className={`w-16 h-16 ${category.color} rounded-2xl flex items-center justify-center text-white text-3xl mb-6 group-hover:scale-110 transition-transform shadow-lg shadow-black/10`}>
                             <i className={category.icon}></i>
                         </div>
-                        <h3 className="text-2xl font-bold text-[var(--admin-text-main)] mb-2">
+                        <h3 className="text-xl md:text-2xl font-bold text-[var(--admin-text-main)] mb-2">
                             {category.name}
                         </h3>
                         <p className="text-[var(--admin-text-muted)] text-sm mb-6 leading-relaxed">

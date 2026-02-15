@@ -127,7 +127,7 @@ export default function LoginPage() {
                                     </svg>
                                 </div>
 
-                                <h3 className="text-2xl font-black text-gray-900 mb-2">Login Successful!</h3>
+                                <h3 className="text-xl md:text-2xl font-black text-gray-900 mb-2">Login Successful!</h3>
                                 <p className="text-gray-500 mb-6 font-medium">Welcome back, {userName} 👋</p>
 
                                 <div className="flex items-center gap-2 text-sm text-gray-400">
@@ -149,9 +149,9 @@ export default function LoginPage() {
                     <div className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl p-8 border border-white/50">
                         <div className="text-center mb-8">
                             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-50 mb-4 border border-blue-100 shadow-inner">
-                                <i className="ri-login-circle-line text-3xl text-[#0a2e5e]"></i>
+                                <i className="ri-login-circle-line text-2xl md:text-3xl text-[#0a2e5e]"></i>
                             </div>
-                            <h2 className="text-3xl font-bold text-gray-900 tracking-tight">
+                            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">
                                 Welcome Back
                             </h2>
                             <p className="mt-2 text-sm text-gray-600">
