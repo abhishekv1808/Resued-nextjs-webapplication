@@ -112,7 +112,15 @@ export async function POST(req: NextRequest) {
         }
 
         const merchantOrderId = "ORDER_" + Date.now() + "_" + Math.random().toString(36).substring(2, 7);
-        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+
+        // Robust Base URL detection for Render/Production
+        let baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+        if (!baseUrl) {
+            const host = req.headers.get("host");
+            const proto = req.headers.get("x-forwarded-proto") || "http";
+            baseUrl = host ? `${proto}://${host}` : "http://localhost:3000";
+        }
+        console.log(`[create-order] Using BaseURL for redirect: ${baseUrl}`);
 
         const paymentPayload = {
             merchantOrderId: merchantOrderId,

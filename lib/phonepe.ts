@@ -1,10 +1,12 @@
-
 export const phonePeConfig = {
     clientId: (process.env.PHONEPE_CLIENT_ID || "").trim(),
     clientSecret: (process.env.PHONEPE_CLIENT_SECRET || "").trim(),
     clientVersion: (process.env.PHONEPE_CLIENT_VERSION || "1").trim(),
     env: (process.env.PHONEPE_ENV || "UAT").trim(),
 };
+
+// Diagnostic log for deployment monitoring
+console.log(`[PhonePe] Initialized with ENV: ${phonePeConfig.env}`);
 
 export const getPhonePeUrls = () => {
     const isProduction = phonePeConfig.env === "PRODUCTION";
