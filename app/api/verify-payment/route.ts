@@ -3,56 +3,18 @@ import dbConnect from "@/lib/db";
 import Order from "@/models/Order";
 import User from "@/models/User";
 
-// Helper to get PhonePe OAuth token
-async function getPhonePeToken(): Promise<string | null> {
-    try {
-        const clientId = process.env.PHONEPE_CLIENT_ID!;
-        const clientSecret = process.env.PHONEPE_CLIENT_SECRET!;
-        const clientVersion = process.env.PHONEPE_CLIENT_VERSION || "1";
-        const isProduction = process.env.PHONEPE_ENV === "PRODUCTION";
-
-        const baseUrl = isProduction
-            ? "https://api.phonepe.com/apis/pg"
-            : "https://api-preprod.phonepe.com/apis/pg-sandbox";
-
-        const response = await fetch(`${baseUrl}/v1/oauth/token`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-            },
-            body: new URLSearchParams({
-                client_id: clientId,
-                client_version: clientVersion,
-                client_secret: clientSecret,
-                grant_type: "client_credentials",
-            }).toString(),
-        });
-
-        const data = await response.json();
-        if (!data.access_token) {
-            console.error("PhonePe OAuth failed:", JSON.stringify(data));
-            return null;
-        }
-        return data.access_token;
-    } catch (err) {
-        console.error("PhonePe OAuth error:", err);
-        return null;
-    }
-}
-
-// Helper to check payment status with PhonePe
+// Helper to check payment status with PhonePe (V2 OAuth)
 async function checkPhonePeStatus(merchantOrderId: string) {
-    const isProduction = process.env.PHONEPE_ENV === "PRODUCTION";
-    const baseUrl = isProduction
-        ? "https://api.phonepe.com/apis/pg"
-        : "https://api-preprod.phonepe.com/apis/pg-sandbox";
+    const { getAccessToken, getPhonePeUrls } = await import("@/lib/phonepe");
+    const { statusUrl } = getPhonePeUrls();
 
-    const accessToken = await getPhonePeToken();
+    const accessToken = await getAccessToken();
     if (!accessToken) {
         return { state: "ERROR", message: "Failed to get auth token" };
     }
 
-    const response = await fetch(`${baseUrl}/checkout/v2/order/${merchantOrderId}/status`, {
+    const url = statusUrl(merchantOrderId);
+    const response = await fetch(url, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -61,7 +23,6 @@ async function checkPhonePeStatus(merchantOrderId: string) {
     });
 
     const data = await response.json();
-    console.log(`[verify-payment] PhonePe status for ${merchantOrderId}:`, JSON.stringify(data, null, 2));
     return data;
 }
 
@@ -86,14 +47,7 @@ async function processPayment(merchantOrderId: string, phonePeData: any) {
     }
 
     // Extract payment ID from PhonePe response
-    // paymentDetails[0].transactionId is the PhonePe payment transaction ID
     let phonePePaymentId = phonePeData.orderId || '';
-    if (phonePeData.paymentDetails && phonePeData.paymentDetails.length > 0) {
-        const firstPayment = phonePeData.paymentDetails[0];
-        if (firstPayment.transactionId) {
-            phonePePaymentId = firstPayment.transactionId;
-        }
-    }
 
     order.status = 'Paid';
     order.phonePePaymentId = phonePePaymentId;
@@ -194,19 +148,11 @@ export async function GET(req: NextRequest) {
         } else if (statusData.state === "PENDING") {
             // Payment might still be processing — try to process anyway after a short wait
             // In UAT, completed payments sometimes show PENDING briefly
-            console.log(`[verify-payment] Payment PENDING for ${merchantOrderId}, attempting to mark as paid...`);
+            // Payment might still be processing
+            // We fetch order just to redirect to success page with status=pending
 
-            // For UAT sandbox: PhonePe test payments auto-complete, mark order as paid
             await dbConnect();
             const order = await Order.findOne({ phonePeMerchantTransactionId: merchantOrderId });
-            if (order && order.status === 'Pending') {
-                const result = await processPayment(merchantOrderId, statusData);
-                if (result.success) {
-                    return NextResponse.redirect(
-                        `${baseUrl}/payment-success?orderId=${result.orderId}&merchantOrderId=${merchantOrderId}`
-                    );
-                }
-            }
 
             return NextResponse.redirect(
                 `${baseUrl}/payment-success?orderId=${order?._id?.toString() || ''}&merchantOrderId=${merchantOrderId}&status=pending`
@@ -252,22 +198,27 @@ export async function POST(req: NextRequest) {
                 const body = await req.json();
                 console.log("[verify-payment] Webhook body:", JSON.stringify(body, null, 2));
 
-                if (body.payload?.merchantOrderId) {
-                    const moid = body.payload.merchantOrderId;
-                    const statusData = await checkPhonePeStatus(moid);
+                if (body.response) {
+                    // Start verify checksum
+                    const xVerify = req.headers.get("x-verify");
+                    // We can verify checksum here if needed, but for now we trust the decoded payload's ID to check status
 
-                    if (statusData.state === "COMPLETED") {
-                        const result = await processPayment(moid, statusData);
-                        return NextResponse.json(result);
+                    const decoded = Buffer.from(body.response, "base64").toString("utf-8");
+                    const parsedData = JSON.parse(decoded);
+
+                    if (parsedData.data && parsedData.data.merchantTransactionId) {
+                        const moid = parsedData.data.merchantTransactionId;
+                        const statusData = await checkPhonePeStatus(moid);
+
+                        if (statusData.state === "COMPLETED") {
+                            const result = await processPayment(moid, statusData);
+                            return NextResponse.json(result);
+                        }
                     }
-                    return NextResponse.json({
-                        success: false,
-                        message: "Payment not completed",
-                        state: statusData.state
-                    });
                 }
             } catch (bodyErr) {
                 // Ignore body parse errors
+                console.error("Webhook processing error", bodyErr);
             }
 
             return NextResponse.json({ success: false, message: "Missing merchantOrderId" }, { status: 400 });

@@ -6,6 +6,8 @@ import User from "@/models/User";
 import { getIronSession } from "iron-session";
 import { sessionOptions, SessionData } from "@/lib/session";
 import { cookies } from "next/headers";
+import fs from "fs";
+import path from "path";
 
 
 export async function POST(req: NextRequest) {
@@ -98,60 +100,34 @@ export async function POST(req: NextRequest) {
             }
         }
 
-        // --- 4. Create PhonePe Payment (OAuth API) ---
-        const clientId = process.env.PHONEPE_CLIENT_ID!;
-        const clientSecret = process.env.PHONEPE_CLIENT_SECRET!;
-        const clientVersion = process.env.PHONEPE_CLIENT_VERSION || "1";
-        const isProduction = process.env.PHONEPE_ENV === "PRODUCTION";
+        // --- 4. Create PhonePe Payment (V2 OAuth) ---
+        const { getAccessToken, getPhonePeUrls } = await import("@/lib/phonepe");
 
-        const phonePeBaseUrl = isProduction
-            ? "https://api.phonepe.com/apis/pg"
-            : "https://api-preprod.phonepe.com/apis/pg-sandbox";
-
-        // Step 1: Get OAuth access token
-        const tokenResponse = await fetch(`${phonePeBaseUrl}/v1/oauth/token`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-            },
-            body: new URLSearchParams({
-                client_id: clientId,
-                client_version: clientVersion,
-                client_secret: clientSecret,
-                grant_type: "client_credentials",
-            }).toString(),
-        });
-
-        const tokenData = await tokenResponse.json();
-
-        if (!tokenData.access_token) {
-            console.error("PhonePe OAuth error:", JSON.stringify(tokenData, null, 2));
+        const accessToken = await getAccessToken();
+        if (!accessToken) {
             return NextResponse.json({
                 success: false,
-                message: "Failed to authenticate with PhonePe"
+                message: "Failed to authenticate with PhonePe (OAuth)",
             }, { status: 500 });
         }
 
-        const accessToken = tokenData.access_token;
-
-        // Step 2: Create payment order
         const merchantOrderId = "ORDER_" + Date.now() + "_" + Math.random().toString(36).substring(2, 7);
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
         const paymentPayload = {
             merchantOrderId: merchantOrderId,
             amount: Math.round(finalAmount * 100), // paise
-            expireAfter: 1200, // 20 minutes
             paymentFlow: {
                 type: "PG_CHECKOUT",
-                message: "Payment for your order",
+                message: `Payment for Order ${merchantOrderId}`,
                 merchantUrls: {
                     redirectUrl: `${baseUrl}/api/verify-payment?merchantOrderId=${merchantOrderId}`,
                 },
             },
         };
 
-        const paymentResponse = await fetch(`${phonePeBaseUrl}/checkout/v2/pay`, {
+        const { payUrl } = getPhonePeUrls();
+        const paymentResponse = await fetch(payUrl, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -162,15 +138,20 @@ export async function POST(req: NextRequest) {
 
         const paymentData = await paymentResponse.json();
 
-        if (!paymentResponse.ok || !paymentData.orderId) {
-            console.error("PhonePe payment error:", JSON.stringify(paymentData, null, 2));
+        if (!paymentResponse.ok || !paymentData.redirectUrl) {
+            console.error("PhonePe V2 Pay error:", JSON.stringify(paymentData, null, 2));
+            const path = (await import("path")).default;
+            const fs = (await import("fs")).default;
+            const logFile = path.join(process.cwd(), 'phonepe-debug.log');
+            const logEntry = `${new Date().toISOString()} - [create-order] V2 Pay Failed:\nResponse: ${JSON.stringify(paymentData, null, 2)}\nPayload: ${JSON.stringify(paymentPayload)}\n\n`;
+            try { fs.appendFileSync(logFile, logEntry); } catch (e) { console.error("Failed to write log", e); }
+
             return NextResponse.json({
                 success: false,
                 message: paymentData.message || "Error creating PhonePe payment",
             }, { status: 500 });
         }
 
-        // Use the redirectUrl from PhonePe's response (contains JWT token for checkout page)
         const phonePeCheckoutUrl = paymentData.redirectUrl;
 
         // --- 5. Save Order ---
