@@ -123,7 +123,6 @@ export async function POST(req: NextRequest) {
         console.log(`[create-order] Using BaseURL for redirect: ${baseUrl}`);
 
         const paymentPayload = {
-            merchantId: (await import("@/lib/phonepe")).phonePeConfig.clientId,
             merchantOrderId: merchantOrderId,
             amount: Math.round(finalAmount * 100), // paise
             merchantUserId: "MUID_" + (session.user._id).toString().substring(0, 10),

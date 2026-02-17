@@ -135,13 +135,21 @@ function CheckoutContent() {
                 return;
             }
 
-            // Use PhonePe Checkout SDK to open payment page
+            // Use PhonePe Checkout SDK to open payment page (IFRAME mode for inline QR + UPI)
             if (data.redirectUrl) {
                 const win = window as any;
                 if (win.PhonePeCheckout && win.PhonePeCheckout.transact) {
                     win.PhonePeCheckout.transact({
                         tokenUrl: data.redirectUrl,
-                        type: "REDIRECT",
+                        type: "IFRAME",
+                        callback: (response: string) => {
+                            if (response === "USER_CANCEL") {
+                                setPaying(false);
+                            } else if (response === "CONCLUDED") {
+                                // Payment concluded — verify status on server
+                                window.location.href = `/api/verify-payment?merchantOrderId=${data.merchantOrderId}`;
+                            }
+                        },
                     });
                 } else {
                     // Fallback: direct redirect if SDK hasn't loaded
@@ -210,7 +218,7 @@ function CheckoutContent() {
         <>
             <Script
                 src="https://mercury.phonepe.com/web/bundle/checkout.js"
-                strategy="beforeInteractive"
+                strategy="afterInteractive"
             />
             <Header />
             <main className="min-h-screen bg-white">
