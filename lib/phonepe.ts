@@ -9,7 +9,18 @@ export const phonePeConfig = {
 console.log(`[PhonePe] Initialized with ENV: ${phonePeConfig.env}`);
 
 export const getPhonePeUrls = () => {
-    const isProduction = phonePeConfig.env.toUpperCase() === "PRODUCTION";
+    const rawEnv = (phonePeConfig.env || "").toString();
+    const envValue = rawEnv.trim().toUpperCase();
+    const isProduction = envValue === "PRODUCTION";
+
+    console.log(`[PhonePe] URL DECISION: isProduction=${isProduction}, envValue='${envValue}', rawEnv='${rawEnv}'`);
+
+    // Safety check for Render production
+    const host = typeof window === 'undefined' ? '' : window.location.host;
+    if (!isProduction && host.includes('onrender.com')) {
+        console.warn(`[PhonePe] WARNING: onrender.com detected but env is '${envValue}'. Check Render Dashboard!`);
+    }
+
     return {
         tokenUrl: isProduction
             ? "https://api.phonepe.com/apis/identity-manager/v1/oauth/token"

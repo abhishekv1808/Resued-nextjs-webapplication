@@ -137,6 +137,8 @@ export async function POST(req: NextRequest) {
         };
 
         const { payUrl } = getPhonePeUrls();
+        console.log(`[create-order] Initiating PhonePe Pay. Target URL: ${payUrl}`);
+
         const paymentResponse = await fetch(payUrl, {
             method: "POST",
             headers: {
