@@ -9,7 +9,7 @@ export const phonePeConfig = {
 console.log(`[PhonePe] Initialized with ENV: ${phonePeConfig.env}`);
 
 export const getPhonePeUrls = () => {
-    const isProduction = phonePeConfig.env === "PRODUCTION";
+    const isProduction = phonePeConfig.env.toUpperCase() === "PRODUCTION";
     return {
         tokenUrl: isProduction
             ? "https://api.phonepe.com/apis/identity-manager/v1/oauth/token"
