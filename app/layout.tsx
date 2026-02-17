@@ -84,6 +84,8 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
             <head>
+                {/* Required by PhonePe PG for QR code generation in checkout IFRAME */}
+                <meta name="referrer" content="strict-origin-when-cross-origin" />
                 <link
                     href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css"
                     rel="stylesheet"
