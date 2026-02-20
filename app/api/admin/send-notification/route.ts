@@ -107,46 +107,52 @@ export async function POST(req: NextRequest) {
             }
         }
 
-        // Handle Icon Upload
+        // Handle Icon Upload (wrapped in try-catch so it doesn't crash if cloudinary fails)
         if (iconFile && iconFile.size > 0) {
-            if (isCloudinaryConfigured) {
-                const arrayBuffer = await iconFile.arrayBuffer();
-                const buffer = Buffer.from(arrayBuffer);
+            try {
+                if (isCloudinaryConfigured) {
+                    const arrayBuffer = await iconFile.arrayBuffer();
+                    const buffer = Buffer.from(arrayBuffer);
 
-                const result = await new Promise<any>((resolve, reject) => {
-                    const uploadStream = cloudinary.uploader.upload_stream(
-                        {
-                            folder: 'simtech-notifications',
-                            quality: "auto",
-                            fetch_format: "auto"
-                        },
-                        (error: any, result: any) => {
-                            if (error) reject(error);
-                            else resolve(result);
-                        }
-                    );
-                    uploadStream.end(buffer);
-                });
-                iconPath = result.secure_url;
-            } else {
-                // Fallback: Save locally
-                const { writeFile, mkdir } = await import('fs/promises');
-                const path = await import('path');
+                    const result = await new Promise<any>((resolve, reject) => {
+                        const uploadStream = cloudinary.uploader.upload_stream(
+                            {
+                                folder: 'simtech-notifications',
+                                quality: "auto",
+                                fetch_format: "auto"
+                            },
+                            (error: any, result: any) => {
+                                if (error) reject(error);
+                                else resolve(result);
+                            }
+                        );
+                        uploadStream.end(buffer);
+                    });
+                    iconPath = result.secure_url;
+                } else {
+                    // Fallback: Save locally
+                    const { writeFile, mkdir } = await import('fs/promises');
+                    const path = await import('path');
 
-                const uploadsDir = path.join(process.cwd(), 'public', 'uploads', 'notifications');
-                await mkdir(uploadsDir, { recursive: true });
+                    const uploadsDir = path.join(process.cwd(), 'public', 'uploads', 'notifications');
+                    await mkdir(uploadsDir, { recursive: true });
 
-                const ext = iconFile.name.split('.').pop() || 'png';
-                const fileName = `icon-${Date.now()}.${ext}`;
-                const filePath = path.join(uploadsDir, fileName);
+                    const ext = iconFile.name.split('.').pop() || 'png';
+                    const fileName = `icon-${Date.now()}.${ext}`;
+                    const filePath = path.join(uploadsDir, fileName);
 
-                const arrayBuffer = await iconFile.arrayBuffer();
-                const buffer = Buffer.from(arrayBuffer);
-                await writeFile(filePath, buffer);
+                    const arrayBuffer = await iconFile.arrayBuffer();
+                    const buffer = Buffer.from(arrayBuffer);
+                    await writeFile(filePath, buffer);
 
-                iconPath = `${baseUrl}/uploads/notifications/${fileName}`;
+                    iconPath = `${baseUrl}/uploads/notifications/${fileName}`;
+                }
+            } catch (iconUploadError: any) {
+                console.error('Icon image upload failed:', iconUploadError.message || iconUploadError);
+                // Keep the default icon path - don't crash the notification
             }
         }
+
 
         // ===== AUDIENCE TARGETING =====
         let subscriptions;
