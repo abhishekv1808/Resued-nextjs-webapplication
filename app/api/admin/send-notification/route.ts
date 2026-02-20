@@ -7,22 +7,30 @@ import Order from '@/models/Order';
 import cloudinary from '@/lib/cloudinary';
 import { requireAdmin } from '@/lib/admin-auth';
 
-// Configure VAPID details
-const vapidPublicKey = process.env.VAPID_PUBLIC_KEY!;
-const vapidPrivateKey = process.env.VAPID_PRIVATE_KEY!;
-
-if (vapidPublicKey && vapidPrivateKey) {
-    webpush.setVapidDetails(
-        'mailto:admin@simtechcomputers.com',
-        vapidPublicKey,
-        vapidPrivateKey
-    );
-}
+// VAPID details will be configured per-request inside the handler
 
 export async function POST(req: NextRequest) {
     const authError = await requireAdmin();
     if (authError) return authError;
     try {
+        // Configure VAPID inside the handler so env vars are always fresh
+        const vapidPublicKey = process.env.VAPID_PUBLIC_KEY;
+        const vapidPrivateKey = process.env.VAPID_PRIVATE_KEY;
+
+        if (!vapidPublicKey || !vapidPrivateKey) {
+            console.error('VAPID keys are not configured in environment variables');
+            return NextResponse.json(
+                { error: 'Push notification service is not configured. VAPID keys are missing.' },
+                { status: 500 }
+            );
+        }
+
+        webpush.setVapidDetails(
+            'mailto:admin@simtechcomputers.com',
+            vapidPublicKey,
+            vapidPrivateKey
+        );
+
         await connectDB();
 
         const formData = await req.formData();
@@ -52,44 +60,50 @@ export async function POST(req: NextRequest) {
         const isCloudinaryConfigured = process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET;
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
-        // Handle Image Upload
+        // Handle Image Upload (wrapped in try-catch so it doesn't crash if cloudinary fails)
         if (imageFile && imageFile.size > 0) {
-            if (isCloudinaryConfigured) {
-                const arrayBuffer = await imageFile.arrayBuffer();
-                const buffer = Buffer.from(arrayBuffer);
+            try {
+                if (isCloudinaryConfigured) {
+                    const arrayBuffer = await imageFile.arrayBuffer();
+                    const buffer = Buffer.from(arrayBuffer);
 
-                const result = await new Promise<any>((resolve, reject) => {
-                    const uploadStream = cloudinary.uploader.upload_stream(
-                        {
-                            folder: 'simtech-notifications',
-                            quality: "auto",
-                            fetch_format: "auto"
-                        },
-                        (error: any, result: any) => {
-                            if (error) reject(error);
-                            else resolve(result);
-                        }
-                    );
-                    uploadStream.end(buffer);
-                });
-                imagePath = result.secure_url;
-            } else {
-                // Fallback: Save locally
-                const { writeFile, mkdir } = await import('fs/promises');
-                const path = await import('path');
+                    const result = await new Promise<any>((resolve, reject) => {
+                        const uploadStream = cloudinary.uploader.upload_stream(
+                            {
+                                folder: 'simtech-notifications',
+                                quality: "auto",
+                                fetch_format: "auto"
+                            },
+                            (error: any, result: any) => {
+                                if (error) reject(error);
+                                else resolve(result);
+                            }
+                        );
+                        uploadStream.end(buffer);
+                    });
+                    imagePath = result.secure_url;
+                } else {
+                    // Fallback: Save locally
+                    const { writeFile, mkdir } = await import('fs/promises');
+                    const path = await import('path');
 
-                const uploadsDir = path.join(process.cwd(), 'public', 'uploads', 'notifications');
-                await mkdir(uploadsDir, { recursive: true });
+                    const uploadsDir = path.join(process.cwd(), 'public', 'uploads', 'notifications');
+                    await mkdir(uploadsDir, { recursive: true });
 
-                const ext = imageFile.name.split('.').pop() || 'jpg';
-                const fileName = `banner-${Date.now()}.${ext}`;
-                const filePath = path.join(uploadsDir, fileName);
+                    const ext = imageFile.name.split('.').pop() || 'jpg';
+                    const fileName = `banner-${Date.now()}.${ext}`;
+                    const filePath = path.join(uploadsDir, fileName);
 
-                const arrayBuffer = await imageFile.arrayBuffer();
-                const buffer = Buffer.from(arrayBuffer);
-                await writeFile(filePath, buffer);
+                    const arrayBuffer = await imageFile.arrayBuffer();
+                    const buffer = Buffer.from(arrayBuffer);
+                    await writeFile(filePath, buffer);
 
-                imagePath = `${baseUrl}/uploads/notifications/${fileName}`;
+                    imagePath = `${baseUrl}/uploads/notifications/${fileName}`;
+                }
+            } catch (uploadError: any) {
+                console.error('Banner image upload failed:', uploadError.message || uploadError);
+                // Continue without image rather than failing the entire notification
+                imagePath = null;
             }
         }
 
@@ -275,10 +289,11 @@ export async function POST(req: NextRequest) {
             success: true,
             message: `Notification sent to ${subscriptions.length} ${audienceLabel}!`,
         });
-    } catch (error) {
-        console.error('Error sending notification:', error);
+    } catch (error: any) {
+        const errMsg = error?.message || String(error);
+        console.error('Error sending notification:', errMsg);
         return NextResponse.json(
-            { error: 'Failed to send notification' },
+            { error: `Failed to send notification: ${errMsg}` },
             { status: 500 }
         );
     }
