@@ -13,6 +13,8 @@ import Image from "next/image";
 
 import { Metadata } from "next";
 
+export const dynamic = "force-dynamic";
+
 interface PageProps {
   params: Promise<{ category: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
