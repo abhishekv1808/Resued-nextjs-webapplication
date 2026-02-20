@@ -661,7 +661,7 @@ export default function AdminOrders() {
         ></div>
 
         {/* Drawer */}
-        <div className="fixed right-0 top-0 h-full w-full sm:max-w-2xl bg-[var(--admin-card)] z-50 shadow-2xl overflow-y-auto animate-slide-in-right">
+        <div className="fixed right-0 top-0 h-full w-full sm:max-w-lg bg-[var(--admin-card)] z-50 shadow-2xl overflow-y-auto animate-slide-in-right">
           {/* Header */}
           <div className="sticky top-0 bg-[var(--admin-card)] border-b border-[var(--admin-border)] px-4 md:px-6 py-4 md:py-5 flex items-center justify-between z-10">
             <div>

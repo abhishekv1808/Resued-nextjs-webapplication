@@ -11,202 +11,304 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 
+import { Metadata } from "next";
+
 interface PageProps {
-    params: Promise<{ category: string }>;
-    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  params: Promise<{ category: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-export default async function CategoryPage({ params, searchParams }: PageProps) {
-    const { category } = await params;
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { category } = await params;
+  const cat = category.toLowerCase();
 
-    // Validate category (simple singular/plural normalization if needed or strict check)
-    // The EJS files used 'laptops', 'desktops', 'monitors'. 
-    // We'll support singular mapping too just in case.
-    const singularMap: Record<string, string> = {
-        'laptop': 'laptops',
-        'desktop': 'desktops',
-        'monitor': 'monitors',
-        'accessory': 'accessories'
-    };
+  let title = `Buy ${category} | Reused.in`;
+  let description = `Shop for the best ${category} at Reused.in. Quality checked and warranty backed.`;
+  let keywords: string[] = [];
 
-    const normalizedCategory = singularMap[category] || category;
-    const config = categoryConfig[normalizedCategory];
+  if (cat.includes("laptop")) {
+    title = "Best Refurbished Laptops in Bangalore | Used Laptops Under 25k";
+    description =
+      "Buy certified refurbished laptops in Bangalore. Dell, HP, Lenovo, MacBook starting at low prices. Visit our Jayanagar store for second hand laptops.";
+    keywords = [
+      "refurbished laptops in bangalore",
+      "used laptops in bangalore",
+      "second hand laptops bangalore",
+      "low price laptops",
+      "best laptops under 25k",
+      "used macbook bangalore",
+    ];
+  } else if (cat.includes("monitor")) {
+    title = "Used & Refurbished Monitors in Bangalore | HD, FHD, 4K Screens";
+    description =
+      "Shop quality second hand PC monitors, refurbished LED/LCD screens in Bangalore. Great deals on Dell, HP, LG monitors for gaming and office.";
+    keywords = [
+      "second hand pc monitor",
+      "refurbished monitors",
+      "used desktop monitor",
+      "refurbished computer screens",
+      "monitor pc refurbished",
+      "desktop monitor refurbished",
+      "used computer monitors for sale",
+    ];
+  } else if (cat.includes("desktop")) {
+    title = "Refurbished Desktops & Used PCs in Bangalore | Custom Builds";
+    description =
+      "High performance used desktops and refurbished PCs in Bangalore. Core i5, i7 setups for office and gaming at affordable prices.";
+    keywords = [
+      "refurbished desktops",
+      "used pc bangalore",
+      "second hand computers",
+      "desktop computer price",
+      "used office pc",
+    ];
+  }
 
-    if (!config) {
-        notFound();
-    }
+  return {
+    title,
+    description,
+    keywords,
+    alternates: {
+      canonical: `https://reused.in/${category}`,
+    },
+  };
+}
 
-    const resolvedSearchParams = await searchParams;
+export default async function CategoryPage({
+  params,
+  searchParams,
+}: PageProps) {
+  const { category } = await params;
 
-    // Database Query Construction
-    await dbConnect();
-    const query: any = {
-        category: normalizedCategory.slice(0, -1) // 'laptops' -> 'laptop'
-    };
+  // Validate category (simple singular/plural normalization if needed or strict check)
+  // The EJS files used 'laptops', 'desktops', 'monitors'.
+  // We'll support singular mapping too just in case.
+  const singularMap: Record<string, string> = {
+    laptop: "laptops",
+    desktop: "desktops",
+    monitor: "monitors",
+    accessory: "accessories",
+  };
 
-    // Apply Filters
-    if (resolvedSearchParams.brand) {
-        const brands = Array.isArray(resolvedSearchParams.brand)
-            ? resolvedSearchParams.brand
-            : [resolvedSearchParams.brand];
-        query.brand = { $in: brands };
-    }
+  const normalizedCategory = singularMap[category] || category;
+  const config = categoryConfig[normalizedCategory];
 
-    if (resolvedSearchParams.price) {
-        // Price filtering logic matches the EJS implementation manually
-        // Since we can't easily query mixed ranges like EJS frontend did without complex logic affecting separate queries
-        // Ideally, we'd parse these strings into numeric ranges. 
-        // For now, let's fetch matching brand/category and filter in memory if volume is low, 
-        // OR implement proper range parsing. Given the "Under X" strings, it's safer to implement range logic.
+  if (!config) {
+    notFound();
+  }
 
-        // EJS implementation was handled by re-fetching or reloading page. 
-        // Let's implement basic range parsing:
-        const priceRanges = Array.isArray(resolvedSearchParams.price)
-            ? resolvedSearchParams.price
-            : [resolvedSearchParams.price];
+  const resolvedSearchParams = await searchParams;
 
-        const priceQuery: any[] = [];
-        priceRanges.forEach((range: string) => {
-            if (range.includes('Under')) {
-                const val = parseInt(range.replace(/[^\d]/g, ''));
-                priceQuery.push({ price: { $lte: val } });
-            } else if (range.includes('Above')) {
-                const val = parseInt(range.replace(/[^\d]/g, ''));
-                priceQuery.push({ price: { $gte: val } });
-            } else if (range.includes('-')) {
-                const [min, max] = range.split('-').map(s => parseInt(s.replace(/[^\d]/g, '')));
-                priceQuery.push({ price: { $gte: min, $lte: max } });
-            }
-        });
+  // Database Query Construction
+  await dbConnect();
+  const query: any = {
+    category: normalizedCategory.slice(0, -1), // 'laptops' -> 'laptop'
+  };
 
-        if (priceQuery.length > 0) {
-            query.$or = priceQuery;
-        }
-    }
+  // Apply Filters
+  if (resolvedSearchParams.brand) {
+    const brands = Array.isArray(resolvedSearchParams.brand)
+      ? resolvedSearchParams.brand
+      : [resolvedSearchParams.brand];
+    query.brand = { $in: brands };
+  }
 
-    // Add other filters similarly (processor, ram, storage, formFactor, screenSize, etc.)
-    ['processor', 'ram', 'storage', 'formFactor', 'screenSize', 'resolution', 'refreshRate'].forEach(field => {
-        if (resolvedSearchParams[field]) {
-            const values = Array.isArray(resolvedSearchParams[field])
-                ? resolvedSearchParams[field]
-                : [resolvedSearchParams[field]];
+  if (resolvedSearchParams.price) {
+    // Price filtering logic matches the EJS implementation manually
+    // Since we can't easily query mixed ranges like EJS frontend did without complex logic affecting separate queries
+    // Ideally, we'd parse these strings into numeric ranges.
+    // For now, let's fetch matching brand/category and filter in memory if volume is low,
+    // OR implement proper range parsing. Given the "Under X" strings, it's safer to implement range logic.
 
-            // Map common display fields to their nested specification counterparts
-            const schemaField = `specifications.${field}`;
-            query[schemaField] = { $in: values };
-        }
+    // EJS implementation was handled by re-fetching or reloading page.
+    // Let's implement basic range parsing:
+    const priceRanges = Array.isArray(resolvedSearchParams.price)
+      ? resolvedSearchParams.price
+      : [resolvedSearchParams.price];
+
+    const priceQuery: any[] = [];
+    priceRanges.forEach((range: string) => {
+      if (range.includes("Under")) {
+        const val = parseInt(range.replace(/[^\d]/g, ""));
+        priceQuery.push({ price: { $lte: val } });
+      } else if (range.includes("Above")) {
+        const val = parseInt(range.replace(/[^\d]/g, ""));
+        priceQuery.push({ price: { $gte: val } });
+      } else if (range.includes("-")) {
+        const [min, max] = range
+          .split("-")
+          .map((s) => parseInt(s.replace(/[^\d]/g, "")));
+        priceQuery.push({ price: { $gte: min, $lte: max } });
+      }
     });
 
-
-    // Sorting Logic
-    const sortParam = resolvedSearchParams.sort || 'featured';
-    let sortOptions: any = {};
-
-    switch (sortParam) {
-        case 'price_asc':
-            sortOptions = { price: 1 };
-            break;
-        case 'price_desc':
-            sortOptions = { price: -1 };
-            break;
-        case 'newest':
-            sortOptions = { createdAt: -1 };
-            break;
-        default:
-            sortOptions = { rating: -1 }; // Featured logic default
+    if (priceQuery.length > 0) {
+      query.$or = priceQuery;
     }
+  }
 
-    const products = await Product.find(query).sort(sortOptions).lean() as any[];
+  // Add other filters similarly (processor, ram, storage, formFactor, screenSize, etc.)
+  [
+    "processor",
+    "ram",
+    "storage",
+    "formFactor",
+    "screenSize",
+    "resolution",
+    "refreshRate",
+  ].forEach((field) => {
+    if (resolvedSearchParams[field]) {
+      const values = Array.isArray(resolvedSearchParams[field])
+        ? resolvedSearchParams[field]
+        : [resolvedSearchParams[field]];
 
-    // Serialize for clean prop passing
-    const serializedProducts = products.map(p => ({
-        ...p,
-        _id: p._id.toString(),
-        date: p.date ? p.date.toISOString() : null
-    }));
+      // Map common display fields to their nested specification counterparts
+      const schemaField = `specifications.${field}`;
+      query[schemaField] = { $in: values };
+    }
+  });
 
-    // Determine current brand for specific Hero styling (like in EJS: brandConfig[currentBrand])
-    // If multiple brands selected, default to 'Default' or just the first one.
-    const currentBrand = typeof resolvedSearchParams.brand === 'string'
-        ? resolvedSearchParams.brand
-        : (Array.isArray(resolvedSearchParams.brand) && resolvedSearchParams.brand.length === 1 ? resolvedSearchParams.brand[0] : 'Default');
+  // Sorting Logic
+  const sortParam = resolvedSearchParams.sort || "featured";
+  let sortOptions: any = {};
 
-    const heroConfig = config.hero[currentBrand] || config.hero['Default'];
+  switch (sortParam) {
+    case "price_asc":
+      sortOptions = { price: 1 };
+      break;
+    case "price_desc":
+      sortOptions = { price: -1 };
+      break;
+    case "newest":
+      sortOptions = { createdAt: -1 };
+      break;
+    default:
+      sortOptions = { rating: -1 }; // Featured logic default
+  }
 
+  const products = (await Product.find(query)
+    .sort(sortOptions)
+    .lean()) as any[];
 
-    // "You May Also Like" - fetch some random items or best sellers
-    const recommendedProducts = await Product.find({ category: { $ne: query.category } }).limit(4).lean() as any[];
-    const serializedRecommended = recommendedProducts.map(p => ({ ...p, _id: p._id.toString(), date: p.date ? p.date.toISOString() : null }));
+  // Serialize for clean prop passing
+  const serializedProducts = products.map((p) => ({
+    ...p,
+    _id: p._id.toString(),
+    date: p.date ? p.date.toISOString() : null,
+  }));
 
+  // Determine current brand for specific Hero styling (like in EJS: brandConfig[currentBrand])
+  // If multiple brands selected, default to 'Default' or just the first one.
+  const currentBrand =
+    typeof resolvedSearchParams.brand === "string"
+      ? resolvedSearchParams.brand
+      : Array.isArray(resolvedSearchParams.brand) &&
+          resolvedSearchParams.brand.length === 1
+        ? resolvedSearchParams.brand[0]
+        : "Default";
 
-    return (
-        <>
-            <Header />
-            <main className="flex-grow pt-4 pb-6 md:pt-8 md:pb-12 bg-gray-50">
-                <div className="max-w-7xl mx-auto px-3 md:px-4">
-                    {/* Breadcrumb */}
-                    <nav className="flex mb-4 md:mb-8 text-xs md:text-sm text-gray-500">
-                        <Link href="/" className="hover:text-[#29abe2]">Home</Link>
-                        <span className="mx-2">/</span>
-                        <span className="text-gray-900 font-medium capitalize">{normalizedCategory}</span>
-                    </nav>
+  const heroConfig = config.hero[currentBrand] || config.hero["Default"];
 
-                    <HeroSection config={heroConfig} />
+  // "You May Also Like" - fetch some random items or best sellers
+  const recommendedProducts = (await Product.find({
+    category: { $ne: query.category },
+  })
+    .limit(4)
+    .lean()) as any[];
+  const serializedRecommended = recommendedProducts.map((p) => ({
+    ...p,
+    _id: p._id.toString(),
+    date: p.date ? p.date.toISOString() : null,
+  }));
 
-                    <div className="flex flex-col lg:flex-row gap-4 md:gap-8">
-                        <SidebarFilter filters={config.filters} />
+  return (
+    <>
+      <Header />
+      <main className="flex-grow pt-4 pb-6 md:pt-8 md:pb-12 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-3 md:px-4">
+          {/* Breadcrumb */}
+          <nav className="flex mb-4 md:mb-8 text-xs md:text-sm text-gray-500">
+            <Link href="/" className="hover:text-[#29abe2]">
+              Home
+            </Link>
+            <span className="mx-2">/</span>
+            <span className="text-gray-900 font-medium capitalize">
+              {normalizedCategory}
+            </span>
+          </nav>
 
-                        <div className="lg:w-3/4 flex flex-col min-h-[600px]">
-                            <div className="flex justify-between items-center mb-4 md:mb-6">
-                                <h2 className="text-base md:text-2xl font-bold text-gray-900 capitalize">
-                                    {currentBrand !== 'Default' ? `Used ${currentBrand} ${normalizedCategory}` : `All ${normalizedCategory}`}
-                                    <span className="text-gray-500 text-sm md:text-lg font-normal ml-1 md:ml-2">({products.length} items)</span>
-                                </h2>
-                                {/* Sort Dropdown */}
-                                <SortDropdown />
-                            </div>
+          <HeroSection config={heroConfig} />
 
-                            {serializedProducts.length > 0 ? (
-                                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
-                                    {serializedProducts.map((product: any) => (
-                                        <ProductCard key={product._id} product={product} />
-                                    ))}
-                                </div>
-                            ) : (
-                                <div className="w-full text-center py-8 md:py-12 text-gray-500 bg-white rounded-xl border border-dashed border-gray-300">
-                                    <p className="text-sm md:text-lg">There are no {normalizedCategory} matching your criteria at the moment.</p>
-                                </div>
-                            )}
+          <div className="flex flex-col lg:flex-row gap-4 md:gap-8">
+            <SidebarFilter filters={config.filters} />
 
-                            {/* Pagination - Simplified Placeholder */}
-                            <div className="flex justify-center mt-auto pt-6 md:pt-12">
-                                <nav className="flex gap-1.5 md:gap-2">
-                                    <button className="w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center border border-gray-300 text-gray-600 hover:bg-gray-50 disabled:opacity-50 text-sm" disabled>
-                                        <i className="ri-arrow-left-s-line"></i>
-                                    </button>
-                                    <button className="w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center bg-[#0a2e5e] text-white font-bold text-sm">1</button>
-                                    <button className="w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center border border-gray-300 text-gray-600 hover:bg-gray-50 text-sm">
-                                        <i className="ri-arrow-right-s-line"></i>
-                                    </button>
-                                </nav>
-                            </div>
-                        </div>
-                    </div>
+            <div className="lg:w-3/4 flex flex-col min-h-[600px]">
+              <div className="flex justify-between items-center mb-4 md:mb-6">
+                <h2 className="text-base md:text-2xl font-bold text-gray-900 capitalize">
+                  {currentBrand !== "Default"
+                    ? `Used ${currentBrand} ${normalizedCategory}`
+                    : `All ${normalizedCategory}`}
+                  <span className="text-gray-500 text-sm md:text-lg font-normal ml-1 md:ml-2">
+                    ({products.length} items)
+                  </span>
+                </h2>
+                {/* Sort Dropdown */}
+                <SortDropdown />
+              </div>
 
-                    {/* You May Also Like Section */}
-                    <div className="mt-10 md:mt-20">
-                        <div className="flex justify-between items-end mb-4 md:mb-8">
-                            <h2 className="text-base md:text-2xl font-bold text-gray-900">You May Also Like</h2>
-                        </div>
-                        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
-                            {serializedRecommended.map((product: any) => (
-                                <ProductCard key={product._id} product={product} />
-                            ))}
-                        </div>
-                    </div>
+              {serializedProducts.length > 0 ? (
+                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
+                  {serializedProducts.map((product: any) => (
+                    <ProductCard key={product._id} product={product} />
+                  ))}
                 </div>
-            </main>
-            <Footer />
-        </>
-    );
+              ) : (
+                <div className="w-full text-center py-8 md:py-12 text-gray-500 bg-white rounded-xl border border-dashed border-gray-300">
+                  <p className="text-sm md:text-lg">
+                    There are no {normalizedCategory} matching your criteria at
+                    the moment.
+                  </p>
+                </div>
+              )}
+
+              {/* Pagination - Simplified Placeholder */}
+              <div className="flex justify-center mt-auto pt-6 md:pt-12">
+                <nav className="flex gap-1.5 md:gap-2">
+                  <button
+                    className="w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center border border-gray-300 text-gray-600 hover:bg-gray-50 disabled:opacity-50 text-sm"
+                    disabled
+                  >
+                    <i className="ri-arrow-left-s-line"></i>
+                  </button>
+                  <button className="w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center bg-[#0a2e5e] text-white font-bold text-sm">
+                    1
+                  </button>
+                  <button className="w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center border border-gray-300 text-gray-600 hover:bg-gray-50 text-sm">
+                    <i className="ri-arrow-right-s-line"></i>
+                  </button>
+                </nav>
+              </div>
+            </div>
+          </div>
+
+          {/* You May Also Like Section */}
+          <div className="mt-10 md:mt-20">
+            <div className="flex justify-between items-end mb-4 md:mb-8">
+              <h2 className="text-base md:text-2xl font-bold text-gray-900">
+                You May Also Like
+              </h2>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
+              {serializedRecommended.map((product: any) => (
+                <ProductCard key={product._id} product={product} />
+              ))}
+            </div>
+          </div>
+        </div>
+      </main>
+      <Footer />
+    </>
+  );
 }

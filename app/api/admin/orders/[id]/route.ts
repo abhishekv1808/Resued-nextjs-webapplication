@@ -3,6 +3,8 @@ import dbConnect from '@/lib/db';
 import Order, { VALID_STATUS_TRANSITIONS } from '@/models/Order';
 import { requireAdmin } from '@/lib/admin-auth';
 
+import User from '@/models/User';
+
 export async function GET(
     req: NextRequest,
     { params }: { params: Promise<{ id: string }> }
@@ -12,6 +14,10 @@ export async function GET(
     try {
         await dbConnect();
         const { id } = await params;
+
+        // Ensure User model is registered before populate
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+        User; 
 
         const order = await Order.findById(id).populate('user', 'name phone email location address').lean();
 
@@ -37,7 +43,7 @@ export async function GET(
         return NextResponse.json({ order: serialized });
     } catch (error: any) {
         console.error('Admin order detail error:', error);
-        return NextResponse.json({ error: 'Failed to fetch order' }, { status: 500 });
+        return NextResponse.json({ error: `Failed to fetch order: ${error.message}` }, { status: 500 });
     }
 }
 
