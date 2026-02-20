@@ -37,7 +37,9 @@ export async function POST(request: NextRequest) {
     const authError = await requireAdmin();
     if (authError) return authError;
     try {
+        console.log('[PRODUCT CREATE] STEP 1: Starting product creation');
         await dbConnect();
+        console.log('[PRODUCT CREATE] STEP 2: DB connected');
         const formData = await request.formData();
 
         const name = formData.get('name') as string;
@@ -48,8 +50,10 @@ export async function POST(request: NextRequest) {
         const quantity = parseInt(formData.get('quantity') as string);
         const description = formData.get('description') as string;
 
+        console.log('[PRODUCT CREATE] STEP 3: Form data parsed -', { name, brand, category, price, mrp, quantity });
+
         if (!name || !brand || !price || !mrp) {
-            return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+            return NextResponse.json({ error: 'Missing required fields: name, brand, price, mrp' }, { status: 400 });
         }
 
         // Generate slug with timestamp to avoid duplicates
@@ -87,14 +91,19 @@ export async function POST(request: NextRequest) {
         const files = formData.getAll('images') as File[];
         const imageUrls: string[] = [];
 
-        const isCloudinaryConfigured = process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET;
+        const isCloudinaryConfigured = !!(
+            process.env.CLOUDINARY_CLOUD_NAME &&
+            process.env.CLOUDINARY_API_KEY &&
+            process.env.CLOUDINARY_API_SECRET
+        );
+        console.log('[PRODUCT CREATE] STEP 4: Images to upload:', files.length, '| Cloudinary configured:', isCloudinaryConfigured);
 
         if (files && files.length > 0) {
             for (const file of files) {
                 if (file.size > 0) {
                     try {
                         if (isCloudinaryConfigured) {
-                            // Upload to Cloudinary
+                            console.log('[PRODUCT CREATE] Uploading to Cloudinary:', file.name, file.size, 'bytes');
                             const arrayBuffer = await file.arrayBuffer();
                             const buffer = Buffer.from(arrayBuffer);
 
@@ -102,8 +111,8 @@ export async function POST(request: NextRequest) {
                                 const uploadStream = cloudinary.uploader.upload_stream(
                                     {
                                         folder: 'simtech-products',
-                                        quality: "auto",
-                                        fetch_format: "auto"
+                                        quality: 'auto',
+                                        fetch_format: 'auto'
                                     },
                                     (error, result) => {
                                         if (error) reject(error);
@@ -114,33 +123,31 @@ export async function POST(request: NextRequest) {
                             });
 
                             imageUrls.push(result.secure_url);
+                            console.log('[PRODUCT CREATE] Cloudinary upload success:', result.secure_url);
                         } else {
-                            // Fallback: Save locally to public/uploads/products/
+                            // Fallback: Save locally
+                            console.log('[PRODUCT CREATE] Saving locally:', file.name);
                             const { writeFile, mkdir } = await import('fs/promises');
                             const path = await import('path');
-
                             const uploadsDir = path.join(process.cwd(), 'public', 'uploads', 'products');
                             await mkdir(uploadsDir, { recursive: true });
-
                             const ext = file.name.split('.').pop() || 'jpg';
                             const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 8)}.${ext}`;
                             const filePath = path.join(uploadsDir, fileName);
-
                             const arrayBuffer = await file.arrayBuffer();
                             const buffer = Buffer.from(arrayBuffer);
                             await writeFile(filePath, buffer);
-
                             imageUrls.push(`/uploads/products/${fileName}`);
                         }
                     } catch (imgErr: any) {
-                        console.error('Image upload failed for file', file.name, ':', imgErr.message || imgErr);
-                        // Throw so the admin sees the real error instead of silent failure
+                        console.error('[PRODUCT CREATE] Image upload FAILED:', imgErr.message || imgErr);
                         throw new Error(`Image upload failed: ${imgErr.message || 'Cloudinary error'}`);
                     }
                 }
             }
         }
 
+        console.log('[PRODUCT CREATE] STEP 5: Saving to DB with', imageUrls.length, 'images');
         const product = await Product.create({
             name,
             slug,
@@ -157,10 +164,11 @@ export async function POST(request: NextRequest) {
             inStock: quantity > 0,
         });
 
+        console.log('[PRODUCT CREATE] SUCCESS: Product ID:', product._id);
         return NextResponse.json({ success: true, product }, { status: 201 });
     } catch (error: any) {
         const errMsg = error?.message || String(error);
-        console.error('Error creating product:', errMsg);
+        console.error('[PRODUCT CREATE] FAILED:', errMsg);
         return NextResponse.json({ error: errMsg || 'Failed to create product' }, { status: 500 });
     }
 }
