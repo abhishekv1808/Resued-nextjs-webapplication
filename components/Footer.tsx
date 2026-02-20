@@ -360,7 +360,7 @@ export default function Footer() {
                   </div>
                 </a>
                 <a
-                  href="https://wa.me/919886786706"
+                  href="https://wa.me/918147867701"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="relative group"
