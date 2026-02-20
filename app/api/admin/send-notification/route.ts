@@ -248,16 +248,24 @@ export async function POST(req: NextRequest) {
         });
 
         // Send notifications to all subscriptions
-        const promises = subscriptions.map((sub) =>
-            webpush.sendNotification(sub, notificationPayload).catch((err: any) => {
+        // IMPORTANT: pass a plain object, not a Mongoose document
+        const promises = subscriptions.map((sub) => {
+            const pushSubscription = {
+                endpoint: sub.endpoint,
+                keys: {
+                    p256dh: sub.keys.p256dh,
+                    auth: sub.keys.auth,
+                },
+            };
+            return webpush.sendNotification(pushSubscription, notificationPayload).catch((err: any) => {
                 // Handle expired/invalid subscriptions
                 if (err.statusCode === 410 || err.statusCode === 404) {
                     console.log(`Subscription expired/gone for ${sub._id}, deleting...`);
                     return Subscription.deleteOne({ _id: sub._id });
                 }
-                console.error('Error sending notification:', err);
-            })
-        );
+                console.error('Error sending to subscription:', sub._id, err.message || err);
+            });
+        });
 
         await Promise.all(promises);
 
