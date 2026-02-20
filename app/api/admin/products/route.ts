@@ -92,44 +92,50 @@ export async function POST(request: NextRequest) {
         if (files && files.length > 0) {
             for (const file of files) {
                 if (file.size > 0) {
-                    if (isCloudinaryConfigured) {
-                        // Upload to Cloudinary
-                        const arrayBuffer = await file.arrayBuffer();
-                        const buffer = Buffer.from(arrayBuffer);
+                    try {
+                        if (isCloudinaryConfigured) {
+                            // Upload to Cloudinary
+                            const arrayBuffer = await file.arrayBuffer();
+                            const buffer = Buffer.from(arrayBuffer);
 
-                        const result = await new Promise<any>((resolve, reject) => {
-                            const uploadStream = cloudinary.uploader.upload_stream(
-                                {
-                                    folder: 'simtech-products',
-                                    quality: "auto",
-                                    fetch_format: "auto"
-                                },
-                                (error, result) => {
-                                    if (error) reject(error);
-                                    else resolve(result);
-                                }
-                            );
-                            uploadStream.end(buffer);
-                        });
+                            const result = await new Promise<any>((resolve, reject) => {
+                                const uploadStream = cloudinary.uploader.upload_stream(
+                                    {
+                                        folder: 'simtech-products',
+                                        quality: "auto",
+                                        fetch_format: "auto"
+                                    },
+                                    (error, result) => {
+                                        if (error) reject(error);
+                                        else resolve(result);
+                                    }
+                                );
+                                uploadStream.end(buffer);
+                            });
 
-                        imageUrls.push(result.secure_url);
-                    } else {
-                        // Fallback: Save locally to public/uploads/products/
-                        const { writeFile, mkdir } = await import('fs/promises');
-                        const path = await import('path');
+                            imageUrls.push(result.secure_url);
+                        } else {
+                            // Fallback: Save locally to public/uploads/products/
+                            const { writeFile, mkdir } = await import('fs/promises');
+                            const path = await import('path');
 
-                        const uploadsDir = path.join(process.cwd(), 'public', 'uploads', 'products');
-                        await mkdir(uploadsDir, { recursive: true });
+                            const uploadsDir = path.join(process.cwd(), 'public', 'uploads', 'products');
+                            await mkdir(uploadsDir, { recursive: true });
 
-                        const ext = file.name.split('.').pop() || 'jpg';
-                        const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 8)}.${ext}`;
-                        const filePath = path.join(uploadsDir, fileName);
+                            const ext = file.name.split('.').pop() || 'jpg';
+                            const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 8)}.${ext}`;
+                            const filePath = path.join(uploadsDir, fileName);
 
-                        const arrayBuffer = await file.arrayBuffer();
-                        const buffer = Buffer.from(arrayBuffer);
-                        await writeFile(filePath, buffer);
+                            const arrayBuffer = await file.arrayBuffer();
+                            const buffer = Buffer.from(arrayBuffer);
+                            await writeFile(filePath, buffer);
 
-                        imageUrls.push(`/uploads/products/${fileName}`);
+                            imageUrls.push(`/uploads/products/${fileName}`);
+                        }
+                    } catch (imgErr: any) {
+                        console.error('Image upload failed for file', file.name, ':', imgErr.message || imgErr);
+                        // Throw so the admin sees the real error instead of silent failure
+                        throw new Error(`Image upload failed: ${imgErr.message || 'Cloudinary error'}`);
                     }
                 }
             }
@@ -152,8 +158,9 @@ export async function POST(request: NextRequest) {
         });
 
         return NextResponse.json({ success: true, product }, { status: 201 });
-    } catch (error) {
-        console.error('Error creating product:', error);
-        return NextResponse.json({ error: 'Failed to create product' }, { status: 500 });
+    } catch (error: any) {
+        const errMsg = error?.message || String(error);
+        console.error('Error creating product:', errMsg);
+        return NextResponse.json({ error: errMsg || 'Failed to create product' }, { status: 500 });
     }
 }

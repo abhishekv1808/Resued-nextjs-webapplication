@@ -113,26 +113,31 @@ export async function PUT(
         if (files && files.length > 0) {
             for (const file of files) {
                 if (file.size > 0) {
-                    const arrayBuffer = await file.arrayBuffer();
-                    const buffer = Buffer.from(arrayBuffer);
+                    try {
+                        const arrayBuffer = await file.arrayBuffer();
+                        const buffer = Buffer.from(arrayBuffer);
 
-                    // Upload to Cloudinary
-                    const result = await new Promise<any>((resolve, reject) => {
-                        const uploadStream = cloudinary.uploader.upload_stream(
-                            {
-                                folder: 'simtech-products',
-                                quality: "auto",
-                                fetch_format: "auto"
-                            },
-                            (error: any, result: any) => {
-                                if (error) reject(error);
-                                else resolve(result);
-                            }
-                        );
-                        uploadStream.end(buffer);
-                    });
+                        // Upload to Cloudinary
+                        const result = await new Promise<any>((resolve, reject) => {
+                            const uploadStream = cloudinary.uploader.upload_stream(
+                                {
+                                    folder: 'simtech-products',
+                                    quality: "auto",
+                                    fetch_format: "auto"
+                                },
+                                (error: any, result: any) => {
+                                    if (error) reject(error);
+                                    else resolve(result);
+                                }
+                            );
+                            uploadStream.end(buffer);
+                        });
 
-                    imageUrls.push(result.secure_url);
+                        imageUrls.push(result.secure_url);
+                    } catch (imgErr: any) {
+                        console.error('Image upload failed:', imgErr.message || imgErr);
+                        throw new Error(`Image upload failed: ${imgErr.message || 'Cloudinary error'}`);
+                    }
                 }
             }
         }
@@ -170,10 +175,11 @@ export async function PUT(
 
         return NextResponse.json({ success: true, product });
 
-    } catch (error) {
-        console.error('Error updating product:', error);
+    } catch (error: any) {
+        const errMsg = error?.message || String(error);
+        console.error('Error updating product:', errMsg);
         return NextResponse.json(
-            { error: 'Internal Server Error' },
+            { error: errMsg || 'Internal Server Error' },
             { status: 500 }
         );
     }
